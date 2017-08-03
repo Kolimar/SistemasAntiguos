@@ -1,0 +1,364 @@
+<div class="page-wrapper">
+
+    <!-- HEADER -->
+
+    <page-header>
+    </page-header>
+
+    <!-- FINAL DE HEADER -->
+
+    <!-- DIVISOR -->
+
+    <div class="clearfix"> </div>
+
+    <!-- FINAL DE DIVISOR -->
+
+    <div class="page-container">
+
+        <!-- SIDEBAR -->
+
+        <page-sidebar>
+        </page-sidebar>
+
+        <!-- FINAL SIDEBAR -->
+
+        <!-- CONTENIDO -->
+
+        <div class="page-content-wrapper">
+
+            <div class="page-content">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Begin: Demo Datatable 1 -->
+                        <div class="portlet light portlet-fit portlet-datatable bordered">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <ol class="breadcrumb" style="background-color:transparent;">
+                                        <li class="caption-subject font-dark sbold uppercase"><i class="fa fa-refresh" aria-hidden="true"></i> Logs</li>
+                                    </ol>
+                                </div>
+                                <div class="actions">
+                                    <button class="btn blue sbold" (click)="showModalCrear()"><i class="fa fa-plus"></i> Nuevo log</button>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-container">
+                                    <table class="table table-bordered table-hover table-header-fixed">
+                                        <thead>
+                                            <tr role="row" class="heading">
+                                                <th>Fecha y hora
+                                                  <div class="pull-right">
+                                                      <i (click)="filter(fecha_filtro, creador_filtro, cliente_filtro, motivo_filtro, descripcion_filtro, fecha_ord='ASC')" class="fa fa-caret-up" style="cursor: pointer;font-size: 2rem;"></i>
+                                                      <i (click)="filter(fecha_filtro, creador_filtro, cliente_filtro, motivo_filtro, descripcion_filtro, fecha_ord='DESC')" class="fa fa-caret-down" style="cursor: pointer;font-size: 2rem;"></i>
+                                                  </div>
+                                                </th>
+                                                <th>Project manager creador</th>
+                                                <th>Cliente</th>
+                                                <th>Motivo de log</th>
+                                                <th>Descripción</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                            <tr role="row" class="filter">
+                                                <th>
+                                                  <input type="text" class="form-control form-filter input-sm" [(ngModel)]="fecha_filtro" #ctrl="ngModel" (change)="filter(fecha_filtro, creador_filtro, cliente_filtro, motivo_filtro, descripcion_filtro, fecha_ord)">
+                                                </th>
+                                                <th>
+                                                  <select class="form-control form-filter input-sm" [(ngModel)]="creador_filtro" #ctrl="ngModel" (change)="filter(fecha_filtro, creador_filtro, cliente_filtro, motivo_filtro, descripcion_filtro, fecha_ord)">
+                                                    <option value="">Ninguno...</option>
+                                                    <option *ngFor="let user of cmbUsers" value="{{user.id}}">{{user.nombres}} {{user.apellidos}}</option>
+                                                  </select>
+                                                </th>
+                                                <th>
+                                                  <select class="form-control form-filter input-sm" [(ngModel)]="cliente_filtro" #ctrl="ngModel" (change)="filter(fecha_filtro, creador_filtro, cliente_filtro, motivo_filtro, descripcion_filtro, fecha_ord)">
+                                                    <option value="">Ninguno...</option>
+                                                    <option *ngFor="let cliente of cmbClientes" value="{{cliente.id}}">{{cliente.nombre}}</option>
+                                                  </select>
+                                                </th>
+                                                <th>
+                                                  <select class="form-control form-filter input-sm" [(ngModel)]="motivo_filtro" #ctrl="ngModel" (change)="filter(fecha_filtro, creador_filtro, cliente_filtro, motivo_filtro, descripcion_filtro, fecha_ord)">
+                                                    <option value="">Ninguno...</option>
+                                                    <option *ngFor="let motivo of cmbMotivosLogs" value="{{motivo.id}}">{{motivo.nombre}}</option>
+                                                  </select>
+                                                </th>
+                                                <th>
+                                                  <input type="text" class="form-control form-filter input-sm" [(ngModel)]="descripcion_filtro" #ctrl="ngModel" (change)="filter(fecha_filtro, creador_filtro, cliente_filtro, motivo_filtro, descripcion_filtro, fecha_ord)">
+                                                </th>
+                                                <th>
+                                                    <div class="margin-bottom-5">
+                                                        <button class="btn dark btn-outline btn-sm" (click)="filter(fecha_filtro='', creador_filtro=currentUser, cliente_filtro='', motivo_filtro='', descripcion_filtro='', fecha_ord='')" (click)="cleanFilter">
+                                                            <i class="fa fa-times"></i> Limpiar
+                                                        </button>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let log of listLogs; let i=index" [ngClass]="{ 'violeta': log.es_milestone }">
+                                                <td>{{log.fecha_hora | date:'dd-MM-y hh:mm:ss'}}</td>
+                                                <td>
+                                                  {{log.nombres_creador}} {{log.apellidos_creador}} | {{log.nombre_puesto}}
+                                                </td>
+                                                <td>
+                                                  <span class="label label-success"><strong>{{log.nombre_cliente}}</strong></span>
+                                                </td>
+                                                <td>
+                                                  {{log.nombre_motivo}}
+                                                </td>
+                                                <td>{{log.descripcion}}</td>
+                                                <td>
+                                                    <div *ngIf="log.tipo_motivo_log == 'M'" class="btn-group">
+                                                        <button class="btn btn-sm yellow sbold dropdown-toggle" type="button" data-toggle="dropdown">Acciones
+                                                            <i class="fa fa-angle-down"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu" role="menu">
+                                                            <li>
+                                                                <a (click)="showModalEditar(log, i)"><i class="fa fa-pencil"></i> Editar</a>
+                                                            </li>
+                                                            <li>
+                                                                <a data-toggle="modal" data-target="#eliminar-log" (click)="onDelete(log, i)"><i class="fa fa-trash"></i> Eliminar</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <button type="button" class="btn green" style="width: 100%" (click)="search(fecha_filtro, creador_filtro, cliente_filtro, motivo_filtro, descripcion_filtro, fecha_ord)">
+                                        <strong>
+                                            Ver más <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                        </strong>
+                                   </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- FINAL DEL CONTENIDO -->
+
+    </div>
+
+    <!-- FOOTER -->
+
+    <page-footer>
+    </page-footer>
+
+    <!-- FINAL DE FOOTER -->
+
+</div>
+
+<div class="quick-nav-overlay"></div>
+
+<!-- MODAL NUEVA TAREA  -->
+<div bsModal #modalCrear="bs-modal" class="modal fade" tabindex="-1" role="basic" aria-hidden="true" [config]="{backdrop: 'static', keyboard: false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <form class="form-horizontal" novalidate [formGroup]="formCreacion" id="formCreacion">
+
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Nuevo Log</h4>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.id_cliente.errors && formCreacion.controls.id_cliente.pristine && isSubmitLog }">
+                        <label for="id_cliente" class="control-label col-md-3">
+                            Cliente <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <select name="id_cliente" id="id_cliente" formControlName="id_cliente" class="form-control">
+                              <option value="">Ninguno...</option>
+                              <option *ngFor="let cliente of cmbClientes" value="{{cliente.id}}">{{cliente.nombre}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.id_cliente.errors && formCreacion.controls.id_cliente.pristine && isSubmitLog">
+                            <strong class="help-block" *ngIf="formCreacion.controls.id_cliente.errors.required && formCreacion.controls.id_cliente.pristine && isSubmitLog">El cliente es requerido</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.id_motivo.errors && formCreacion.controls.id_motivo.pristine && isSubmitLog }">
+                        <label for="id_motivo" class="control-label col-md-3">
+                            Motivo de log <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <select name="id_motivo" id="id_motivo" formControlName="id_motivo" class="form-control">
+                              <option value="">Ninguno...</option>
+                              <option *ngFor="let motivo of cmbMotivosLogsManuales" value="{{motivo.id}}">{{motivo.nombre}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.id_motivo.errors && formCreacion.controls.id_motivo.pristine && isSubmitLog">
+                            <strong class="help-block" *ngIf="formCreacion.controls.id_motivo.errors.required && formCreacion.controls.id_motivo.pristine && isSubmitLog">El motivo del log es requerido</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.descripcion.errors && formCreacion.controls.descripcion.pristine && isSubmitLog }">
+                        <label for="descripcion" class="control-label col-md-3">
+                            Descripción <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <textarea name="descripcion" id="descripcion" formControlName="descripcion" class="form-control" rows="8"></textarea>
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.descripcion.errors && formCreacion.controls.descripcion.pristine && isSubmitLog">
+                            <strong class="help-block" *ngIf="formCreacion.controls.descripcion.errors.required && formCreacion.controls.descripcion.pristine && isSubmitLog">La descripción es requerida</strong>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal" (click)="hideModalCrear()">Cerrar</button>
+                    <button class="btn blue sbold" [disabled]="loader" (click)="create()">
+                        Guardar log
+                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL EDITAR TAREA -->
+<div bsModal #modalEditar="bs-modal" id="editar-rol-contacto" class="modal fade" tabindex="-1" role="basic" aria-hidden="true" data-backdrop="static" data-keyboard="false" [config]="{backdrop: 'static', keyboard: false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <form *ngIf="formEdicion" class="form-horizontal" novalidate [formGroup]="formEdicion" id="formEdicion">
+
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Editar Log</h4>
+
+                </div>
+
+                <div class="modal-body">
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.id_cliente.errors && formEdicion.controls.id_cliente.pristine && isSubmitLog }">
+                      <label for="id_cliente" class="control-label col-md-3">
+                          Cliente <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <select name="id_cliente" id="id_cliente" formControlName="id_cliente" class="form-control" (change)="verificarCambio()">
+                            <option value="">Ninguno...</option>
+                            <option *ngFor="let cliente of cmbClientes" value="{{cliente.id}}">{{cliente.nombre}}</option>
+                          </select>
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.id_cliente.errors && formEdicion.controls.id_cliente.pristine && isSubmitLog">
+                          <strong class="help-block" *ngIf="formEdicion.controls.id_cliente.errors.required && formEdicion.controls.id_cliente.pristine && isSubmitLog">El cliente es requerido</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.id_motivo.errors && formEdicion.controls.id_motivo.pristine && isSubmitLog }">
+                      <label for="id_motivo" class="control-label col-md-3">
+                          Motivo de log <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <select name="id_motivo" id="id_motivo" formControlName="id_motivo" class="form-control" (change)="verificarCambio()">
+                            <option value="">Ninguno...</option>
+                            <option *ngFor="let motivo of cmbMotivosLogsManuales" value="{{motivo.id}}">{{motivo.nombre}}</option>
+                          </select>
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.id_motivo.errors && formEdicion.controls.id_motivo.pristine && isSubmitLog">
+                          <strong class="help-block" *ngIf="formEdicion.controls.id_motivo.errors.required && formEdicion.controls.id_motivo.pristine && isSubmitLog">El motivo del log es requerido</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.descripcion.errors && formEdicion.controls.descripcion.pristine && isSubmitLog }">
+                      <label for="descripcion" class="control-label col-md-3">
+                          Descripción <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <textarea name="descripcion" id="descripcion" formControlName="descripcion" class="form-control" rows="8" (change)="verificarCambio()"></textarea>
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.descripcion.errors && formEdicion.controls.descripcion.pristine && isSubmitLog">
+                          <strong class="help-block" *ngIf="formEdicion.controls.descripcion.errors.required && formEdicion.controls.descripcion.pristine && isSubmitLog">La descripción es requerida</strong>
+                      </div>
+                  </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" (click)="hideModalEditar()">Cerrar</button>
+                    <button class="btn blue sbold" [disabled]="loader" (click)="edit()">
+                        Editar log
+                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL CONFIRMAR CAMBIOS -->
+<div class="modal fade" id="confirmar-cambios" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="position:relative;left:150%;">
+
+            <div class="modal-header">
+
+                <h4 class="modal-title">Confirmar cambios</h4>
+
+            </div>
+
+            <div class="modal-body">
+                <h2>¿Desea guardar los cambios que hizo en el formulario?</h2>
+            </div>
+
+            <div class="modal-footer">
+                <form>
+                    <button class="btn blue sbold" (click)="salirGuardar()">Sí</button>
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal" (click)="salirSinGuardar()">No</button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL ELIMINAR TAREA -->
+<div class="modal fade" id="eliminar-log" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h4 class="modal-title">Eliminar Log</h4>
+
+            </div>
+
+            <div class="modal-body">
+                <h2>Desea eliminar el log?</h2>
+            </div>
+
+            <div class="modal-footer">
+                <form>
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cerrar</button>
+                    <button class="btn btn-danger sbold" [disabled]="loader" (click)="delete()">
+                        Eliminar log
+                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                    </button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

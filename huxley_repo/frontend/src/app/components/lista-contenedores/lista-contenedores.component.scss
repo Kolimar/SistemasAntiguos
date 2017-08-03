@@ -1,0 +1,20 @@
+.badge_tec {
+    font-size: 13px;
+    vertical-align: middle;
+    display: table-cell;
+}
+.badge-danger {
+    background-color: #f86c6b;
+}
+.badge {
+
+    display: table-cell;
+    padding: 0.25em 0.4em;
+    font-size: 75%;
+    font-weight: bold;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+}

@@ -1,0 +1,72 @@
+<ng2-toasty> </ng2-toasty>
+<div class="container-fluid">
+    <div class="animated fadeIn">
+    <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+        <div class="pull-left">
+           <h3>
+                Historico {{dispositivoActual.nombre}}
+           </h3>
+        </div>
+        <div class="pull-right">
+           <button class="btn btn-primary btn-md pointer" [routerLink]="['/dashboard']">Volver</button>
+        </div>
+         
+        </div>
+        
+          <hr>
+        <div class="row" >
+          <div class="col-offset-4 col-md-12" style="text-align: center;">
+            <form [formGroup]="myForm"  novalidate>
+                <label for="mydaterange"> Rango de Fechas a filtrar:</label>
+                <my-date-range-picker  name="mydaterange" [options]="myDateRangePickerOptions"
+                                formControlName="myDateRange"></my-date-range-picker>
+                <button class="btn btn-inverse" [disabled]="!myForm.valid" (click)="mostrarValores($event)"> Filtrar</button>
+              <!-- other controls are here... -->
+            </form>
+          </div>
+          
+        </div>
+
+       
+          <br>
+          <br>
+          <br>
+          <br>
+         <chart [options]="options[0]"></chart>
+         <br>
+         <br>
+         <br>
+         <br>
+         <chart [options]="options[1]"></chart>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+         <chart [options]="options[2]"></chart>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+         <chart [options]="options[3]"></chart>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+
+         <chart [options]="options[4]"></chart>
+         
+        <div class="card-footer text-right">
+          <button class="btn btn-primary pointer" [routerLink]="['/dashboard']">Volver</button>
+        </div>
+      </div>
+      </div>
+     </div>
+</div>
+
+

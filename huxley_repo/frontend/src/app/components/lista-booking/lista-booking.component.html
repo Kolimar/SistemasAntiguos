@@ -1,0 +1,85 @@
+<p-dialog header="Log Booking {{bookingActivo}}" [(visible)]="modal" modal="modal" height="400" width="800" [responsive]="true" [resizable]="false" [draggable]="false">
+     <div style="position: absolute;display: block;">
+    <ul>
+        <li *ngFor="let log of logdeBooks">
+          <b>{{log.fecha| date: 'dd/MM/yyyy HH:mm:ss'}} </b>
+          
+          {{" ("+  log.username.toUpperCase()  +") "+ log.descripcion}}
+
+          <hr>
+        </li>
+    </ul>
+    </div>
+        <p-footer>
+            <button type="button pull-right" pButton icon="fa-check" (click)="modal=false" label="Volver"></button>
+            
+        </p-footer>
+</p-dialog>
+
+
+<div class="animated fadeIn" #cuerpo>
+
+        <div class="row" >
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="pull-left">Bookings</h5>
+                                    <button class="btn btn-outline-primary pull-right pointer" style="margin: 0px;" ><i class="fa fa-table "></i>Exportar a Excel</button>
+                                </div>
+                                <div class="card-block" style="flex: 1 1 auto;padding: 1.25rem;">
+                                    <table class="table table-bordered table-striped table-sm">
+                                        <thead>
+                                            <tr role="row" class="heading">
+                                                <th>
+                                                Codigo
+                                                <i (click)='sortbydesc("codigo")' class="fa fa-arrow-down pull-right pointer hoverBlue" aria-hidden="true"></i>
+                                                <i (click)='sortby("codigo")' class="fa fa-arrow-up pull-right pointer hoverBlue" aria-hidden="true"></i>
+                                               </th>
+                                                <th>
+                                                Cantidad
+                                                <i (click)='sortbydesc("limite_contenedores")' class="fa fa-arrow-down pull-right pointer hoverBlue" aria-hidden="true"></i>
+                                                <i (click)='sortby("limite_contenedores")' class="fa fa-arrow-up pull-right pointer hoverBlue" aria-hidden="true"></i></th>
+                                                  
+                                                <th class="hidden-xs">Utilizado
+                                                <i (click)='sortbydesc("cantidad_egresos")' class="fa fa-arrow-down pull-right pointer hoverBlue" aria-hidden="true"></i>
+                                                <i (click)='sortby("cantidad_egresos")' class="fa fa-arrow-up pull-right pointer hoverBlue" aria-hidden="true"></i>
+                                                </th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                            <tr role="row" class="filter">
+                                                <th>
+                                                  <input type="text"  [(ngModel)]="busquedaCodigo"  class="form-control" (change)="change(estadoFiltro)">
+                                                </th>
+                                                <th>
+                                                  <input type="number"  [(ngModel)]="busquedaCantidad"  class="form-control" (change)="change(estadoFiltro)">
+                                                </th>
+                                                <th class="hidden-xs">
+                                                <input type="number" [(ngModel)]="busquedaUtilizado" class="form-control" (change)="change(estadoFiltro)">     
+                                                </th>
+                                                <th>
+                                                <button class="btn btn-block btn-outline-primary" (click)="resetFilter()">Limpiar Filtros</button></th>
+                                            </tr>
+                                        </thead>
+                                 <tbody *ngFor="let item of Booking">
+                                      <tr>
+                                          <td>{{item.codigo}}</td>
+                                          <td class="hidden-xs">{{item.limite_contenedores}}</td>
+                                          <td>{{item.cantidad_egresos}}</td>
+                                          <td><button class="btn btn-outline-primary pointer" style="margin:5px;" ><i class="icon-pencil"></i></button>&nbsp;<button class="btn btn-outline-primary pointer" (click)="cargarLog(item.id,item.codigo)" style="margin:5px;"><i class="icon-notebook"></i></button></td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                              <div *ngIf="Booking?.length==0" class="card col-12">
+                                    <h3 class="text-center" style="padding:20px">
+                                       No hay registros que coincidan con la busqueda
+                                    </h3>
+                              </div>
+
+                    <button *ngIf="this.viewMore == 'true'" class="btn btn-primary btn-block pointer" (click)="loadData()"><i class="fa fa-arrow-down  fa-lg fa-fw pull-left " aria-hidden="true"></i> Ver Más </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/.col-->
+                    </div>
+
+</div>

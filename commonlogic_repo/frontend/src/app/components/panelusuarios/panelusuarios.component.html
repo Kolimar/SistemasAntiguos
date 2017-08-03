@@ -1,0 +1,15 @@
+<ng2-toasty>
+
+</ng2-toasty>
+
+<app-cuentas *ngIf="cuentas" (CambioScreen)="turnview($event)">
+
+</app-cuentas>
+
+<app-editar-usuario *ngIf="editar" [user]="user" (CambioScreen)="turnview($event)">
+
+</app-editar-usuario>
+
+<app-nuevo-usuario *ngIf="nuevo" (CambioScreen)="turnview($event)">
+
+</app-nuevo-usuario>

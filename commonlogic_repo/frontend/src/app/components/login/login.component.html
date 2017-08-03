@@ -1,0 +1,66 @@
+<div class="container contenedorLogo">
+  <div class="row justify-content-center">
+    <div class="col-xs-12 col-sm-9 col-md-8 col-lg-6">
+      <div class="card-group mb-0">
+        <div class="card p-4">
+          <div class="card-block animated fadeInDown" *ngIf="!requestPass">
+            <div style='text-align: center;margin-bottom: 20px;'>
+              <img src="../assets/img/logo_retinax5.png" />
+            </div>
+            <ng2-toasty>
+
+            </ng2-toasty>
+
+            <form [formGroup]="loginForm" (ngSubmit)="doLogin($event)">
+              <div class="input-group mb-3">
+                <span class="input-group-addon"><i class="icon-user"></i>
+                </span>
+                <input formControlName="email" type="email" name="email" class="form-control" placeholder="Email">
+              </div>
+              <div class="input-group mb-4">
+                <span class="input-group-addon"><i class="icon-lock"></i>
+                </span>
+                <input formControlName="password" type="password" name="password" class="form-control" placeholder="Password">
+              </div>
+              <div class="row">
+                <div class="col-sm-6 col-xs-12">
+                  <button type="submit" [disabled]="!loginForm.valid || this.load" class="btn btn-primary px-4 col-12"><i class="fa fa-refresh fa-spin fa-fw" *ngIf="this.load" ></i>Ingresar</button>
+                </div>
+              <div class="hidden-xs-down col-6 ">
+                <button type="button"  (click)="cambiaClave()" class="btn btn-outline-primary col-12 ">Cambiar clave</button>
+              </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="card-block animated flipInX" *ngIf="requestPass">
+          <ng2-toasty>
+
+            </ng2-toasty>
+            <div style='text-align: center;margin-bottom: 20px;'>
+              <img src="../assets/img/logo_retinax5.png" />
+            </div>
+            <form [formGroup]="PassRequestForm" (ngSubmit)="doRequestPass($event)">
+
+              <div class="input-group mb-3">
+                <span class="input-group-addon"><i class="icon-user"></i>
+                </span>
+                <input formControlName="requestEmail" 
+                pTooltip="Ingrese su cuenta de email y le enviaremos sus nuevos datos de acceso" tooltipPosition="top" tooltipEvent="focus" type="requestEmail" name="requestEmail" class="form-control" placeholder="Email">
+              </div>
+              <div class="row">
+                <div class="col-sm-6 col-xs-12">
+                  <button type="submit" [disabled]="!PassRequestForm.valid|| this.load" class="btn btn-primary px-0 col-12"><i class="fa fa-refresh fa-spin fa-fw" *ngIf="this.load" ></i>Cambiar Contraseña
+                  </button>
+                </div>
+              <div class="hidden-xs-down col-6 ">
+                <button type="button"  (click)="cambiaClave()" class="btn btn-outline-primary col-12 ">Volver</button>
+              </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

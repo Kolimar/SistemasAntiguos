@@ -1,0 +1,692 @@
+<div class="page-wrapper">
+
+    <!-- HEADER -->
+
+    <page-header>
+    </page-header>
+
+    <!-- FINAL DE HEADER -->
+
+    <!-- DIVISOR -->
+
+    <div class="clearfix"> </div>
+
+    <!-- FINAL DE DIVISOR -->
+
+    <div class="page-container">
+
+        <!-- SIDEBAR -->
+
+        <page-sidebar>
+        </page-sidebar>
+
+        <!-- FINAL SIDEBAR -->
+
+        <!-- CONTENIDO -->
+
+        <div class="page-content-wrapper">
+
+            <div class="page-content">
+
+                <ng2-toasty [position]="'top-right'"></ng2-toasty>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Begin: Demo Datatable 1 -->
+                        <div class="portlet light portlet-fit portlet-datatable bordered">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <ol class="breadcrumb" style="background-color:transparent;">
+                                        <li class="caption-subject font-dark sbold uppercase"><i class="fa fa-heartbeat" aria-hidden="true"></i> Pacientes</li>
+                                    </ol>
+                                </div>
+                                <div class="actions">
+                                    <button class="btn blue sbold" (click)="showModalCrear()"><i class="fa fa-plus"></i> Nuevo paciente</button>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-container">
+                                    <table class="table table-striped table-bordered table-hover table-checkable table-header-fixed">
+                                        <thead>
+                                            <tr role="row" class="heading">
+                                                <th width="5%">N°</th>
+                                                <th>DNI</th>
+                                                <th>Fecha de nacimiento</th>
+                                                <th>Nombres
+                                                  <div class="pull-right">
+                                                      <i (click)="filter(dni_filtro, fecha_nacimiento_filtro, nombres_filtro, apellidos_filtro, afiliado_filtro, domicilio_filtro, departamento_filtro, barrio_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, obra_social_filtro, plan_os_filtro, particular_filtro, nombres_ord='ASC')" class="fa fa-caret-up" style="cursor: pointer;font-size: 2rem;"></i>
+                                                      <i (click)="filter(dni_filtro, fecha_nacimiento_filtro, nombres_filtro, apellidos_filtro, afiliado_filtro, domicilio_filtro, departamento_filtro, barrio_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, obra_social_filtro, plan_os_filtro, particular_filtro, nombres_ord='DESC')" class="fa fa-caret-down" style="cursor: pointer;font-size: 2rem;"></i>
+                                                  </div>
+                                                </th>
+                                                <th>Apellidos</th>
+                                                <th>Domicilio</th>
+                                                <th>N° Departamento</th>
+                                                <th>Barrio</th>
+                                                <th>Teléfono</th>
+                                                <th>Celular</th>
+                                                <th>Email</th>
+                                                <th>Observaciones</th>
+                                                <th>Obra Social</th>
+                                                <th>Plan obra social</th>
+                                                <th>N° Afiliado</th>
+                                                <th>Particular</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                            <tr role="row" class="filter">
+                                                <th></th>
+                                                <th>
+                                                  <input type="text" class="form-control form-filter input-sm" [textMask]="{mask: onlyNumberMask}" [(ngModel)]="dni_filtro" #ctrl="ngModel" (change)="filter(dni_filtro, fecha_nacimiento_filtro, nombres_filtro, apellidos_filtro, afiliado_filtro, domicilio_filtro, departamento_filtro, barrio_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, obra_social_filtro, plan_os_filtro, particular_filtro, nombres_ord)">
+                                                </th>
+                                                <th>
+                                                  <input type="text" class="form-control form-filter input-sm" [(ngModel)]="fecha_nacimiento_filtro" #ctrl="ngModel" (change)="filter(dni_filtro, fecha_nacimiento_filtro, nombres_filtro, apellidos_filtro, afiliado_filtro, domicilio_filtro, departamento_filtro, barrio_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, obra_social_filtro, plan_os_filtro, particular_filtro, nombres_ord)">
+                                                </th>
+                                                <th>
+                                                  <input type="text" class="form-control form-filter input-sm" [(ngModel)]="nombres_filtro" #ctrl="ngModel" (change)="filter(dni_filtro, fecha_nacimiento_filtro, nombres_filtro, apellidos_filtro, afiliado_filtro, domicilio_filtro, departamento_filtro, barrio_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, obra_social_filtro, plan_os_filtro, particular_filtro, nombres_ord)">
+                                                </th>
+                                                <th>
+                                                  <input type="text" class="form-control form-filter input-sm" [(ngModel)]="apellidos_filtro" #ctrl="ngModel" (change)="filter(dni_filtro, fecha_nacimiento_filtro, nombres_filtro, apellidos_filtro, afiliado_filtro, domicilio_filtro, departamento_filtro, barrio_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, obra_social_filtro, plan_os_filtro, particular_filtro, nombres_ord)">
+                                                </th>
+                                                <th>
+                                                  <input type="text" class="form-control form-filter input-sm" [(ngModel)]="domicilio_filtro" #ctrl="ngModel" (change)="filter(dni_filtro, fecha_nacimiento_filtro, nombres_filtro, apellidos_filtro, afiliado_filtro, domicilio_filtro, departamento_filtro, barrio_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, obra_social_filtro, plan_os_filtro, particular_filtro, nombres_ord)">
+                                                </th>
+                                                <th>
+                                                  <input type="text" class="form-control form-filter input-sm" [textMask]="{mask: onlyNumberMask}" [(ngModel)]="departamento_filtro" #ctrl="ngModel" (change)="filter(dni_filtro, fecha_nacimiento_filtro, nombres_filtro, apellidos_filtro, afiliado_filtro, domicilio_filtro, departamento_filtro, barrio_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, obra_social_filtro, plan_os_filtro, particular_filtro, nombres_ord)">
+                                                </th>
+                                                <th>
+                                                  <input type="text" class="form-control form-filter input-sm" [(ngModel)]="barrio_filtro" #ctrl="ngModel" (change)="filter(dni_filtro, fecha_nacimiento_filtro, nombres_filtro, apellidos_filtro, afiliado_filtro, domicilio_filtro, departamento_filtro, barrio_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, obra_social_filtro, plan_os_filtro, particular_filtro, nombres_ord)">
+                                                </th>
+                                                <th>
+                                                  <input type="text" class="form-control form-filter input-sm" [textMask]="{mask: onlyNumberMask}" [(ngModel)]="telefono_filtro" #ctrl="ngModel" (change)="filter(dni_filtro, fecha_nacimiento_filtro, nombres_filtro, apellidos_filtro, afiliado_filtro, domicilio_filtro, departamento_filtro, barrio_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, obra_social_filtro, plan_os_filtro, particular_filtro, nombres_ord)">
+                                                </th>
+                                                <th>
+                                                  <input type="text" class="form-control form-filter input-sm" [textMask]="{mask: onlyNumberMask}" [(ngModel)]="celular_filtro" #ctrl="ngModel" (change)="filter(dni_filtro, fecha_nacimiento_filtro, nombres_filtro, apellidos_filtro, afiliado_filtro, domicilio_filtro, departamento_filtro, barrio_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, obra_social_filtro, plan_os_filtro, particular_filtro, nombres_ord)">
+                                                </th>
+                                                <th>
+                                                  <input type="text" class="form-control form-filter input-sm" [(ngModel)]="email_filtro" #ctrl="ngModel" (change)="filter(dni_filtro, fecha_nacimiento_filtro, nombres_filtro, apellidos_filtro, afiliado_filtro, domicilio_filtro, departamento_filtro, barrio_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, obra_social_filtro, plan_os_filtro, particular_filtro, nombres_ord)">
+                                                </th>
+                                                <th>
+                                                  <input type="text" class="form-control form-filter input-sm" [(ngModel)]="observaciones_filtro" #ctrl="ngModel" (change)="filter(dni_filtro, fecha_nacimiento_filtro, nombres_filtro, apellidos_filtro, afiliado_filtro, domicilio_filtro, departamento_filtro, barrio_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, obra_social_filtro, plan_os_filtro, particular_filtro, nombres_ord)">
+                                                </th>
+                                                <th>
+                                                  <select class="form-control form-filter input-sm" [(ngModel)]="obra_social_filtro" #ctrl="ngModel" (change)="filter(dni_filtro, fecha_nacimiento_filtro, nombres_filtro, apellidos_filtro, afiliado_filtro, domicilio_filtro, departamento_filtro, barrio_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, obra_social_filtro, plan_os_filtro, particular_filtro, nombres_ord)">
+                                                      <option value="">Ninguna...</option>
+                                                      <option *ngFor="let obraSocial of listObrasSociales" value="{{obraSocial.id}}">{{obraSocial.nombre}}</option>
+                                                  </select>
+                                                </th>
+                                                <th>
+                                                  <input type="text" class="form-control form-filter input-sm" [(ngModel)]="plan_os_filtro" #ctrl="ngModel" (change)="filter(dni_filtro, fecha_nacimiento_filtro, nombres_filtro, apellidos_filtro, afiliado_filtro, domicilio_filtro, departamento_filtro, barrio_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, obra_social_filtro, plan_os_filtro, particular_filtro, nombres_ord)">
+                                                </th>
+                                                <th>
+                                                  <input type="text" class="form-control form-filter input-sm" [(ngModel)]="afiliado_filtro" #ctrl="ngModel" (change)="filter(dni_filtro, fecha_nacimiento_filtro, nombres_filtro, apellidos_filtro, afiliado_filtro, domicilio_filtro, departamento_filtro, barrio_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, obra_social_filtro, plan_os_filtro, particular_filtro, nombres_ord)">
+                                                </th>
+                                                <th>
+                                                  <select class="form-control form-filter input-sm" [(ngModel)]="particular_filtro" #ctrl="ngModel" (change)="filter(dni_filtro, fecha_nacimiento_filtro, nombres_filtro, apellidos_filtro, afiliado_filtro, domicilio_filtro, departamento_filtro, barrio_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, obra_social_filtro, plan_os_filtro, particular_filtro, nombres_ord)">
+                                                      <option value="">Ninguna...</option>
+                                                      <option *ngFor="let particular of listParticulares" value="{{particular.id}}">{{particular.nombre}}</option>
+                                                  </select>
+                                                </th>
+                                                <th>
+                                                    <div class="margin-bottom-5">
+                                                        <button class="btn dark btn-outline btn-sm" (click)="filter(dni_filtro='', fecha_nacimiento_filtro='', nombres_filtro='', apellidos_filtro='', afiliado_filtro='', domicilio_filtro='', departamento_filtro='', barrio_filtro='', telefono_filtro='', celular_filtro='', email_filtro='', observaciones_filtro='', obra_social_filtro='', plan_os_filtro, particular_filtro='', nombres_ord='')" (click)="cleanFilter()">
+                                                            <i class="fa fa-times"></i> Limpiar
+                                                        </button>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let paciente of listPacientes; let i=index">
+                                                <td>{{i+1}}</td>
+                                                <td>{{paciente.dni}}</td>
+                                                <td>{{paciente.fecha_nacimiento | date:'dd-MM-y'}}</td>
+                                                <td>{{paciente.nombres}}</td>
+                                                <td>{{paciente.apellidos}}</td>
+                                                <td>{{paciente.domicilio}}</td>
+                                                <td>{{paciente.n_departamento}}</td>
+                                                <td>{{paciente.barrio}}</td>
+                                                <td>{{paciente.telefono}}</td>
+                                                <td>{{paciente.celular}}</td>
+                                                <td>{{paciente.email}}</td>
+                                                <td>{{paciente.observaciones}}</td>
+                                                <td *ngIf="paciente.nombre_obra_social"><span class="label label-success"><strong>{{paciente.nombre_obra_social}}</strong></span></td>
+                                                <td *ngIf="!paciente.nombre_obra_social"></td>
+                                                <td>{{paciente.plan_os}}</td>
+                                                <td>{{paciente.n_afiliado}}</td>
+                                                <td *ngIf="paciente.nombre_particular"><span class="label label-success"><strong>{{paciente.nombre_particular}}</strong></span></td>
+                                                <td *ngIf="!paciente.nombre_particular"></td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-sm yellow sbold dropdown-toggle" type="button" data-toggle="dropdown">Acciones
+                                                            <i class="fa fa-angle-down"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu" role="menu">
+                                                            <li>
+                                                                <a (click)="showModalEditar(paciente, i)"><i class="fa fa-pencil"></i> Editar</a>
+                                                            </li>
+                                                            <li>
+                                                                <a data-toggle="modal" data-target="#eliminar-paciente" (click)="onDelete(paciente, i)"><i class="fa fa-trash"></i> Eliminar</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <button type="button" class="btn green" style="width: 100%" (click)="search(dni_filtro, fecha_nacimiento_filtro, nombres_filtro, apellidos_filtro, afiliado_filtro, domicilio_filtro, departamento_filtro, barrio_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, obra_social_filtro, plan_os_filtro, particular_filtro, nombres_ord)">
+                                        <strong>
+                                            Ver más <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                        </strong>
+                                   </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- FINAL DEL CONTENIDO -->
+
+    </div>
+
+    <!-- FOOTER -->
+
+    <page-footer>
+    </page-footer>
+
+    <!-- FINAL DE FOOTER -->
+
+</div>
+
+<div class="quick-nav-overlay"></div>
+
+<!-- MODAL NUEVA TAREA  -->
+<div bsModal #modalCrear="bs-modal" class="modal fade" tabindex="-1" role="basic" aria-hidden="true" [config]="{backdrop: 'static', keyboard: false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <form class="form-horizontal" novalidate [formGroup]="formCreacion" id="formCreacion">
+
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Nuevo Paciente</h4>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.dni.errors && formCreacion.controls.dni.pristine && isSubmitPaciente }">
+                        <label for="dni" class="control-label col-md-3">
+                            DNI <strong class="text-danger">* (sin puntos)</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" [textMask]="{mask: onlyNumberMask}" name="dni" id="dni" formControlName="dni" class="form-control">
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.dni.errors && formCreacion.controls.dni.pristine && isSubmitPaciente">
+                            <strong class="help-block" *ngIf="formCreacion.controls.dni.errors.required && formCreacion.controls.dni.pristine">El DNI es requerido</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.fecha_nacimiento.errors && formCreacion.controls.fecha_nacimiento.pristine && isSubmitPaciente }">
+                        <label for="fecha_nacimiento" class="control-label col-md-3">
+                            Fecha de nacimiento <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <my-date-picker [options]="myDatePickerOptions"  name="fecha_nacimiento" id="fecha_nacimiento" formControlName="fecha_nacimiento"></my-date-picker>
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.fecha_nacimiento.errors && formCreacion.controls.fecha_nacimiento.pristine && isSubmitPaciente">
+                            <strong class="help-block" *ngIf="formCreacion.controls.fecha_nacimiento.errors.required && formCreacion.controls.fecha_nacimiento.pristine">La fecha de nacimiento es requerida</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.nombres.errors && formCreacion.controls.nombres.pristine && isSubmitPaciente }">
+                        <label for="nombres" class="control-label col-md-3">
+                            Nombres <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="nombres" id="nombres" formControlName="nombres" class="form-control">
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.nombres.errors && formCreacion.controls.nombres.pristine && isSubmitPaciente">
+                            <strong class="help-block" *ngIf="formCreacion.controls.nombres.errors.required && formCreacion.controls.nombres.pristine">Los nombres son requeridos</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.apellidos.errors && formCreacion.controls.apellidos.pristine && isSubmitPaciente }">
+                        <label for="apellidos" class="control-label col-md-3">
+                            Apellidos <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="apellidos" id="apellidos" formControlName="apellidos" class="form-control">
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.apellidos.errors && formCreacion.controls.apellidos.pristine && isSubmitPaciente">
+                            <strong class="help-block" *ngIf="formCreacion.controls.apellidos.errors.required && formCreacion.controls.apellidos.pristine">Los apellidos son requeridos</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.domicilio.errors && formCreacion.controls.domicilio.pristine && isSubmitPaciente }">
+                        <label for="domicilio" class="control-label col-md-3">
+                            Domicilio <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="domicilio" id="domicilio" formControlName="domicilio" class="form-control">
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.domicilio.errors && formCreacion.controls.domicilio.pristine && isSubmitPaciente">
+                            <strong class="help-block" *ngIf="formCreacion.controls.domicilio.errors.required && formCreacion.controls.domicilio.pristine">El domicilio es requerido</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="especialidad" class="control-label col-md-3">
+                            N° Departamento
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" [textMask]="{mask: onlyNumberMask}" name="n_departamento" id="n_departamento" formControlName="n_departamento" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.barrio.errors && formCreacion.controls.barrio.pristine && isSubmitPaciente }">
+                        <label for="barrio" class="control-label col-md-3">
+                            Barrio <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="barrio" id="barrio" formControlName="barrio" class="form-control">
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.barrio.errors && formCreacion.controls.barrio.pristine && isSubmitPaciente">
+                            <strong class="help-block" *ngIf="formCreacion.controls.barrio.errors.required && formCreacion.controls.barrio.pristine">El barrio es requerido</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.telefono.errors && formCreacion.controls.telefono.pristine && isSubmitPaciente }">
+                        <label for="telefono" class="control-label col-md-3">
+                            Teléfono <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" [textMask]="{mask: onlyNumberMask}" name="telefono" id="telefono" formControlName="telefono" class="form-control">
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.telefono.errors && formCreacion.controls.telefono.pristine && isSubmitPaciente">
+                            <strong class="help-block" *ngIf="formCreacion.controls.telefono.errors.required && formCreacion.controls.telefono.pristine">El teléfono es requerido</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.celular.errors && formCreacion.controls.celular.pristine && isSubmitPaciente }">
+                        <label for="celular" class="control-label col-md-3">
+                            Celular <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" [textMask]="{mask: onlyNumberMask}" name="celular" id="celular" formControlName="celular" class="form-control">
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.celular.errors && formCreacion.controls.celular.pristine && isSubmitPaciente">
+                            <strong class="help-block" *ngIf="formCreacion.controls.celular.errors.required && formCreacion.controls.celular.pristine">El celular es requerido</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.email.errors && formCreacion.controls.email.pristine && isSubmitPaciente }">
+                        <label for="email" class="control-label col-md-3">
+                            Email <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="email" id="email" formControlName="email" class="form-control">
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.email.errors && formCreacion.controls.email.pristine && isSubmitPaciente">
+                            <strong class="help-block" *ngIf="formCreacion.controls.email.errors.required && formCreacion.controls.email.pristine">El email es requerido</strong>
+                            <strong class="help-block" *ngIf="formCreacion.controls.email.errors.pattern && formCreacion.controls.email.pristine">Formato de email inválido (ej: name@mail.com)</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.observaciones.errors && formCreacion.controls.observaciones.pristine && isSubmitPaciente }">
+                        <label for="observaciones" class="control-label col-md-3">
+                            Observaciones <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <textarea name="observaciones" id="observaciones" formControlName="observaciones" class="form-control" rows="7"></textarea>
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.observaciones.errors && formCreacion.controls.observaciones.pristine && isSubmitPaciente">
+                            <strong class="help-block" *ngIf="formCreacion.controls.observaciones.errors.required && formCreacion.controls.observaciones.pristine">Las observaciones son requeridas</strong>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <strong>Datos de la obra social</strong>
+                    <br><br>
+
+                    <div *ngIf="!selectedParticular">
+                      <div class="form-group">
+                        <label for="id_obra_social" class="control-label col-md-3">
+                          Obra Social
+                        </label>
+                        <div class="col-md-8">
+                          <select name="id_obra_social" id="id_obra_social" formControlName="id_obra_social" class="form-control" (change)="verificarOS(formCreacion.controls.id_obra_social.value)">
+                            <option value="">Ninguna...</option>
+                            <option *ngFor="let obraSocial of listObrasSociales" value="{{obraSocial.id}}">{{obraSocial.nombre}}</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="plan_os" class="control-label col-md-3">
+                          Plan obra Social
+                        </label>
+                        <div class="col-md-8">
+                          <input type="text" name="plan_os" id="plan_os" formControlName="plan_os" class="form-control">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="n_afiliado" class="control-label col-md-3">
+                          N° Afiliado
+                        </label>
+                        <div class="col-md-8">
+                          <input type="text" name="n_afiliado" id="n_afiliado" formControlName="n_afiliado" class="form-control">
+                        </div>
+                      </div>
+                    </div>
+
+                    <hr>
+                    <strong>Datos de particular</strong>
+                    <br><br>
+
+                    <div class="form-group" *ngIf="!selectedOS">
+                        <label for="id_particular" class="control-label col-md-3">
+                            Particular
+                        </label>
+                        <div class="col-md-8">
+                            <select name="id_particular" id="id_particular" formControlName="id_particular" class="form-control" (change)="verificarParticular(formCreacion.controls.id_particular.value)">
+                              <option value="">Ninguna...</option>
+                              <option *ngFor="let particular of listParticulares" value="{{particular.id}}">{{particular.nombre}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal" (click)="hideModalCrear()">Cerrar</button>
+                    <button class="btn blue sbold" [disabled]="loader" (click)="create()">
+                        Guardar paciente
+                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL EDITAR TAREA -->
+<div bsModal #modalEditar="bs-modal" class="modal fade" tabindex="-1" role="basic" aria-hidden="true" data-backdrop="static" data-keyboard="false" [config]="{backdrop: 'static', keyboard: false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <form *ngIf="formEdicion" class="form-horizontal" novalidate [formGroup]="formEdicion" id="formEdicion">
+
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Editar Paciente</h4>
+
+                </div>
+
+                <div class="modal-body">
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.dni.errors && formEdicion.controls.dni.pristine && isSubmitPaciente }">
+                      <label for="dni" class="control-label col-md-3">
+                          DNI <strong class="text-danger">* (sin puntos)</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <input type="text" [textMask]="{mask: onlyNumberMask}" name="dni" id="dni" formControlName="dni" class="form-control" (change)="verificarCambio()">
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.dni.errors && formEdicion.controls.dni.pristine && isSubmitPaciente">
+                          <strong class="help-block" *ngIf="formEdicion.controls.dni.errors.required && formEdicion.controls.dni.pristine">El DNI es requerido</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.fecha_nacimiento.errors && formEdicion.controls.fecha_nacimiento.pristine && isSubmitPaciente }">
+                      <label for="fecha_nacimiento" class="control-label col-md-3">
+                          Fecha de nacimiento <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                        <my-date-picker [options]="myDatePickerOptions"  name="fecha_nacimiento" id="fecha_nacimiento" formControlName="fecha_nacimiento" (dateChanged)="verificarCambio()"></my-date-picker>
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.fecha_nacimiento.errors && formEdicion.controls.fecha_nacimiento.pristine && isSubmitPaciente">
+                          <strong class="help-block" *ngIf="formEdicion.controls.fecha_nacimiento.errors.required && formEdicion.controls.fecha_nacimiento.pristine">La fecha de nacimiento es requerida</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.nombres.errors && formEdicion.controls.nombres.pristine && isSubmitPaciente }">
+                      <label for="nombres" class="control-label col-md-3">
+                          Nombres <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <input type="text" name="nombres" id="nombres" formControlName="nombres" class="form-control" (change)="verificarCambio()">
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.nombres.errors && formEdicion.controls.nombres.pristine && isSubmitPaciente">
+                          <strong class="help-block" *ngIf="formEdicion.controls.nombres.errors.required && formEdicion.controls.nombres.pristine">Los nombres son requeridos</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.apellidos.errors && formEdicion.controls.apellidos.pristine && isSubmitPaciente }">
+                      <label for="apellidos" class="control-label col-md-3">
+                          Apellidos <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <input type="text" name="apellidos" id="apellidos" formControlName="apellidos" class="form-control" (change)="verificarCambio()">
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.apellidos.errors && formEdicion.controls.apellidos.pristine && isSubmitPaciente">
+                          <strong class="help-block" *ngIf="formEdicion.controls.apellidos.errors.required && formEdicion.controls.apellidos.pristine">Los apellidos son requeridos</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.domicilio.errors && formEdicion.controls.domicilio.pristine && isSubmitPaciente }">
+                      <label for="domicilio" class="control-label col-md-3">
+                          Domicilio <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <input type="text" name="domicilio" id="domicilio" formControlName="domicilio" class="form-control" (change)="verificarCambio()">
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.domicilio.errors && formEdicion.controls.domicilio.pristine && isSubmitPaciente">
+                          <strong class="help-block" *ngIf="formEdicion.controls.domicilio.errors.required && formEdicion.controls.domicilio.pristine">El domicilio es requerido</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="especialidad" class="control-label col-md-3">
+                          N° Departamento
+                      </label>
+                      <div class="col-md-8">
+                          <input type="text" [textMask]="{mask: onlyNumberMask}" name="n_departamento" id="n_departamento" formControlName="n_departamento" class="form-control" (change)="verificarCambio()">
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.barrio.errors && formEdicion.controls.barrio.pristine && isSubmitPaciente }">
+                      <label for="barrio" class="control-label col-md-3">
+                          Barrio <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <input type="text" name="barrio" id="barrio" formControlName="barrio" class="form-control" (change)="verificarCambio()">
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.barrio.errors && formEdicion.controls.barrio.pristine && isSubmitPaciente">
+                          <strong class="help-block" *ngIf="formEdicion.controls.barrio.errors.required && formEdicion.controls.barrio.pristine">El barrio es requerido</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.telefono.errors && formEdicion.controls.telefono.pristine && isSubmitPaciente }">
+                      <label for="telefono" class="control-label col-md-3">
+                          Teléfono <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <input type="text" [textMask]="{mask: onlyNumberMask}" name="telefono" id="telefono" formControlName="telefono" class="form-control" (change)="verificarCambio()">
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.telefono.errors && formEdicion.controls.telefono.pristine && isSubmitPaciente">
+                          <strong class="help-block" *ngIf="formEdicion.controls.telefono.errors.required && formEdicion.controls.telefono.pristine">El teléfono es requerido</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.celular.errors && formEdicion.controls.celular.pristine && isSubmitPaciente }">
+                      <label for="celular" class="control-label col-md-3">
+                          Celular <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <input type="text" [textMask]="{mask: onlyNumberMask}" name="celular" id="celular" formControlName="celular" class="form-control" (change)="verificarCambio()">
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.celular.errors && formEdicion.controls.celular.pristine && isSubmitPaciente">
+                          <strong class="help-block" *ngIf="formEdicion.controls.celular.errors.required && formEdicion.controls.celular.pristine">El celular es requerido</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.email.errors && formEdicion.controls.email.pristine && isSubmitPaciente }">
+                      <label for="email" class="control-label col-md-3">
+                          Email <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <input type="text" name="email" id="email" formControlName="email" class="form-control" (change)="verificarCambio()">
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.email.errors && formEdicion.controls.email.pristine && isSubmitPaciente">
+                          <strong class="help-block" *ngIf="formEdicion.controls.email.errors.required && formEdicion.controls.email.pristine">El email es requerido</strong>
+                          <strong class="help-block" *ngIf="formEdicion.controls.email.errors.pattern && formEdicion.controls.email.pristine">Formato de email inválido (ej: name@mail.com)</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.observaciones.errors && formEdicion.controls.observaciones.pristine && isSubmitPaciente }">
+                      <label for="observaciones" class="control-label col-md-3">
+                          Observaciones <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <textarea name="observaciones" id="observaciones" formControlName="observaciones" class="form-control" rows="7" (change)="verificarCambio()"></textarea>
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.observaciones.errors && formEdicion.controls.observaciones.pristine && isSubmitPaciente">
+                          <strong class="help-block" *ngIf="formEdicion.controls.observaciones.errors.required && formEdicion.controls.observaciones.pristine">Las observaciones son requeridas</strong>
+                      </div>
+                  </div>
+
+                  <hr>
+                  <strong>Datos de la obra social</strong>
+                  <br><br>
+
+                  <div *ngIf="!selectedParticular">
+                    <div class="form-group">
+                      <label for="id_obra_social" class="control-label col-md-3">
+                        Obra Social
+                      </label>
+                      <div class="col-md-8">
+                        <select name="id_obra_social" id="id_obra_social" formControlName="id_obra_social" class="form-control" (change)="verificarCambio()" (change)="verificarOS(formEdicion.controls.id_obra_social.value)">
+                          <option value="">Ninguna...</option>
+                          <option *ngFor="let obraSocial of listObrasSociales" value="{{obraSocial.id}}">{{obraSocial.nombre}}</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="plan_os" class="control-label col-md-3">
+                        Plan obra Social
+                      </label>
+                      <div class="col-md-8">
+                        <input type="text" name="plan_os" id="plan_os" formControlName="plan_os" class="form-control" (change)="verificarCambio()">
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="n_afiliado" class="control-label col-md-3">
+                        N° Afiliado
+                      </label>
+                      <div class="col-md-8">
+                        <input type="text" name="n_afiliado" id="n_afiliado" formControlName="n_afiliado" class="form-control" (change)="verificarCambio()">
+                      </div>
+                    </div>
+                  </div>
+
+                  <hr>
+                  <strong>Datos de particular</strong>
+                  <br><br>
+
+                  <div class="form-group" *ngIf="!selectedOS">
+                      <label for="id_particular" class="control-label col-md-3">
+                          Particular
+                      </label>
+                      <div class="col-md-8">
+                          <select name="id_particular" id="id_particular" formControlName="id_particular" class="form-control" (change)="verificarCambio()" (change)="verificarParticular(formEdicion.controls.id_particular.value)">
+                            <option value="">Ninguna...</option>
+                            <option *ngFor="let particular of listParticulares" value="{{particular.id}}">{{particular.nombre}}</option>
+                          </select>
+                      </div>
+                  </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" (click)="hideModalEditar()">Cerrar</button>
+                    <button class="btn blue sbold" [disabled]="loader" (click)="edit()">
+                        Editar paciente
+                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL CONFIRMAR CAMBIOS -->
+<div class="modal fade" id="confirmar-cambios" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="position:relative;left:150%;">
+
+            <div class="modal-header">
+
+                <h4 class="modal-title">Confirmar cambios</h4>
+
+            </div>
+
+            <div class="modal-body">
+                <h2>¿Desea guardar los cambios que hizo en el formulario?</h2>
+            </div>
+
+            <div class="modal-footer">
+                <form>
+                    <button class="btn blue sbold" (click)="salirGuardar()">Sí</button>
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal" (click)="salirSinGuardar()">No</button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL ELIMINAR TAREA -->
+<div class="modal fade" id="eliminar-paciente" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h4 class="modal-title">Eliminar Paciente</h4>
+
+            </div>
+
+            <div class="modal-body" *ngIf="deletePaciente">
+                <h2>Desea eliminar al Paciente <strong>{{ deletePaciente.nombres }} {{ deletePaciente.apellidos }}</strong>?</h2>
+            </div>
+
+            <div class="modal-footer">
+                <form>
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cerrar</button>
+                    <button class="btn btn-danger sbold" [disabled]="loader" (click)="delete()">
+                        Eliminar Paciente
+                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                    </button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

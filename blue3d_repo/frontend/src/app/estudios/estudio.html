@@ -1,0 +1,687 @@
+<div class="page-wrapper">
+
+    <!-- HEADER -->
+
+    <page-header>
+    </page-header>
+
+    <!-- FINAL DE HEADER -->
+
+    <!-- DIVISOR -->
+
+    <div class="clearfix"> </div>
+
+    <!-- FINAL DE DIVISOR -->
+
+    <div class="page-container">
+
+        <!-- SIDEBAR -->
+
+        <page-sidebar>
+        </page-sidebar>
+
+        <!-- FINAL SIDEBAR -->
+
+        <!-- CONTENIDO -->
+
+        <div class="page-content-wrapper">
+
+            <div class="page-content">
+
+                <ng2-toasty [position]="'top-right'"></ng2-toasty>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Begin: Demo Datatable 1 -->
+                        <div class="portlet light portlet-fit portlet-datatable bordered">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <ol class="breadcrumb" style="background-color:transparent;">
+                                        <li class="caption-subject font-dark sbold uppercase"><i class="fa fa-stethoscope" aria-hidden="true"></i> Estudios</li>
+                                    </ol>
+                                </div>
+                                <div class="actions">
+                                    <a href="{{this.urlExport}}" target="_blank" class="btn green sbold"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Exportar a excel</a>
+                                    <button class="btn blue sbold" (click)="showModalCrear()"><i class="fa fa-plus"></i> Nuevo estudio</button>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-container">
+                                    <table class="table table-striped table-bordered table-hover table-checkable table-header-fixed">
+                                        <thead>
+                                            <tr role="row" class="heading">
+                                                <th width="3%">N°</th>
+                                                <th>Fecha
+                                                  <div class="pull-right">
+                                                      <i (click)="filter(fecha_filtro, hora_filtro, paciente_filtro, doctor_filtro, prestacion_filtro, observaciones_filtro, factura_filtro, fecha_ord='ASC')" class="fa fa-caret-up" style="cursor: pointer;font-size: 2rem;"></i>
+                                                      <i (click)="filter(fecha_filtro, hora_filtro, paciente_filtro, doctor_filtro, prestacion_filtro, observaciones_filtro, factura_filtro, fecha_ord='DESC')" class="fa fa-caret-down" style="cursor: pointer;font-size: 2rem;"></i>
+                                                  </div>
+                                                </th>
+                                                <th>Hora</th>
+                                                <th>Paciente</th>
+                                                <th>Doctor</th>
+                                                <th>Prestación</th>
+                                                <th width="25%">Observaciones</th>
+                                                <th>N° Factura</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                            <tr role="row" class="filter">
+                                                <th></th>
+                                                <th>
+                                                  <my-date-range-picker [options]="myDateRangePickerOptions" [(ngModel)]="fecha_filtro" #ctrl="ngModel" (dateRangeChanged)="filter(fecha_filtro=$event, hora_filtro, paciente_filtro, doctor_filtro, prestacion_filtro, observaciones_filtro, factura_filtro, fecha_ord)"></my-date-range-picker>
+                                                </th>
+                                                <th>
+                                                  <input type="time" class="form-control form-filter input-sm" [(ngModel)]="hora_filtro" #ctrl="ngModel" (change)="filter(fecha_filtro, hora_filtro, paciente_filtro, doctor_filtro, prestacion_filtro, observaciones_filtro, factura_filtro, fecha_ord)">
+                                                </th>
+                                                <th>
+                                                  <select class="form-control form-filter input-sm" [(ngModel)]="paciente_filtro" #ctrl="ngModel" (change)="filter(fecha_filtro, hora_filtro, paciente_filtro, doctor_filtro, prestacion_filtro, observaciones_filtro, factura_filtro, fecha_ord)">
+                                                      <option value="">Ninguno...</option>
+                                                      <option *ngFor="let paciente of cmbPacientes" value="{{paciente.id}}">{{paciente.nombres}} {{paciente.apellidos}}</option>
+                                                  </select>
+                                                </th>
+                                                <th>
+                                                  <select class="form-control form-filter input-sm" [(ngModel)]="doctor_filtro" #ctrl="ngModel" (change)="filter(fecha_filtro, hora_filtro, paciente_filtro, doctor_filtro, prestacion_filtro, observaciones_filtro, factura_filtro, fecha_ord)">
+                                                      <option value="">Ninguno...</option>
+                                                      <option *ngFor="let doctor of cmbDoctores" value="{{doctor.id}}">{{doctor.nombres}} {{doctor.apellidos}}</option>
+                                                  </select>
+                                                </th>
+                                                <th>
+                                                  <select class="form-control form-filter input-sm" [(ngModel)]="prestacion_filtro" #ctrl="ngModel" (change)="filter(fecha_filtro, hora_filtro, paciente_filtro, doctor_filtro, prestacion_filtro, observaciones_filtro, factura_filtro, fecha_ord)">
+                                                      <option value="">Ninguno...</option>
+                                                      <option *ngFor="let prestacion of cmbPrestaciones" value="{{prestacion.id}}">{{prestacion.nombre}}</option>
+                                                  </select>
+                                                </th>
+                                                <th>
+                                                  <input type="text" class="form-control form-filter input-sm" [(ngModel)]="observaciones_filtro" #ctrl="ngModel" (change)="filter(fecha_filtro, hora_filtro, paciente_filtro, doctor_filtro, prestacion_filtro, observaciones_filtro, factura_filtro, fecha_ord)">
+                                                </th>
+                                                <th>
+                                                  <input type="text" class="form-control form-filter input-sm" [(ngModel)]="factura_filtro" #ctrl="ngModel" (change)="filter(fecha_filtro, hora_filtro, paciente_filtro, doctor_filtro, prestacion_filtro, observaciones_filtro, factura_filtro, fecha_ord)">
+                                                </th>
+                                                <th>
+                                                    <div class="margin-bottom-5">
+                                                        <button class="btn dark btn-outline btn-sm" (click)="filter(fecha_filtro='', hora_filtro='', paciente_filtro='', doctor_filtro='', prestacion_filtro='', observaciones_filtro='', factura_filtro='', fecha_ord='')" (click)="cleanFilter()">
+                                                            <i class="fa fa-times"></i> Limpiar
+                                                        </button>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let estudio of listEstudios; let i=index">
+                                                <td>{{i+1}}</td>
+                                                <td>{{estudio.fecha | date:'dd-MM-y'}}</td>
+                                                <td>{{estudio.hora_view}}</td>
+                                                <td>
+                                                  {{estudio.nombre_paciente}} {{estudio.apellido_paciente}}
+                                                  <span class="label label-success" *ngIf="estudio.id_obra_social">
+                                                    <strong>{{estudio.nombre_obra_social}}</strong>
+                                                  </span>
+                                                  <span class="label label-success" *ngIf="estudio.id_particular">
+                                                    <strong>{{estudio.nombre_particular}}</strong>
+                                                  </span>
+                                                </td>
+                                                <td><span class="label label-info"><strong>{{estudio.nombre_doctor}} {{estudio.apellido_doctor}}</strong></span></td>
+                                                <td><span class="label label-warning"><strong>{{estudio.nombre_prestacion}} {{estudio.apellido_prestacion}}</strong></span></td>
+                                                <td>{{estudio.observaciones}}</td>
+                                                <td>{{estudio.n_factura}}</td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-sm yellow sbold dropdown-toggle" type="button" data-toggle="dropdown">Acciones
+                                                            <i class="fa fa-angle-down"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu" role="menu">
+                                                            <li>
+                                                                <a (click)="showModalEditar(estudio, i)"><i class="fa fa-pencil"></i> Editar</a>
+                                                            </li>
+                                                            <li>
+                                                                <a data-toggle="modal" data-target="#eliminar-estudio" (click)="onDelete(estudio, i)"><i class="fa fa-trash"></i> Eliminar</a>
+                                                            </li>
+                                                            <li>
+                                                                <a (click)="showModalPagos(estudio, i)"><i class="fa fa-credit-card" aria-hidden="true"></i> Pagos</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <button type="button" class="btn green" style="width: 100%" (click)="search(fecha_filtro, hora_filtro, paciente_filtro, doctor_filtro, prestacion_filtro, observaciones_filtro, factura_filtro, fecha_ord)">
+                                        <strong>
+                                            Ver más <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                        </strong>
+                                   </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- FINAL DEL CONTENIDO -->
+
+    </div>
+
+    <!-- FOOTER -->
+
+    <page-footer>
+    </page-footer>
+
+    <!-- FINAL DE FOOTER -->
+
+</div>
+
+<div class="quick-nav-overlay"></div>
+
+<!-- MODAL NUEVA TAREA  -->
+<div bsModal #modalCrear="bs-modal" class="modal fade" tabindex="-1" role="basic" aria-hidden="true" [config]="{backdrop: 'static', keyboard: false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <form class="form-horizontal" novalidate [formGroup]="formCreacion" id="formCreacion">
+
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Nuevo Estudio</h4>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.fecha.errors && formCreacion.controls.fecha.pristine && isSubmitEstudio }">
+                        <label for="fecha" class="control-label col-md-3">
+                            Fecha <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <my-date-picker [options]="myDatePickerOptions"  name="fecha" id="fecha" formControlName="fecha"></my-date-picker>
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.fecha.errors && formCreacion.controls.fecha.pristine && isSubmitEstudio">
+                            <strong class="help-block" *ngIf="formCreacion.controls.fecha.errors.required && formCreacion.controls.fecha.pristine">La fecha es requerida</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.hora.errors && formCreacion.controls.hora.pristine && isSubmitEstudio }">
+                        <label for="hora" class="control-label col-md-3">
+                            Hora <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="time" name="hora" id="hora" formControlName="hora" class="form-control">
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.hora.errors && formCreacion.controls.hora.pristine && isSubmitEstudio">
+                            <strong class="help-block" *ngIf="formCreacion.controls.hora.errors.required && formCreacion.controls.hora.pristine">La hora es requerida</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.id_doctor.errors && formCreacion.controls.id_doctor.pristine && isSubmitEstudio }">
+                        <label for="id_doctor" class="control-label col-md-3">
+                            Doctor <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <select name="id_doctor" id="id_doctor" formControlName="id_doctor" class="form-control">
+                                <option value="">Ninguno...</option>
+                                <option *ngFor="let doctor of cmbDoctores" value="{{doctor.id}}">{{doctor.nombres}} {{doctor.apellidos}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.id_doctor.errors && formCreacion.controls.id_doctor.pristine && isSubmitEstudio">
+                            <strong class="help-block" *ngIf="formCreacion.controls.id_doctor.errors.required && formCreacion.controls.id_doctor.pristine">El doctor es requerido</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.id_paciente.errors && formCreacion.controls.id_paciente.pristine && isSubmitEstudio }">
+                        <label for="id_paciente" class="control-label col-md-3">
+                            Paciente <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <select name="id_paciente" id="id_paciente" formControlName="id_paciente" class="form-control" (change)="capturarDatosPaciente(formCreacion.controls.id_paciente.value)">
+                                <option value="">Ninguno...</option>
+                                <option *ngFor="let paciente of cmbPacientes" value="{{paciente.id}}">{{paciente.nombres}} {{paciente.apellidos}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.id_paciente.errors && formCreacion.controls.id_paciente.pristine && isSubmitEstudio">
+                            <strong class="help-block" *ngIf="formCreacion.controls.id_paciente.errors.required && formCreacion.controls.id_paciente.pristine">El paciente es requerido</strong>
+                        </div>
+                    </div>
+
+                    <div *ngIf="selectedParticular || selectedObraSocial" class="form-group">
+                      <div *ngIf="selectedParticular" class="col-md-offset-3 col-md-8">
+                          <span class="label label-info"><strong>Particular: {{selectedParticular.nombre}}</strong></span>
+                      </div>
+                      <div *ngIf="selectedObraSocial" class="col-md-offset-3 col-md-8">
+                          <span class="label label-info"><strong>Obra social: {{selectedObraSocial.nombre}}</strong></span>
+                      </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.id_prestacion.errors && formCreacion.controls.id_prestacion.pristine && isSubmitEstudio }">
+                        <label for="id_prestacion" class="control-label col-md-3">
+                            Prestación <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <select name="id_prestacion" id="id_prestacion" formControlName="id_prestacion" class="form-control" (change)="capturarDatosPrestacion(formCreacion.controls.id_prestacion.value)">
+                                <option value="">Ninguno...</option>
+                                <option *ngFor="let prestacion of cmbPrestaciones" value="{{prestacion.id}}">{{prestacion.nombre}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.id_prestacion.errors && formCreacion.controls.id_prestacion.pristine && isSubmitEstudio">
+                            <strong class="help-block" *ngIf="formCreacion.controls.id_prestacion.errors.required && formCreacion.controls.id_prestacion.pristine">La prestación es requerida</strong>
+                        </div>
+                    </div>
+
+                    <div *ngIf="precioObraSocial || precioParticular" class="form-group">
+                      <div *ngIf="selectedParticular" class="col-md-offset-3 col-md-8">
+                          <span class="label label-success"><strong>Precio particular: {{precioParticular | currency:'USD':true:'1.0-0'}}</strong></span>
+                      </div>
+                      <div *ngIf="selectedObraSocial" class="col-md-offset-3 col-md-8">
+                          <span class="label label-success"><strong>Precio obra social: {{precioObraSocial | currency:'USD':true:'1.0-0'}}</strong></span>
+                      </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.n_factura.errors && formCreacion.controls.n_factura.pristine && isSubmitEstudio }">
+                        <label for="n_factura" class="control-label col-md-3">
+                            N° Factura <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="n_factura" id="n_factura" formControlName="n_factura" class="form-control">
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.n_factura.errors && formCreacion.controls.n_factura.pristine && isSubmitEstudio">
+                            <strong class="help-block" *ngIf="formCreacion.controls.n_factura.errors.required && formCreacion.controls.n_factura.pristine">El número de factura es requerido</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.observaciones.errors && formCreacion.controls.observaciones.pristine && isSubmitEstudio }">
+                        <label for="observaciones" class="control-label col-md-3">
+                            Observaciones <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <textarea name="observaciones" id="observaciones" formControlName="observaciones" class="form-control" rows="7"></textarea>
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.observaciones.errors && formCreacion.controls.observaciones.pristine && isSubmitEstudio">
+                            <strong class="help-block" *ngIf="formCreacion.controls.observaciones.errors.required && formCreacion.controls.observaciones.pristine">Las observaciones son requeridas</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.pago.errors && formCreacion.controls.pago.pristine && isSubmitEstudio }">
+                        <label for="pago" class="control-label col-md-3">
+                            Pago <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <input name="pago" id="pago" formControlName="pago" class="form-control" [textMask]="{mask: currencyMask}">
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.pago.errors && formCreacion.controls.pago.pristine && isSubmitEstudio">
+                            <strong class="help-block" *ngIf="formCreacion.controls.pago.errors.required && formCreacion.controls.pago.pristine">El pago es requerido</strong>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal" (click)="hideModalCrear()">Cerrar</button>
+                    <button class="btn blue sbold" [disabled]="loader" (click)="create()" [disabled]="!habilitarGuardado">
+                        Guardar estudio
+                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                    </button>
+                    <strong class="text-danger pull-left">El botón de guardado se habilitará si existe un precio para la prestación</strong>
+                </div>
+
+            </form>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL EDITAR TAREA -->
+<div bsModal #modalEditar="bs-modal" class="modal fade" tabindex="-1" role="basic" aria-hidden="true" data-backdrop="static" data-keyboard="false" [config]="{backdrop: 'static', keyboard: false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <form *ngIf="formEdicion" class="form-horizontal" novalidate [formGroup]="formEdicion" id="formEdicion">
+
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Editar Estudio</h4>
+
+                </div>
+
+                <div class="modal-body">
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.fecha.errors && formEdicion.controls.fecha.pristine && isSubmitEstudio }">
+                      <label for="fecha" class="control-label col-md-3">
+                          Fecha <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <my-date-picker [options]="myDatePickerOptions"  name="fecha" id="fecha" formControlName="fecha" (dateChanged)="verificarCambio()"></my-date-picker>
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.fecha.errors && formEdicion.controls.fecha.pristine && isSubmitEstudio">
+                          <strong class="help-block" *ngIf="formEdicion.controls.fecha.errors.required && formEdicion.controls.fecha.pristine">La fecha es requerida</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.hora.errors && formEdicion.controls.hora.pristine && isSubmitEstudio }">
+                      <label for="hora" class="control-label col-md-3">
+                          Hora <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <input type="time" name="hora" id="hora" formControlName="hora" class="form-control" (change)="verificarCambio()">
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.hora.errors && formEdicion.controls.hora.pristine && isSubmitEstudio">
+                          <strong class="help-block" *ngIf="formEdicion.controls.hora.errors.required && formEdicion.controls.hora.pristine">La hora es requerida</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.id_doctor.errors && formEdicion.controls.id_doctor.pristine && isSubmitEstudio }">
+                      <label for="id_doctor" class="control-label col-md-3">
+                          Doctor <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <select name="id_doctor" id="id_doctor" formControlName="id_doctor" class="form-control" (change)="verificarCambio()">
+                              <option value="">Ninguno...</option>
+                              <option *ngFor="let doctor of cmbDoctores" value="{{doctor.id}}">{{doctor.nombres}} {{doctor.apellidos}}</option>
+                          </select>
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.id_doctor.errors && formEdicion.controls.id_doctor.pristine && isSubmitEstudio">
+                          <strong class="help-block" *ngIf="formEdicion.controls.id_doctor.errors.required && formEdicion.controls.id_doctor.pristine">El doctor es requerido</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.id_paciente.errors && formEdicion.controls.id_paciente.pristine && isSubmitEstudio }">
+                      <label for="id_paciente" class="control-label col-md-3">
+                          Paciente <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <select name="id_paciente" id="id_paciente" formControlName="id_paciente" class="form-control" (change)="verificarCambio()" (change)="capturarDatosPaciente(formEdicion.controls.id_paciente.value)">
+                              <option value="">Ninguno...</option>
+                              <option *ngFor="let paciente of cmbPacientes" value="{{paciente.id}}">{{paciente.nombres}} {{paciente.apellidos}}</option>
+                          </select>
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.id_paciente.errors && formEdicion.controls.id_paciente.pristine && isSubmitEstudio">
+                          <strong class="help-block" *ngIf="formEdicion.controls.id_paciente.errors.required && formEdicion.controls.id_paciente.pristine">El paciente es requerido</strong>
+                      </div>
+                  </div>
+
+                  <div *ngIf="selectedParticular || selectedObraSocial" class="form-group">
+                    <div *ngIf="selectedParticular" class="col-md-offset-3 col-md-8">
+                        <span class="label label-info"><strong>Particular: {{selectedParticular.nombre}}</strong></span>
+                    </div>
+                    <div *ngIf="selectedObraSocial" class="col-md-offset-3 col-md-8">
+                        <span class="label label-info"><strong>Obra social: {{selectedObraSocial.nombre}}</strong></span>
+                    </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.id_prestacion.errors && formEdicion.controls.id_prestacion.pristine && isSubmitEstudio }">
+                      <label for="id_prestacion" class="control-label col-md-3">
+                          Prestación <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <select name="id_prestacion" id="id_prestacion" formControlName="id_prestacion" class="form-control" (change)="verificarCambio()" (change)="capturarDatosPrestacion(formEdicion.controls.id_prestacion.value)">
+                              <option value="">Ninguno...</option>
+                              <option *ngFor="let prestacion of cmbPrestaciones" value="{{prestacion.id}}">{{prestacion.nombre}}</option>
+                          </select>
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.id_prestacion.errors && formEdicion.controls.id_prestacion.pristine && isSubmitEstudio">
+                          <strong class="help-block" *ngIf="formEdicion.controls.id_prestacion.errors.required && formEdicion.controls.id_prestacion.pristine">La prestación es requerida</strong>
+                      </div>
+                  </div>
+
+                  <div *ngIf="precioObraSocial || precioParticular" class="form-group">
+                    <div *ngIf="selectedParticular" class="col-md-offset-3 col-md-8">
+                        <span class="label label-success"><strong>Precio particular: {{precioParticular | currency:'USD':true:'1.0-0'}}</strong></span>
+                    </div>
+                    <div *ngIf="selectedObraSocial" class="col-md-offset-3 col-md-8">
+                        <span class="label label-success"><strong>Precio obra social: {{precioObraSocial | currency:'USD':true:'1.0-0'}}</strong></span>
+                    </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.n_factura.errors && formEdicion.controls.n_factura.pristine && isSubmitEstudio }">
+                      <label for="n_factura" class="control-label col-md-3">
+                          N° Factura <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <input type="text" name="n_factura" id="n_factura" formControlName="n_factura" class="form-control" (change)="verificarCambio()">
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.n_factura.errors && formEdicion.controls.n_factura.pristine && isSubmitEstudio">
+                          <strong class="help-block" *ngIf="formEdicion.controls.n_factura.errors.required && formEdicion.controls.n_factura.pristine">El número de factura es requerido</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.observaciones.errors && formEdicion.controls.observaciones.pristine && isSubmitEstudio }">
+                      <label for="observaciones" class="control-label col-md-3">
+                          Observaciones <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <textarea name="observaciones" id="observaciones" formControlName="observaciones" class="form-control" rows="7" (change)="verificarCambio()"></textarea>
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.observaciones.errors && formEdicion.controls.observaciones.pristine && isSubmitEstudio">
+                          <strong class="help-block" *ngIf="formEdicion.controls.observaciones.errors.required && formEdicion.controls.observaciones.pristine">Las observaciones son requeridas</strong>
+                      </div>
+                  </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" (click)="hideModalEditar()">Cerrar</button>
+                    <button class="btn blue sbold" [disabled]="loader" (click)="edit()" [disabled]="!habilitarGuardado">
+                        Editar estudio
+                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL CONFIRMAR CAMBIOS -->
+<div class="modal fade" id="confirmar-cambios" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="position:relative;left:150%;">
+
+            <div class="modal-header">
+
+                <h4 class="modal-title">Confirmar cambios</h4>
+
+            </div>
+
+            <div class="modal-body">
+                <h2>¿Desea guardar los cambios que hizo en el formulario?</h2>
+            </div>
+
+            <div class="modal-footer">
+                <form>
+                    <button class="btn blue sbold" (click)="salirGuardar()">Sí</button>
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal" (click)="salirSinGuardar()">No</button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL ELIMINAR TAREA -->
+<div class="modal fade" id="eliminar-estudio" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h4 class="modal-title">Eliminar Estudio</h4>
+
+            </div>
+
+            <div class="modal-body">
+                <h2>¿Desea eliminar el estudio?</h2>
+            </div>
+
+            <div class="modal-footer">
+                <form>
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cerrar</button>
+                    <button class="btn btn-danger sbold" [disabled]="loader" (click)="delete()">
+                        Eliminar estudio
+                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                    </button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL EDITAR TAREA -->
+<div bsModal #modalPagos="bs-modal" class="modal fade" tabindex="-1" role="basic" aria-hidden="true" data-backdrop="static" data-keyboard="false" [config]="{backdrop: 'static', keyboard: false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Pagos</h4>
+          </div>
+
+          <div class="modal-body">
+
+            <h4 class="text-center" *ngIf="dataEstudio">
+              <strong>{{dataEstudio.nombre_paciente}} {{dataEstudio.apellido_paciente}} / {{dataEstudio.nombre_prestacion}} / Precio del estudio {{dataEstudio.precio | currency:'USD':true:'1.0-0'}}</strong>
+            </h4>
+
+            <hr>
+
+            <div class="portlet box blue">
+              <div class="portlet-title">
+                <div class="caption">
+                    Primer pago
+                </div>
+              </div>
+              <div class="portlet-body">
+
+                <div class="table-responsive">
+                  <table class="table table-striped table-bordered">
+                    <thead>
+                      <tr>
+                        <th style="width:50%">Fecha <i class="fa fa-calendar" aria-hidden="true"></i></th>
+                        <th style="width:50%">Monto <i class="fa fa-money" aria-hidden="true"></i></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let pago of listPagos; let i= index">
+                        <td>{{pago.fecha | date:'dd-MM-y'}}</td>
+                        <td>
+                          {{ pago.pago | currency:'USD':true:'1.0-0' }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="portlet box yellow">
+              <div class="portlet-title">
+                <div class="caption">
+                    Pagos extras
+                </div>
+              </div>
+              <div class="portlet-body">
+
+                <form *ngIf="formPago" class="form-horizontal" novalidate [formGroup]="formPago" id="formPago">
+                  <div class="form-group" [ngClass]="{ 'has-error': formPago.controls.monto.errors && formPago.controls.monto.pristine && isSubmitPago }">
+                    <label for="monto" class="control-label col-md-3">
+                      Agregar pago <strong class="text-danger">*</strong>
+                    </label>
+                    <div class="col-md-7">
+                      <input [textMask]="{mask: currencyMask}" name="monto" id="monto" formControlName="monto" class="form-control">
+                    </div>
+                    <div class="col-md-2">
+                      <button *ngIf="dataEstudio" class="btn yellow sbold" (click)="addMonto()" [disabled]="(totalParticular >= dataEstudio.precio) || (totalOS >= dataEstudio.precio)">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                    <div class="col-md-offset-3 col-md-8" *ngIf="formPago.controls.monto.errors && formPago.controls.monto.pristine && isSubmitPago">
+                      <strong class="help-block" *ngIf="formPago.controls.monto.errors.required && formPago.controls.monto.pristine">El monto es requerido</strong>
+                    </div>
+                  </div>
+                </form>
+
+                <br>
+
+                <div class="table-responsive">
+                  <table class="table table-striped table-bordered">
+                    <thead>
+                      <tr>
+                        <th style="width:40%">Fecha <i class="fa fa-calendar" aria-hidden="true"></i></th>
+                        <th style="width:50%">Monto <i class="fa fa-money" aria-hidden="true"></i></th>
+                        <th style="width:10%">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let pagoExtra of listPagosExtras; let i= index">
+                        <td>{{pagoExtra.fecha | date:'dd-MM-y'}}</td>
+                        <td>
+                          <input type="text" [textMask]="{mask: currencyMask}" (change)="editPrecio($event, pagoExtra.id, i)" class="form-control" value="{{ pagoExtra.pago | currency:'USD':true:'1.0-0' }}" id="valorPrecio{{i}}">
+                        </td>
+                        <td>
+                          <button  data-toggle="modal" data-target="#eliminar-pago-extra" class="btn btn-danger sbold btn-sm" type="button" name="button" (click)="onDeletePagosExtras(pagoExtra)">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><strong>Total</strong></td>
+                        <td *ngIf="totalParticular"><strong>{{totalParticular | currency:'USD':true:'1.0-0'}}</strong></td>
+                        <td *ngIf="totalOS"><strong>{{totalOS | currency:'USD':true:'1.0-0'}}</strong></td>
+                        <td>#</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn dark btn-outline" (click)="hideModalPagos()">Cerrar</button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL ELIMINAR TAREA -->
+<div class="modal fade" id="eliminar-pago-extra" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h4 class="modal-title">Eliminar Pago</h4>
+
+            </div>
+
+            <div class="modal-body">
+                <h2>¿Desea eliminar el pago?</h2>
+            </div>
+
+            <div class="modal-footer">
+                <form>
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cerrar</button>
+                    <button class="btn btn-danger sbold" [disabled]="loader" (click)="deletePagoExtra()">
+                        Eliminar pago
+                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                    </button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

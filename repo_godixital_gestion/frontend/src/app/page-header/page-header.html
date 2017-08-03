@@ -1,0 +1,112 @@
+<div class="page-header navbar navbar-fixed-top">
+
+    <div class="page-header-inner ">
+
+        <div class="page-logo">
+            <a [routerLink]="['/']">
+                <img src="assets/img/logo.png" alt="logo" class="logo-default"  style="margin-top: 13px;"/>
+            </a>
+            <div class="menu-toggler sidebar-toggler">
+                <span></span>
+            </div>
+        </div>
+
+        <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+            <span></span>
+        </a>
+
+        <div class="top-menu">
+            <ul class="nav navbar-nav pull-right">
+                <li class="dropdown dropdown-user">
+                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                        <span class="username username-hide-on-mobile"> {{ currentUser.user.nombres }} {{ currentUser.user.apellidos }} </span>
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-default">
+                        <!-- <li>
+                            <a (click)="showModal()">
+                                <i class="fa fa-key" aria-hidden="true"></i> Cambiar contraseña
+                            </a>
+                        </li> -->
+                        <li>
+                            <a (click)="logout()">
+                                <i class="fa fa-sign-out"></i> Salir
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- MODAL NUEVA TAREA  -->
+<div bsModal #modalCambiarContrasena="bs-modal" class="modal fade" tabindex="-1" role="basic" aria-hidden="true" [config]="{backdrop: 'static', keyboard: false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <form class="form-horizontal" novalidate [formGroup]="formCambiarContrasena">
+
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Cambiar contraseña</h4>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCambiarContrasena.controls.contrasena_actual.errors && formCambiarContrasena.controls.contrasena_actual.pristine && isSubmitCambiar }">
+                        <label for="es_critica" class="control-label col-md-3">
+                            Contraseña actual <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="password" class="form-control" name="contrasena_actual" id="contrasena_actual" formControlName="contrasena_actual">
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCambiarContrasena.controls.contrasena_actual.errors && formCambiarContrasena.controls.contrasena_actual.pristine && isSubmitCambiar">
+                            <strong class="help-block" *ngIf="formCambiarContrasena.controls.contrasena_actual.errors.required && formCambiarContrasena.controls.contrasena_actual.pristine && isSubmitCambiar">La contraseña actual es requerida</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCambiarContrasena.controls.nueva_contrasena.errors && formCambiarContrasena.controls.nueva_contrasena.pristine && isSubmitCambiar }">
+                        <label for="es_critica" class="control-label col-md-3">
+                            Nueva contraseña <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="password" class="form-control" name="nueva_contrasena" id="nueva_contrasena" formControlName="nueva_contrasena">
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCambiarContrasena.controls.nueva_contrasena.errors && formCambiarContrasena.controls.nueva_contrasena.pristine && isSubmitCambiar">
+                            <strong class="help-block" *ngIf="formCambiarContrasena.controls.nueva_contrasena.errors.required && formCambiarContrasena.controls.nueva_contrasena.pristine && isSubmitCambiar">La nueva contraseña es requerida</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCambiarContrasena.controls.confirmar_contrasena.errors && formCambiarContrasena.controls.confirmar_contrasena.pristine && isSubmitCambiar }">
+                        <label for="es_critica" class="control-label col-md-3">
+                            Confirmar contraseña <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="password" class="form-control" name="confirmar_contrasena" id="confirmar_contrasena" formControlName="confirmar_contrasena">
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCambiarContrasena.controls.confirmar_contrasena.errors && formCambiarContrasena.controls.confirmar_contrasena.pristine && isSubmitCambiar">
+                            <strong class="help-block" *ngIf="formCambiarContrasena.controls.confirmar_contrasena.errors.required && formCambiarContrasena.controls.confirmar_contrasena.pristine && isSubmitCambiar">Debe repetir la nueva contraseña</strong>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal" (click)="hideModal()">Cerrar</button>
+                    <button class="btn blue sbold" [disabled]="loader" (click)="cambiarContrasena()">
+                        Cambiar contraseña
+                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

@@ -1,0 +1,65 @@
+<div class="login">
+    <div class="content">
+
+        <ng2-toasty [position]="'top-right'"></ng2-toasty>
+
+        <h3 class="form-title font-green">Registro de usuarios</h3>
+
+        <form novalidate [formGroup]="formUser">
+
+            <div class="form-group" [ngClass]="{ 'has-error': formUser.controls.nombres.errors && formUser.controls.nombres.pristine && isSubmitUser }">
+                <label class="control-label" for="nombres">Nombres: <strong class="text-danger">*</strong></label>
+                <input type="text" class="form-control" name="nombres" id="nombres" formControlName="nombres" placeholder="Nombres"/>
+                <div *ngIf="formUser.controls.nombres.errors && formUser.controls.nombres.pristine && isSubmitUser">
+                    <strong class="help-block" *ngIf="formUser.controls.nombres.errors.required && formUser.controls.nombres.pristine">Los nombres son requeridos</strong>
+                </div>
+            </div>
+
+            <div class="form-group" [ngClass]="{ 'has-error': formUser.controls.apellidos.errors && formUser.controls.apellidos.pristine && isSubmitUser }">
+                <label class="control-label" for="apellidos">Apellidos: <strong class="text-danger">*</strong></label>
+                <input type="text" class="form-control" name="apellidos" id="apellidos" formControlName="apellidos" placeholder="Apellidos"/>
+                <div *ngIf="formUser.controls.apellidos.errors && formUser.controls.apellidos.pristine && isSubmitUser">
+                    <strong class="help-block" *ngIf="formUser.controls.apellidos.errors.required && formUser.controls.apellidos.pristine">Los apellidos son requeridos</strong>
+                </div>
+            </div>
+
+            <div class="form-group" [ngClass]="{ 'has-error': formUser.controls.email.errors && formUser.controls.email.pristine && isSubmitUser }">
+                <label class="control-label" for="email">Email: <strong class="text-danger">*</strong></label>
+                <input type="text" class="form-control" name="email" id="email" formControlName="email" placeholder="Email">
+                <div *ngIf="formUser.controls.email.errors && formUser.controls.email.pristine && isSubmitUser">
+                    <strong class="help-block" *ngIf="formUser.controls.email.errors.required && formUser.controls.email.pristine">El email es requerido</strong>
+                    <strong class="help-block" *ngIf="formUser.controls.email.errors.pattern && formUser.controls.email.pristine">Formato de email inválido (ej: name@mail.com)</strong>
+                </div>
+            </div>
+
+            <div class="form-group" [ngClass]="{ 'has-error': formUser.controls.id_rol.errors && formUser.controls.id_rol.pristine && isSubmitUser }">
+                <label class="control-label" for="id_rol">Rol: <strong class="text-danger">*</strong></label>
+                <select class="form-control" name="id_rol" id="id_rol"  formControlName="id_rol">
+                  <option value="">Ninguno...</option>
+                  <option *ngFor="let rol of listRoles" value="{{rol.id}}">{{rol.nombre}}</option>
+                </select>
+                <div *ngIf="formUser.controls.id_rol.errors && formUser.controls.id_rol.pristine && isSubmitUser">
+                    <strong class="help-block" *ngIf="formUser.controls.id_rol.errors.required && formUser.controls.id_rol.pristine && isSubmitUser">El rol es requerido</strong>
+                </div>
+            </div>
+
+            <div class="form-group" [ngClass]="{ 'has-error': formUser.controls.password.errors && formUser.controls.password.pristine && isSubmitUser }">
+                <label class="control-label" for="password">Contraseña: <strong class="text-danger">*</strong></label>
+                <input type="password" class="form-control" name="password" id="password"  formControlName="password" placeholder="Contraseña">
+                <div *ngIf="formUser.controls.password.errors && formUser.controls.password.pristine && isSubmitUser">
+                    <strong class="help-block" *ngIf="formUser.controls.password.errors.required && formUser.controls.password.pristine && isSubmitUser">La contraseña es requerida</strong>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <a [routerLink]="['/login']" class="btn green btn-outline">Atrás</a>
+                <button id="register-submit-btn" [disabled]="loader" class="btn green pull-right" (click)="register()">
+                    <strong>Regístrate</strong>
+                    <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>

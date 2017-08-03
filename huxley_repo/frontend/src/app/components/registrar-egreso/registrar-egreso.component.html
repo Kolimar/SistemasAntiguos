@@ -1,0 +1,205 @@
+<ng2-toasty></ng2-toasty>
+<div class="animated fadeIn">
+                	<div class="row">
+     					 <div class="col-lg-12">
+                  <form  #f="ngForm" (ngSubmit)="f.valid && submitForm(f.value)">
+                            <div class="card">
+                                <div class="card-header">
+                                   <div class="row">
+		                                <div class="form-group col-sm-8">
+		                                <i class="icon-login"></i> <strong>Egresar </strong> contenedor
+		                                </div>
+			                            <div class="form-group col-sm-4"  style="margin: 0px;">
+                <select  [(ngModel)]="formEgreso.inputOperador" id="operador" name="inputOperador" class="form-control" ngModel>
+                  <option value="" disabled>Seleccione el operador</option>
+                  <option *ngFor="let op of inputOperadores" [value]="op.nombre">Operador: {{op.nombre}}</option>
+                </select>
+              </div>
+		                       	 	</div>
+                                </div>
+                                <div class="card-block">
+                                   
+									<h3>Contenedor</h3>
+
+	                                 <div class="row">
+		                                   <div class="form-group col-sm-12">
+              <ng2-completer
+              [autofocus]="true"
+              [placeholder]="'Codigo'"
+              [matchClass]="'coincidencia'"
+              [inputClass]="'form-control contenedoresAC'"
+              [(ngModel)]="formEgreso.InputContenedor"
+              [datasource]="dataServiceContenedores"
+              [minSearchLength]="1"
+              [textNoResults] = "null"
+              [autoMatch]="true"
+              (blur)="noFocusContenedor($event)"
+              (selected)="seleccionadoContenedor($event)"
+              [textSearching]="'Buscando...'"
+              (ngModelChange)="mayusContenedor($event)"
+              [fillHighlighted]='false'
+              name="codigo" ngModel>
+              </ng2-completer>
+              <div id="detalle" *ngIf="formEgreso.InputSizes!=''">
+                <hr>
+                <b >
+                Size:&nbsp;&nbsp;{{formEgreso.InputSizes}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tipo:&nbsp;&nbsp;{{formEgreso.inputTipo}}
+                </b>
+              </div>
+            </div>
+	                                  </div>
+                                    <hr/>
+									<h3>Cliente</h3>
+                                     <div class="row">
+	                                        <div class="form-group col-sm-4">
+	                                            <label for="rz">Raz&oacute;n social</label>
+	                                            <ng2-completer
+                [placeholder]="'Cliente'"
+                [fillHighlighted]='false'
+                [matchClass]="'coincidencia '"
+                [inputClass]="'form-control'"
+                [(ngModel)]="formEgreso.InputCliente"
+                [datasource]="dataServiceClientes"
+                [minSearchLength]="1"
+                [textNoResults] = "null"
+                [autoMatch]="true"
+                (blur)="noFocusCliente()"
+                (ngModelChange)="mayusCliente($event)"
+                (selected)="seleccionadoCliente($event)"
+                [textSearching]="'Buscando...'"
+                name="InputCliente" ngModel>
+                </ng2-completer>
+	                                        </div>
+	                                        <div class="form-group col-sm-8">
+	                                            <label for="direccion_cliente">Direcci&oacute;n</label>
+	                                            <input type="text" [(ngModel)]="formEgreso.inputDireccion" id="direccion_cliente"  class="form-control" placeholder="Direcci&oacute;n del cliente" required name="inputDireccion" ngModel>
+	                                        </div>
+									</div>
+                                    <hr/>
+									<h3>Buque salida</h3>
+                                     <div class="row">
+	                                        <div class="form-group col-sm-4">
+	                                            <label for="Size">Buque</label>
+	                                           <ng2-completer 
+                                                  [placeholder]="'Buque Salida'"                                  
+                                                  [matchClass]="'coincidencia '" 
+                                                  [inputClass]="'form-control'" 
+                                                  [(ngModel)]="formEgreso.Inputbuque" 
+                                                  [datasource]="dataServicebuque" 
+                                                  [minSearchLength]="1"
+                                                  [textNoResults] = "null"
+                                                  [autoMatch]="true"
+                                                  (blur)="noFocusBuque()"
+                                                  (ngModelChange)="mayusBuque($event)"
+                                                  (selected)="seleccionadoBuque($event)"
+                                                  [textSearching]="'Buscando...'"
+                                                  [fillHighlighted]='false'
+                                                  
+                                                  name="Inputbuque" ngModel>  
+                                                  </ng2-completer>
+	                                        </div>
+	                                        <div class="form-group col-sm-4">
+	                                            <label for="Procedencia">Terminal destino</label>
+	                                             <select pattern="[^'\x22]+" id="inputTerminal" [(ngModel)]="formEgreso.inputTerminal" name="inputTerminal" class="form-control" required ngModel>
+                  <option value="" disabled>Seleccionar terminal</option>
+                  <option *ngFor="let tr of inputTerminales" [value]="tr.nombre">{{tr.nombre}}</option>
+                </select>
+	                                        </div>
+	                                        <div class="form-group col-sm-4">
+	                                            <label for="deposito">Booking Nro.</label>
+                                              <ng2-completer
+                                                [placeholder]="'Codigo'"
+                                                [fillHighlighted]='false'
+                                                [matchClass]="'coincidencia '"
+                                                [inputClass]="'form-control'"
+                                                [(ngModel)]="formEgreso.inputBooking"
+                                                [datasource]="dataServiceBookings"
+                                                [minSearchLength]="1"
+                                                 (ngModelChange)="mayusBooking($event)"
+                                                [textNoResults] = "null"
+                                                [autoMatch]="true"
+                                                (selected)="seleccionadoBooking($event)"
+                                                [textSearching]="'Buscando...'"
+                                                name="InputBooking" ngModel>
+                                           </ng2-completer>	
+            <div id="detalle" class="animated fadeInDown" *ngIf="formEgreso.inputBooking!=''">
+                    <hr>
+                   Utilizados:&nbsp;&nbsp;{{bookingActual}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                   Limite:&nbsp;&nbsp;
+                   <b   class=" animated flipInX " *ngIf="editarLimite">{{formEgreso.inputLimite}}</b>
+                 <button  style="margin-top: 5px" class="btn btn-warning pointer btn-block animated flipInX " *ngIf="editarLimite" (click)="editarLimite=!editarLimite"><i class="fa fa-pencil pull-left"></i>Editar Limite</button>
+                  
+                  <input class=" animated flipInX " *ngIf="!editarLimite" type="number" [(ngModel)]="formEgreso.inputLimite" id="inputLimite" name="inputLimite" ngModel >
+
+                  <button style="margin-top: 5px" class="btn btn-primary pointer btn-block animated flipInX" *ngIf="!editarLimite" (click)="editarLimite=!editarLimite"><i class="fa fa-check pull-left"></i>Confirmar Limite</button>
+                  </div>                                         
+	                                        </div>
+									</div>
+
+
+									<hr/>
+									<h3>Transportista</h3>
+                                     <div class="row">
+                                        <div class="form-group col-sm-6">
+                                            <label for="tractor">Patente tractor</label>
+											                         <ng2-completer
+                [placeholder]="'Patente Tractor'"
+                [matchClass]="'coincidencia'"
+                [inputClass]="'form-control'"
+                [(ngModel)]="formEgreso.InputPatente"
+                [fillHighlighted]='false'
+                [datasource]="dataServiceTransportista"
+                [minSearchLength]="1"
+                (ngModelChange)="mayusPatente($event)"
+                [textNoResults] = "null"
+                [autoMatch]="true"
+                (blur)="noFocusTransportista($event)"
+                (selected)="seleccionadoTransportista($event)"
+                [textSearching]="'Buscando...'"
+                name="InputPatente" ngModel>
+                </ng2-completer>
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label for="documento_chofer">Documento Chofer</label>
+                                            <input type="text" [(ngModel)]="formEgreso.inputDocumento" id="contenedor" name="inputDocumento" class="form-control" placeholder="Documento Chofer" pattern="[^'\x22]+"  ngModel required >
+                                        </div>
+                                    </div>
+
+                                     <div class="row">
+                                        <div class="form-group col-sm-6">
+                                            <label for="chofer" >Nombre del chofer</label>
+                      <input type="text" id="chofer" [(ngModel)]="formEgreso.inputNombre" name="inputNombre" class="form-control" pattern="[^'\x22]+" placeholder="Nombre" ngModel required>
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label for="empresa">Nombre de la empresa</label>
+                     <input type="text" id="inputEmpresa" [(ngModel)]="formEgreso.inputEmpresa" pattern="[^'\x22]+" name="inputEmpresa" class="form-control" placeholder="Nombre empresa" ngModel required>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                      <div class="form-group col-sm-6">
+                                          <label for="semi">Patente semi</label>
+                                             <input type="text" id="semi" [(ngModel)]="formEgreso.inputPatente_semi" pattern="[^'\x22]+" name="inputPatente_semi" class="form-control" placeholder="Patente semi" required ngModel>
+                                      </div>
+
+                                    </div>
+								<hr/>
+										<div class="row">
+		                                  <div class="form-group col-sm-12">
+				                        <label for="observaciones"><b>Observaciones</b></label>
+		                                            <input type="text" [(ngModel)]="formEgreso.inputObs" id="text-input" ngModel name="inputObs" class="form-control" placeholder="Observaciones">
+		                                  </div>
+	                                  </div>
+                                   
+                                </div>
+                                <div class="card-footer text-right">
+                                     <button (click)="cancelForm()" class="btn btn-sm btn-danger" ><i class="fa fa-ban"></i> Cancelar</button>
+                                    <button  [disabled]="formValido(f.valid)" type="submit" class="btn btn-sm btn-primary pointer"><i class="fa fa-dot-circle-o"></i> Egresar</button>
+                                </div>
+                            </div>
+                            </form>
+</div>
+                	</div>
+                    <!-- /.row -->
+				</div>
+				<!-- /.animated fadein -->

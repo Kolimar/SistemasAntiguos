@@ -1,0 +1,90 @@
+<div class="page-wrapper">
+
+    <!-- HEADER -->
+
+    <page-header>
+    </page-header>
+
+    <!-- FINAL DE HEADER -->
+
+    <!-- DIVISOR -->
+
+    <div class="clearfix"> </div>
+
+    <!-- FINAL DE DIVISOR -->
+
+    <div class="page-container">
+
+        <!-- SIDEBAR -->
+
+        <page-sidebar>
+        </page-sidebar>
+
+        <!-- FINAL SIDEBAR -->
+
+        <!-- CONTENIDO -->
+
+        <div class="page-content-wrapper">
+
+            <div class="page-content">
+
+              <div class="page-bar">
+                  <div class="page-toolbar">
+                      <div class="btn btn-sm">
+                          <i class="icon-calendar"></i>&nbsp;
+                          <span class="thin uppercase hidden-xs">{{currentDate | date:'medium'}}</span>
+                      </div>
+                  </div>
+              </div>
+
+              <h1 class="page-title"> <strong>Dashboard</strong>
+                  <small><strong>Godixital</strong></small>
+              </h1>
+
+              <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                      <a [routerLink]="['/panel-clientes']" class="dashboard-stat dashboard-stat-v2 blue">
+                          <div class="visual">
+                              <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                          </div>
+                          <div class="details">
+                              <div class="number">
+                                  <strong>0</strong>
+                              </div>
+                              <div class="desc"> <strong>Panel de clientes</strong> </div>
+                          </div>
+                      </a>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                      <a class="dashboard-stat dashboard-stat-v2 yellow" href="#">
+                          <div class="visual">
+                              <i class="fa fa-user" aria-hidden="true"></i>
+                          </div>
+                          <div class="details">
+                              <div class="number">
+                                  <strong>0</strong>
+                              </div>
+                              <div class="desc"> <strong>Panel de project manager</strong> </div>
+                          </div>
+                      </a>
+                  </div>
+              </div>
+
+            </div>
+
+        </div>
+
+        <!-- FINAL DEL CONTENIDO -->
+
+    </div>
+
+    <!-- FOOTER -->
+
+    <page-footer>
+    </page-footer>
+
+    <!-- FINAL DE FOOTER -->
+
+</div>
+
+<div class="quick-nav-overlay"></div>

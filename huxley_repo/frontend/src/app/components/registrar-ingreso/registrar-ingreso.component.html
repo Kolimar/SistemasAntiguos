@@ -1,0 +1,179 @@
+<ng2-toasty></ng2-toasty>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+
+      <form  #f="ngForm" (ngSubmit)="f.valid && submitForm(f.value)">
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="form-group col-sm-8">
+                <i class="icon-login"></i> <strong>Ingresar </strong> contenedor
+              </div>
+              <div class="form-group col-sm-4"  style="margin: 0px;">
+                <select  [(ngModel)]="formIngreso.inputOperador" id="operador" name="inputOperador" class="form-control" ngModel>
+                  <option value="" disabled>Seleccione el operador</option>
+                  <option *ngFor="let op of inputOperadores" [value]="op.nombre">Operador: {{op.nombre}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="card-block">
+            <h3>Contenedor</h3>
+            <div class="row">
+              
+              <div class="form-group col-sm-12">
+                <ng2-completer
+                [autofocus]="true"
+                [placeholder]="'Codigo'"
+                [matchClass]="'coincidencia'"
+                [inputClass]="'form-control contenedoresAC'"
+                [(ngModel)]="formIngreso.InputContenedor"
+                [datasource]="dataServiceContenedores"
+                [minSearchLength]="1"
+                [textNoResults] = "null"
+                [autoMatch]="true"
+                (blur)="noFocusContenedor($event)"
+                (selected)="seleccionadoContenedor($event)"
+                [textSearching]="'Buscando...'"
+                (ngModelChange)="mayusContenedor($event)"
+                [fillHighlighted]='false'
+                name="codigo" ngModel>
+                </ng2-completer>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-sm-4">
+                <label for="Size">Size</label>
+                <select id="Size" [(ngModel)]="formIngreso.InputSizes" (change)="reqTipos($event)" [disabled]="condition" name="InputSizes" class="form-control" required ngModel>
+                  <option value="" disabled>Seleccionar size</option>
+                  <option *ngFor="let size of filteredInputSizes"
+                    [value]="size">
+                    {{size}}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group col-sm-4">
+                <label for="Tipo" >Tipo</label>
+                <select  [disabled]="condition" [(ngModel)]="formIngreso.inputTipo" id="Tipo" name="inputTipo" class="form-control" required ngModel>
+                  <option value="" disabled>Seleccionar tipo</option>
+                  <option *ngFor="let tipo of filteredInputTipos"
+                    [value]="tipo">
+                    {{tipo}}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group col-sm-4">
+                <label for="Estado">Estado</label>
+                <select id="Estado" [(ngModel)]="formIngreso.inputEstado" name="inputEstado" class="form-control" required ngModel>
+                  <option value="" disabled>Seleccionar estado  </option>
+                  <option value="OK">OK</option>
+                  <option value="AVERIADO">Averiado</option>
+                </select>
+              </div>
+            </div>
+            <hr/>
+            <h3>Datos del ingreso</h3>
+            <div class="row">
+              <div class="form-group col-sm-4">
+                <label for="InputCliente">Cliente</label>
+                <ng2-completer
+                [placeholder]="'Cliente'"
+                [fillHighlighted]='false'
+                [matchClass]="'coincidencia'"
+                [inputClass]="'form-control'"
+                [(ngModel)]="formIngreso.InputCliente"
+                [datasource]="dataServiceClientes"
+                [minSearchLength]="1"
+                [textNoResults] = "null"
+                [autoMatch]="true"
+                (blur)="noFocusCliente()"
+                (ngModelChange)="mayusCliente($event)"
+                (selected)="seleccionadoCliente($event)"
+                [textSearching]="'Buscando...'"
+                name="InputCliente" ngModel>
+                </ng2-completer>
+              </div>
+              <div class="form-group col-sm-4">
+                <label for="inputTerminal">Procedencia</label>
+                <select pattern="[^'\x22]+" id="inputTerminal" [(ngModel)]="formIngreso.inputTerminal" name="inputTerminal" class="form-control" required ngModel>
+                  <option value="" disabled>Seleccionar terminal</option>
+                  <option *ngFor="let tr of inputTerminales" [value]="tr.nombre">{{tr.nombre}}</option>
+                </select>
+              </div>
+              <div class="form-group col-sm-4">
+                <label for="deposito">Dep&oacute;sito</label>
+                <select pattern="[^'\x22]+" id="inputDeposito" name="inputDeposito" class="form-control" [(ngModel)]="formIngreso.inputDeposito" required ngModel>
+                  <option value="" disabled>Seleccionar deposito</option>
+                  <option *ngFor="let dp of inputDepositos" [value]="dp.nombre">{{dp.nombre}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-sm-12">
+                <label for="Observaciones">Observaciones</label>
+                <textarea pattern="[^'\x22]+" id="textarea-input" [(ngModel)]="formIngreso.inputObs" ngModel name="inputObs" rows="5" class="form-control" placeholder="Observaciones"></textarea>
+                
+              </div>
+            </div>
+            <hr/>
+            <h3>Transportista</h3>
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="InputPatente">Patente tractor</label>
+                <ng2-completer
+                [placeholder]="'Patente Tractor'"
+                [matchClass]="'coincidencia'"
+                [inputClass]="'form-control'"
+                [(ngModel)]="formIngreso.InputPatente"
+                [fillHighlighted]='false'
+                (ngModelChange)="mayusPatente($event)"
+                [datasource]="dataServiceTransportista"
+                [minSearchLength]="1"
+                [textNoResults] = "null"
+                [autoMatch]="true"
+                (blur)="noFocusTransportista()"
+                (selected)="seleccionadoTransportista($event)"
+                [textSearching]="'Buscando...'"
+                name="InputPatente" ngModel>
+                </ng2-completer>
+              </div>
+              <div class="form-group col-sm-6">
+                <label for="inputDocumento">Documento Chofer</label>
+                <input type="text" [(ngModel)]="formIngreso.inputDocumento" id="contenedor" name="inputDocumento" class="form-control" placeholder="Documento Chofer" pattern="[^'\x22]+"  ngModel required>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="inputNombre" >Nombre del chofer</label>
+                <input type="text" id="chofer" [(ngModel)]="formIngreso.inputNombre" name="inputNombre" class="form-control" pattern="[^'\x22]+" placeholder="Nombre" ngModel required>
+              </div>
+              <div class="form-group col-sm-6">
+                <label for="inputEmpresa">Nombre de la empresa</label>
+                <input type="text" id="inputEmpresa" [(ngModel)]="formIngreso.inputEmpresa" pattern="[^'\x22]+" name="inputEmpresa" class="form-control" placeholder="Nombre empresa" ngModel required>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="inputPatente_semi">Patente semi</label>
+                <input type="text" id="semi" [(ngModel)]="formIngreso.inputPatente_semi" pattern="[^'\x22]+" name="inputPatente_semi" class="form-control" placeholder="Patente semi" required ngModel>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card-footer text-right">
+          <div id="printSection"></div>
+            <button class="btn btn-sm btn-danger" (click)="cancelForm()"><i class="fa fa-ban"></i> Cancelar</button>
+            <button  *ngIf="printEval"  class="btn btn-primary" (click)="print()">PRINT</button>
+            <button  *ngIf="!printEval" [disabled]="formValido(f.valid)" type="submit" class="btn btn-sm btn-primary pointer"><i class="fa fa-dot-circle-o"></i> Ingresar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- /.row -->
+</div>
+<!-- /.animated fadein -->
+<!--  REFRESH LOGIN -->
+<refreshLog [modalActivated]="modal"></refreshLog>
+<!-- FIN REFRESH LOGIN -->

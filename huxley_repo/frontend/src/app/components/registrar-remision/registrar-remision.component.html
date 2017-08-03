@@ -1,0 +1,120 @@
+<ng2-toasty>
+</ng2-toasty>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <form  #f="ngForm" (ngSubmit)="f.valid && submitForm(f.value)">
+        <div class="card">
+         <div class="card-header">
+            <div class="row">
+              <div class="form-group col-sm-8">
+                <i class="icon-login"></i> <strong>Remitir </strong> contenedor
+              </div>
+              <div class="form-group col-sm-4"  style="margin: 0px;">
+                <select  [(ngModel)]="formRemision.inputOperador" id="operador" name="inputOperador" class="form-control" ngModel>
+                  <option value="" disabled>Seleccione el operador</option>
+                  <option *ngFor="let op of inputOperadores" [value]="op.nombre">Operador: {{op.nombre}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        <div class="card-block">
+          
+          <h3>Contenedor</h3>
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <ng2-completer
+              [autofocus]="true"
+              [placeholder]="'Codigo'"
+              [matchClass]="'coincidencia'"
+              [inputClass]="'form-control contenedoresAC'"
+              [(ngModel)]="formRemision.InputContenedor"
+              [datasource]="dataServiceContenedores"
+              [minSearchLength]="1"
+              [textNoResults] = "null"
+              [autoMatch]="true"
+              (blur)="noFocusContenedor($event)"
+              (selected)="seleccionadoContenedor($event)"
+              [textSearching]="'Buscando...'"
+             (ngModelChange)="mayusContenedor($event)"
+              [fillHighlighted]='false'
+              name="codigo" ngModel>
+              </ng2-completer>
+              <div id="detalle">
+                <b>
+                <hr>
+                Size:&nbsp;&nbsp;{{formRemision.InputSizes}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tipo:&nbsp;&nbsp;{{formRemision.inputTipo}}
+                </b>
+              </div>
+            </div>
+          </div>
+          <hr/>
+          <h3>Detalles</h3>
+          <div class="row">
+            <div class="form-group col-sm-4">
+              <label for="inputTerminal">Procedencia</label>
+              <select pattern="[^'\x22]+" id="inputTerminal" [(ngModel)]="formRemision.inputTerminal" name="inputTerminal" class="form-control" required ngModel>
+                <option value="" disabled>Seleccionar terminal</option>
+                <option *ngFor="let tr of inputTerminales" [value]="tr.nombre">{{tr.nombre}}</option>
+              </select>
+            </div>
+            <div class="form-group col-sm-8">
+              <label for="observaciones">Observaciones</label>
+              <input pattern="[^'\x22]+" id="textarea-input" [(ngModel)]="formRemision.inputObs" ngModel name="inputObs" class="form-control" placeholder="Observaciones">
+            </div>
+          </div>
+          <hr/>
+          <h3>Transportista</h3>
+          <div class="row">
+            <div class="form-group col-sm-6">
+              <label for="InputPatente">Patente tractor</label>
+              <ng2-completer
+              [placeholder]="'Patente Tractor'"
+              [matchClass]="'coincidencia'"
+              [inputClass]="'form-control'"
+              [(ngModel)]="formRemision.InputPatente"
+              [fillHighlighted]='false'
+              [datasource]="dataServiceTransportista"
+              [minSearchLength]="1"
+              [textNoResults] = "null"
+              [autoMatch]="true"
+              (ngModelChange)="mayusPatente($event)"
+              (blur)="noFocusTransportista()"
+              (selected)="seleccionadoTransportista($event)"
+              [textSearching]="'Buscando...'"
+              name="InputPatente" ngModel>
+              </ng2-completer>
+            </div>
+            <div class="form-group col-sm-6">
+              <label for="inputDocumento">Documento Chofer</label>
+              <input type="text" [(ngModel)]="formRemision.inputDocumento" id="contenedor" name="inputDocumento" class="form-control" placeholder="Documento Chofer" pattern="[^'\x22]+"  ngModel required>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-6">
+              <label for="inputNombre" >Nombre del chofer</label>
+              <input type="text" id="chofer" [(ngModel)]="formRemision.inputNombre" name="inputNombre" class="form-control" pattern="[^'\x22]+" placeholder="Nombre" ngModel required>
+            </div>
+            <div class="form-group col-sm-6">
+              <label for="inputEmpresa">Nombre de la empresa</label>
+              <input type="text" id="inputEmpresa" [(ngModel)]="formRemision.inputEmpresa" pattern="[^'\x22]+" name="inputEmpresa" class="form-control" placeholder="Nombre empresa" ngModel required>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-6">
+              <label for="inputPatente_semi">Patente semi</label>
+              <input type="text" id="semi" [(ngModel)]="formRemision.inputPatente_semi" pattern="[^'\x22]+" name="inputPatente_semi" class="form-control" placeholder="Patente semi" required ngModel>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer text-right">
+          <button class="btn btn-sm btn-danger"  (click)="cancelForm()"><i class="fa fa-ban"></i> Cancelar</button>
+          <button  [disabled]="formValido(f.valid)" type="submit" class="btn btn-sm btn-primary pointer"><i class="fa fa-dot-circle-o"></i> Egresar</button>
+        </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- /.row -->

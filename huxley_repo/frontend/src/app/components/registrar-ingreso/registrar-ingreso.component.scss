@@ -1,0 +1,20 @@
+.completer-row {
+    display: inherit;
+}
+
+.completer-selected-row {
+    background-color: lightblue;
+    color: #ffffff;
+}
+
+.completer-row p {
+    position: relative;
+    top: 50%;
+    transform: translateY(50%);
+}
+
+.completer-dropdown-holder {
+    position: absolute;
+    background: white;
+}
+

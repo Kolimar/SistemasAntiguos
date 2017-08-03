@@ -1,0 +1,534 @@
+<div class="page-wrapper">
+
+    <!-- HEADER -->
+
+    <page-header>
+    </page-header>
+
+    <!-- FINAL DE HEADER -->
+
+    <!-- DIVISOR -->
+
+    <div class="clearfix"> </div>
+
+    <!-- FINAL DE DIVISOR -->
+
+    <div class="page-container">
+
+        <!-- SIDEBAR -->
+
+        <page-sidebar>
+        </page-sidebar>
+
+        <!-- FINAL SIDEBAR -->
+
+        <!-- CONTENIDO -->
+
+        <div class="page-content-wrapper">
+
+            <div class="page-content">
+
+                <ng2-toasty [position]="'top-right'"></ng2-toasty>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Begin: Demo Datatable 1 -->
+                        <div class="portlet light portlet-fit portlet-datatable bordered">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <ol class="breadcrumb" style="background-color:transparent;">
+                                        <li class="caption-subject font-dark sbold uppercase"><i class="fa fa-user-md" aria-hidden="true"></i> Doctores</li>
+                                    </ol>
+                                </div>
+                                <div class="actions">
+                                    <button class="btn blue sbold" (click)="showModalCrear()"><i class="fa fa-plus"></i> Nuevo doctor</button>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-container">
+                                    <table class="table table-striped table-bordered table-hover table-checkable table-header-fixed">
+                                        <thead>
+                                            <tr role="row" class="heading">
+                                                <th width="5%">N°</th>
+                                                <th>Matrícula</th>
+                                                <th>Nombres
+                                                  <div class="pull-right">
+                                                      <i (click)="filter(matricula_filtro, nombres_filtro, apellidos_filtro, especialidad_filtro, domicilio_filtro, departamento_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, nombres_ord='ASC')" class="fa fa-caret-up" style="cursor: pointer;font-size: 2rem;"></i>
+                                                      <i (click)="filter(matricula_filtro, nombres_filtro, apellidos_filtro, especialidad_filtro, domicilio_filtro, departamento_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, nombres_ord='DESC')" class="fa fa-caret-down" style="cursor: pointer;font-size: 2rem;"></i>
+                                                  </div>
+                                                </th>
+                                                <th>Apellidos</th>
+                                                <th>Especialidad</th>
+                                                <th>Domicilio</th>
+                                                <th>N° Departamento</th>
+                                                <th>Teléfono</th>
+                                                <th>Celular</th>
+                                                <th>Email</th>
+                                                <th width="40%">Observaciones</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                            <tr role="row" class="filter">
+                                                <th></th>
+                                                <th>
+                                                  <input type="text" class="form-control form-filter input-sm" [(ngModel)]="matricula_filtro" #ctrl="ngModel" (change)="filter(matricula_filtro, nombres_filtro, apellidos_filtro, especialidad_filtro, domicilio_filtro, departamento_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, nombres_ord)">
+                                                </th>
+                                                <th>
+                                                  <input type="text" class="form-control form-filter input-sm" [(ngModel)]="nombres_filtro" #ctrl="ngModel" (change)="filter(matricula_filtro, nombres_filtro, apellidos_filtro, especialidad_filtro, domicilio_filtro, departamento_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, nombres_ord)">
+                                                </th>
+                                                <th>
+                                                  <input type="text" class="form-control form-filter input-sm" [(ngModel)]="apellidos_filtro" #ctrl="ngModel" (change)="filter(matricula_filtro, nombres_filtro, apellidos_filtro, especialidad_filtro, domicilio_filtro, departamento_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, nombres_ord)">
+                                                </th>
+                                                <th>
+                                                  <input type="text" class="form-control form-filter input-sm" [(ngModel)]="especialidad_filtro" #ctrl="ngModel" (change)="filter(matricula_filtro, nombres_filtro, apellidos_filtro, especialidad_filtro, domicilio_filtro, departamento_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, nombres_ord)">
+                                                </th>
+                                                <th>
+                                                  <input type="text" class="form-control form-filter input-sm" [(ngModel)]="domicilio_filtro" #ctrl="ngModel" (change)="filter(matricula_filtro, nombres_filtro, apellidos_filtro, especialidad_filtro, domicilio_filtro, departamento_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, nombres_ord)">
+                                                </th>
+                                                <th>
+                                                  <input type="text" [textMask]="{mask: onlyNumberMask}" class="form-control form-filter input-sm" [(ngModel)]="departamento_filtro" #ctrl="ngModel" (change)="filter(matricula_filtro, nombres_filtro, apellidos_filtro, especialidad_filtro, domicilio_filtro, departamento_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, nombres_ord)">
+                                                </th>
+                                                <th>
+                                                  <input type="text" [textMask]="{mask: onlyNumberMask}" class="form-control form-filter input-sm" [(ngModel)]="telefono_filtro" #ctrl="ngModel" (change)="filter(matricula_filtro, nombres_filtro, apellidos_filtro, especialidad_filtro, domicilio_filtro, departamento_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, nombres_ord)">
+                                                </th>
+                                                <th>
+                                                  <input type="text" [textMask]="{mask: onlyNumberMask}" class="form-control form-filter input-sm" [(ngModel)]="celular_filtro" #ctrl="ngModel" (change)="filter(matricula_filtro, nombres_filtro, apellidos_filtro, especialidad_filtro, domicilio_filtro, departamento_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, nombres_ord)">
+                                                </th>
+                                                <th>
+                                                  <input type="text" class="form-control form-filter input-sm" [(ngModel)]="email_filtro" #ctrl="ngModel" (change)="filter(matricula_filtro, nombres_filtro, apellidos_filtro, especialidad_filtro, domicilio_filtro, departamento_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, nombres_ord)">
+                                                </th>
+                                                <th>
+                                                  <input type="text" class="form-control form-filter input-sm" [(ngModel)]="observaciones_filtro" #ctrl="ngModel" (change)="filter(matricula_filtro, nombres_filtro, apellidos_filtro, especialidad_filtro, domicilio_filtro, departamento_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, nombres_ord)">
+                                                </th>
+                                                <th>
+                                                    <div class="margin-bottom-5">
+                                                        <button class="btn dark btn-outline btn-sm" (click)="filter(matricula_filtro='', nombres_filtro='', apellidos_filtro='', especialidad_filtro='', domicilio_filtro='', departamento_filtro='', telefono_filtro='', celular_filtro='', email_filtro='', observaciones_filtro='', nombres_ord='')" (click)="cleanFilter()">
+                                                            <i class="fa fa-times"></i> Limpiar
+                                                        </button>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let doctor of listDoctores; let i=index">
+                                                <td>{{i+1}}</td>
+                                                <td>{{doctor.matricula}}</td>
+                                                <td>{{doctor.nombres}}</td>
+                                                <td>{{doctor.apellidos}}</td>
+                                                <td>{{doctor.especialidad}}</td>
+                                                <td>{{doctor.domicilio}}</td>
+                                                <td>{{doctor.n_departamento}}</td>
+                                                <td>{{doctor.telefono}}</td>
+                                                <td>{{doctor.celular}}</td>
+                                                <td>{{doctor.email}}</td>
+                                                <td>{{doctor.observaciones}}</td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-sm yellow sbold dropdown-toggle" type="button" data-toggle="dropdown">Acciones
+                                                            <i class="fa fa-angle-down"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu" role="menu">
+                                                            <li>
+                                                                <a (click)="showModalEditar(doctor, i)"><i class="fa fa-pencil"></i> Editar</a>
+                                                            </li>
+                                                            <li>
+                                                                <a data-toggle="modal" data-target="#eliminar-doctor" (click)="onDelete(doctor, i)"><i class="fa fa-trash"></i> Eliminar</a>
+                                                            </li>
+                                                            <li>
+                                                                <a [routerLink]="['/visitas', doctor.id, doctor.nombres, doctor.apellidos]"><i class="fa fa-medkit" aria-hidden="true"></i> Visitas</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <button type="button" class="btn green" style="width: 100%" (click)="search(matricula_filtro, nombres_filtro, apellidos_filtro, especialidad_filtro, domicilio_filtro, departamento_filtro, telefono_filtro, celular_filtro, email_filtro, observaciones_filtro, nombres_ord)">
+                                        <strong>
+                                            Ver más <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                        </strong>
+                                   </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- FINAL DEL CONTENIDO -->
+
+    </div>
+
+    <!-- FOOTER -->
+
+    <page-footer>
+    </page-footer>
+
+    <!-- FINAL DE FOOTER -->
+
+</div>
+
+<div class="quick-nav-overlay"></div>
+
+<!-- MODAL NUEVA TAREA  -->
+<div bsModal #modalCrear="bs-modal" class="modal fade" tabindex="-1" role="basic" aria-hidden="true" [config]="{backdrop: 'static', keyboard: false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <form class="form-horizontal" novalidate [formGroup]="formCreacion" id="formCreacion">
+
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Nuevo Doctor</h4>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.matricula.errors && formCreacion.controls.matricula.pristine && isSubmitDoctor }">
+                        <label for="matricula" class="control-label col-md-3">
+                            Matrícula <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="matricula" id="matricula" formControlName="matricula" class="form-control">
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.matricula.errors && formCreacion.controls.matricula.pristine && isSubmitDoctor">
+                            <strong class="help-block" *ngIf="formCreacion.controls.matricula.errors.required && formCreacion.controls.matricula.pristine">La matrícula es requerida</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.nombres.errors && formCreacion.controls.nombres.pristine && isSubmitDoctor }">
+                        <label for="nombres" class="control-label col-md-3">
+                            Nombres <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="nombres" id="nombres" formControlName="nombres" class="form-control">
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.nombres.errors && formCreacion.controls.nombres.pristine && isSubmitDoctor">
+                            <strong class="help-block" *ngIf="formCreacion.controls.nombres.errors.required && formCreacion.controls.nombres.pristine">Los nombres son requeridos</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.apellidos.errors && formCreacion.controls.apellidos.pristine && isSubmitDoctor }">
+                        <label for="apellidos" class="control-label col-md-3">
+                            Apellidos <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="apellidos" id="apellidos" formControlName="apellidos" class="form-control">
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.apellidos.errors && formCreacion.controls.apellidos.pristine && isSubmitDoctor">
+                            <strong class="help-block" *ngIf="formCreacion.controls.apellidos.errors.required && formCreacion.controls.apellidos.pristine">Los apellidos son requeridos</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.especialidad.errors && formCreacion.controls.especialidad.pristine && isSubmitDoctor }">
+                        <label for="especialidad" class="control-label col-md-3">
+                            Especialidad <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="especialidad" id="especialidad" formControlName="especialidad" class="form-control">
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.especialidad.errors && formCreacion.controls.especialidad.pristine && isSubmitDoctor">
+                            <strong class="help-block" *ngIf="formCreacion.controls.especialidad.errors.required && formCreacion.controls.especialidad.pristine">La especialidad es requerida</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.domicilio.errors && formCreacion.controls.domicilio.pristine && isSubmitDoctor }">
+                        <label for="domicilio" class="control-label col-md-3">
+                            Domicilio <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="domicilio" id="domicilio" formControlName="domicilio" class="form-control">
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.domicilio.errors && formCreacion.controls.domicilio.pristine && isSubmitDoctor">
+                            <strong class="help-block" *ngIf="formCreacion.controls.domicilio.errors.required && formCreacion.controls.domicilio.pristine">El domicilio es requerido</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="especialidad" class="control-label col-md-3">
+                            N° Departamento
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" [textMask]="{mask: onlyNumberMask}" name="n_departamento" id="n_departamento" formControlName="n_departamento" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.telefono.errors && formCreacion.controls.telefono.pristine && isSubmitDoctor }">
+                        <label for="telefono" class="control-label col-md-3">
+                            Teléfono <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" [textMask]="{mask: onlyNumberMask}" name="telefono" id="telefono" formControlName="telefono" class="form-control">
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.telefono.errors && formCreacion.controls.telefono.pristine && isSubmitDoctor">
+                            <strong class="help-block" *ngIf="formCreacion.controls.telefono.errors.required && formCreacion.controls.telefono.pristine">El teléfono es requerido</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.celular.errors && formCreacion.controls.celular.pristine && isSubmitDoctor }">
+                        <label for="celular" class="control-label col-md-3">
+                            Celular <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" [textMask]="{mask: onlyNumberMask}" name="celular" id="celular" formControlName="celular" class="form-control">
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.celular.errors && formCreacion.controls.celular.pristine && isSubmitDoctor">
+                            <strong class="help-block" *ngIf="formCreacion.controls.celular.errors.required && formCreacion.controls.celular.pristine">El celular es requerido</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.email.errors && formCreacion.controls.email.pristine && isSubmitDoctor }">
+                        <label for="email" class="control-label col-md-3">
+                            Email <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="email" id="email" formControlName="email" class="form-control">
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.email.errors && formCreacion.controls.email.pristine && isSubmitDoctor">
+                            <strong class="help-block" *ngIf="formCreacion.controls.email.errors.required && formCreacion.controls.email.pristine">El email es requerido</strong>
+                            <strong class="help-block" *ngIf="formCreacion.controls.email.errors.pattern && formCreacion.controls.email.pristine">Formato de email inválido (ej: name@mail.com)</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': formCreacion.controls.observaciones.errors && formCreacion.controls.observaciones.pristine && isSubmitDoctor }">
+                        <label for="observaciones" class="control-label col-md-3">
+                            Observaciones <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="col-md-8">
+                            <textarea name="observaciones" id="observaciones" formControlName="observaciones" class="form-control" rows="7"></textarea>
+                        </div>
+                        <div class="col-md-offset-3 col-md-8" *ngIf="formCreacion.controls.observaciones.errors && formCreacion.controls.observaciones.pristine && isSubmitDoctor">
+                            <strong class="help-block" *ngIf="formCreacion.controls.observaciones.errors.required && formCreacion.controls.observaciones.pristine">Las observaciones son requeridas</strong>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal" (click)="hideModalCrear()">Cerrar</button>
+                    <button class="btn blue sbold" [disabled]="loader" (click)="create()">
+                        Guardar doctor
+                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL EDITAR TAREA -->
+<div bsModal #modalEditar="bs-modal" class="modal fade" tabindex="-1" role="basic" aria-hidden="true" data-backdrop="static" data-keyboard="false" [config]="{backdrop: 'static', keyboard: false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <form *ngIf="formEdicion" class="form-horizontal" novalidate [formGroup]="formEdicion" id="formEdicion">
+
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Editar Doctor</h4>
+
+                </div>
+
+                <div class="modal-body">
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.matricula.errors && formEdicion.controls.matricula.pristine && isSubmitDoctor }">
+                      <label for="matricula" class="control-label col-md-3">
+                          Matrícula <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <input type="text" name="matricula" id="matricula" formControlName="matricula" class="form-control" (change)="verificarCambio()">
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.matricula.errors && formEdicion.controls.matricula.pristine && isSubmitDoctor">
+                          <strong class="help-block" *ngIf="formEdicion.controls.matricula.errors.required && formEdicion.controls.matricula.pristine">La matrícula es requerida</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.nombres.errors && formEdicion.controls.nombres.pristine && isSubmitDoctor }">
+                      <label for="nombres" class="control-label col-md-3">
+                          Nombres <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <input type="text" name="nombres" id="nombres" formControlName="nombres" class="form-control" (change)="verificarCambio()">
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.nombres.errors && formEdicion.controls.nombres.pristine && isSubmitDoctor">
+                          <strong class="help-block" *ngIf="formEdicion.controls.nombres.errors.required && formEdicion.controls.nombres.pristine">Los nombres son requeridos</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.apellidos.errors && formEdicion.controls.apellidos.pristine && isSubmitDoctor }">
+                      <label for="apellidos" class="control-label col-md-3">
+                          Apellidos <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <input type="text" name="apellidos" id="apellidos" formControlName="apellidos" class="form-control" (change)="verificarCambio()">
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.apellidos.errors && formEdicion.controls.apellidos.pristine && isSubmitDoctor">
+                          <strong class="help-block" *ngIf="formEdicion.controls.apellidos.errors.required && formEdicion.controls.apellidos.pristine">Los apellidos son requeridos</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.especialidad.errors && formEdicion.controls.especialidad.pristine && isSubmitDoctor }">
+                      <label for="especialidad" class="control-label col-md-3">
+                          Especialidad <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <input type="text" name="especialidad" id="especialidad" formControlName="especialidad" class="form-control" (change)="verificarCambio()">
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.especialidad.errors && formEdicion.controls.especialidad.pristine && isSubmitDoctor">
+                          <strong class="help-block" *ngIf="formEdicion.controls.especialidad.errors.required && formEdicion.controls.especialidad.pristine">La especialidad es requerida</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.domicilio.errors && formEdicion.controls.domicilio.pristine && isSubmitDoctor }">
+                      <label for="domicilio" class="control-label col-md-3">
+                          Domicilio <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <input type="text" name="domicilio" id="domicilio" formControlName="domicilio" class="form-control" (change)="verificarCambio()">
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.domicilio.errors && formEdicion.controls.domicilio.pristine && isSubmitDoctor">
+                          <strong class="help-block" *ngIf="formEdicion.controls.domicilio.errors.required && formEdicion.controls.domicilio.pristine">El domicilio es requerido</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="especialidad" class="control-label col-md-3">
+                          N° Departamento
+                      </label>
+                      <div class="col-md-8">
+                          <input type="text" [textMask]="{mask: onlyNumberMask}" name="n_departamento" id="n_departamento" formControlName="n_departamento" class="form-control" (change)="verificarCambio()">
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.telefono.errors && formEdicion.controls.telefono.pristine && isSubmitDoctor }">
+                      <label for="telefono" class="control-label col-md-3">
+                          Teléfono <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <input type="text" [textMask]="{mask: onlyNumberMask}" name="telefono" id="telefono" formControlName="telefono" class="form-control" (change)="verificarCambio()">
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.telefono.errors && formEdicion.controls.telefono.pristine && isSubmitDoctor">
+                          <strong class="help-block" *ngIf="formEdicion.controls.telefono.errors.required && formEdicion.controls.telefono.pristine">El teléfono es requerido</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.celular.errors && formEdicion.controls.celular.pristine && isSubmitDoctor }">
+                      <label for="celular" class="control-label col-md-3">
+                          Celular <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <input type="text" [textMask]="{mask: onlyNumberMask}" name="celular" id="celular" formControlName="celular" class="form-control" (change)="verificarCambio()">
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.celular.errors && formEdicion.controls.celular.pristine && isSubmitDoctor">
+                          <strong class="help-block" *ngIf="formEdicion.controls.celular.errors.required && formEdicion.controls.celular.pristine">El celular es requerido</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.email.errors && formEdicion.controls.email.pristine && isSubmitDoctor }">
+                      <label for="email" class="control-label col-md-3">
+                          Email <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <input type="text" name="email" id="email" formControlName="email" class="form-control" (change)="verificarCambio()">
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.email.errors && formEdicion.controls.email.pristine && isSubmitDoctor">
+                          <strong class="help-block" *ngIf="formEdicion.controls.email.errors.required && formEdicion.controls.email.pristine">El email es requerido</strong>
+                          <strong class="help-block" *ngIf="formEdicion.controls.email.errors.pattern && formEdicion.controls.email.pristine">Formato de email inválido (ej: name@mail.com)</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEdicion.controls.observaciones.errors && formEdicion.controls.observaciones.pristine && isSubmitDoctor }">
+                      <label for="observaciones" class="control-label col-md-3">
+                          Observaciones <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <textarea name="observaciones" id="observaciones" formControlName="observaciones" class="form-control" rows="7" (change)="verificarCambio()"></textarea>
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEdicion.controls.observaciones.errors && formEdicion.controls.observaciones.pristine && isSubmitDoctor">
+                          <strong class="help-block" *ngIf="formEdicion.controls.observaciones.errors.required && formEdicion.controls.observaciones.pristine">Las observaciones son requeridas</strong>
+                      </div>
+                  </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" (click)="hideModalEditar()">Cerrar</button>
+                    <button class="btn blue sbold" [disabled]="loader" (click)="edit()">
+                        Editar doctor
+                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL CONFIRMAR CAMBIOS -->
+<div class="modal fade" id="confirmar-cambios" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="position:relative;left:150%;">
+
+            <div class="modal-header">
+
+                <h4 class="modal-title">Confirmar cambios</h4>
+
+            </div>
+
+            <div class="modal-body">
+                <h2>¿Desea guardar los cambios que hizo en el formulario?</h2>
+            </div>
+
+            <div class="modal-footer">
+                <form>
+                    <button class="btn blue sbold" (click)="salirGuardar()">Sí</button>
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal" (click)="salirSinGuardar()">No</button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL ELIMINAR TAREA -->
+<div class="modal fade" id="eliminar-doctor" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h4 class="modal-title">Eliminar Doctor</h4>
+
+            </div>
+
+            <div class="modal-body" *ngIf="deleteDoctor">
+                <h2>Desea eliminar al Doctor <strong>{{ deleteDoctor.nombres }} {{ deleteDoctor.apellidos }}</strong>?</h2>
+            </div>
+
+            <div class="modal-footer">
+                <form>
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cerrar</button>
+                    <button class="btn btn-danger sbold" [disabled]="loader" (click)="delete()">
+                        Eliminar doctor
+                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                    </button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

@@ -1,0 +1,10 @@
+<ng2-toasty>
+
+</ng2-toasty>
+
+<crear-dispositivo *ngIf="nuevo" (CambioScreen)="turnview($event)"></crear-dispositivo>
+
+<editar-dispositivo *ngIf="editar"  [dispositivo]="iot" (CambioScreen)="turnview($event)"></editar-dispositivo>
+
+<lista-dispositivos *ngIf="lista" (CambioScreen)="turnview($event)" ></lista-dispositivos>
+

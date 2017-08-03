@@ -1,0 +1,183 @@
+<div class="page-wrapper">
+
+    <!-- HEADER -->
+
+    <page-header>
+    </page-header>
+
+    <!-- FINAL DE HEADER -->
+
+    <!-- DIVISOR -->
+
+    <div class="clearfix"> </div>
+
+    <!-- FINAL DE DIVISOR -->
+
+
+
+    <div class="page-container">
+
+        <!-- SIDEBAR -->
+
+        <page-sidebar>
+        </page-sidebar>
+
+        <!-- FINAL SIDEBAR -->
+
+        <!-- CONTENIDO -->
+
+        <div class="page-content-wrapper">
+
+            <div class="page-content">
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <!-- Begin: Demo Datatable 1 -->
+                        <div class="portlet light portlet-fit portlet-datatable bordered">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <ol class="breadcrumb" style="background-color:transparent;">
+                                        <li class="caption-subject font-dark sbold uppercase"><i class="fa fa-briefcase" aria-hidden="true"></i> Brief de ventas</li>
+                                    </ol>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-container">
+                                    <table class="table table-striped table-bordered table-hover table-header-fixed">
+                                        <thead>
+                                            <tr role="row" class="heading">
+                                                <th>Nombre del cliente
+                                                  <div class="pull-right">
+                                                      <i (click)="filter(nombre_filtro, fecha_filtro, pm_asignado_filtro, estado_filtro, nombre_ord='ASC', fecha_ord='')" class="fa fa-caret-up" style="cursor: pointer;font-size: 2rem;"></i>
+                                                      <i (click)="filter(nombre_filtro, fecha_filtro, pm_asignado_filtro, estado_filtro, nombre_ord='DESC', fecha_ord='')" class="fa fa-caret-down" style="cursor: pointer;font-size: 2rem;"></i>
+                                                  </div>
+                                                </th>
+                                                <th>Fecha de comienzo de gestión
+                                                  <div class="pull-right">
+                                                      <i (click)="filter(nombre_filtro, fecha_filtro, pm_asignado_filtro, estado_filtro, nombre_ord='', fecha_ord='ASC')" class="fa fa-caret-up" style="cursor: pointer;font-size: 2rem;"></i>
+                                                      <i (click)="filter(nombre_filtro, fecha_filtro, pm_asignado_filtro, estado_filtro, nombre_ord='', fecha_ord='DESC')" class="fa fa-caret-down" style="cursor: pointer;font-size: 2rem;"></i>
+                                                  </div>
+                                                </th>
+                                                <th>Asignado a</th>
+                                                <th>Estado</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                            <tr role="row" class="filter">
+                                                <th>
+                                                  <input class="form-control form-filter input-sm" [(ngModel)]="nombre_filtro" #ctrl="ngModel" (change)="filter(nombre_filtro, fecha_filtro, pm_asignado_filtro, estado_filtro, nombre_ord, fecha_ord)">
+                                                </th>
+                                                <th>
+                                                  <input class="form-control form-filter input-sm" [(ngModel)]="fecha_filtro" #ctrl="ngModel" (change)="filter(nombre_filtro, fecha_filtro, pm_asignado_filtro, estado_filtro, nombre_ord, fecha_ord)">
+                                                </th>
+                                                <th>
+                                                  <input class="form-control form-filter input-sm" [(ngModel)]="pm_asignado_filtro" #ctrl="ngModel" (change)="filter(nombre_filtro, fecha_filtro, pm_asignado_filtro, estado_filtro, nombre_ord, fecha_ord)">
+                                                </th>
+                                                <th>
+                                                  <select class="form-control form-filter input-sm" [(ngModel)]="estado_filtro" #ctrl="ngModel" (change)="filter(nombre_filtro, fecha_filtro, pm_asignado_filtro, estado_filtro, nombre_ord, fecha_ord)">
+                                                    <option value="">Ninguno...</option>
+                                                    <option value="Borrador">Borrador</option>
+                                                    <option value="Creado">Creado</option>
+                                                  </select>
+                                                </th>
+                                                <th>
+                                                  <div class="margin-bottom-5">
+                                                      <div class="margin-bottom-5">
+                                                          <button (click)="cleanFilter()" (click)="filter(nombre_filtro='', fecha_filtro='', pm_asignado_filtro='', estado_filtro='', nombre_ord='', fecha_ord='')" class="btn btn-sm dark btn-outline" >
+                                                              <i class="fa fa-times"></i> Limpiar
+                                                          </button>
+                                                      </div>
+                                                  </div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let brief of listBriefs">
+                                                <td>{{ brief.nombre }}</td>
+                                                <td>{{ brief.fecha_comienzo }}</td>
+                                                <td>{{ brief.nombres_pm }} {{ brief.apellidos_pm }}</td>
+                                                <td *ngIf="brief.estado == 'Borrador'">
+                                                    <span class="label label-sm label-default"><strong>Borrador</strong></span>
+                                                </td>
+                                                <td *ngIf="brief.estado == 'Creado'">
+                                                    <span class="label label-sm label-success"><strong>Creado</strong></span>
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-sm yellow sbold dropdown-toggle" type="button" data-toggle="dropdown">Acciones
+                                                            <i class="fa fa-angle-down"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu" role="menu">
+                                                            <li>
+                                                                <a [routerLink]="['/edit-brief', brief.id, brief.nombre]"><i class="fa fa-pencil"></i> Editar</a>
+                                                            </li>
+                                                            <li>
+                                                                <a data-toggle="modal" data-target="#eliminar-brief" (click)="onDelete(brief, i)"><i class="fa fa-trash"></i> Eliminar</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <button type="button" class="btn green" style="width: 100%" (click)="search(nombre_filtro, fecha_filtro, pm_asignado_filtro, estado_filtro, nombre_ord, fecha_ord)">
+                                        <strong>
+                                            Ver más <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                        </strong>
+                                   </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- FINAL DEL CONTENIDO -->
+
+    </div>
+
+    <!-- FOOTER -->
+
+    <page-footer>
+    </page-footer>
+
+    <!-- FINAL DE FOOTER -->
+
+</div>
+
+<div class="quick-nav-overlay"></div>
+
+<!-- MODAL ELIMINAR TAREA -->
+<div class="modal fade" id="eliminar-brief" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h4 class="modal-title">Eliminar Brief</h4>
+
+            </div>
+
+            <div class="modal-body" *ngIf="deleteBrief">
+                <h2>Desea eliminar el brief de <strong>{{ deleteBrief.nombre }}</strong>?</h2>
+            </div>
+
+            <div class="modal-footer">
+                <form>
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cerrar</button>
+                    <button class="btn btn-danger sbold" [disabled]="loader" (click)="delete()">
+                        Eliminar brief
+                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                    </button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

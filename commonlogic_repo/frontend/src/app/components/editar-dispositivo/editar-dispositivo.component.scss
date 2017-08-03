@@ -1,0 +1,41 @@
+.app-header.navbar .navbar-brand {
+    display: inline-block;
+    width: 155px;
+    height: 55px;
+    padding: 0.5rem 1rem;
+    margin-right: 0;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 110px auto;
+    border-bottom: 1px solid #cfd8dc;
+}
+.circle {
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 20px;
+    float: left;
+}
+.red{
+    width: 20px;
+    height: 20px;
+    background: red;
+}
+.green{
+    width: 20px;
+    height: 20px;
+    background: green;
+}
+.leyenda{
+    float: left;
+}
+.marcador{
+    clear: both;
+    padding: 5px;
+}
+.card{
+        /* min-width: 245px; */
+}
+.botonera_tabla{
+    /*text-align: center;*/
+}

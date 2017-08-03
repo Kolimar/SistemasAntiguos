@@ -1,0 +1,30 @@
+<p-dialog header="No autenticado" [(visible)]="modalActivated" modal="modal" width="300"
+    [responsive]="true"
+    [closable]="false"
+    [closeOnEscape]="false"
+    [responsive]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [modal]="true"
+    >
+    <p>Por seguridad ingrese sus credenciales:</p>
+    
+    <div class="input-group mb-3">
+        <span class="input-group-addon"><i class="icon-user"></i>
+        </span>
+        <input [(ngModel)]="formIdentificacion.username" type="email" name="email" class="form-control" placeholder="Email">
+    </div>
+    <div class="input-group mb-4">
+        <span class="input-group-addon"><i class="icon-lock"></i>
+        </span>
+        <input  [(ngModel)]="formIdentificacion.password" type="password" name="password" class="form-control" placeholder="Contraseña">
+    </div>
+    
+    <p-footer>
+        <div class="col-sm-12 col-xs-12">
+            <button (click)="mostrar()" class="btn btn-primary btn-block">Identificarse</button>
+        </div>
+        
+    </p-footer>
+</p-dialog>
+<ng2-toasty></ng2-toasty>

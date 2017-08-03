@@ -1,0 +1,79 @@
+<header class="app-header navbar">
+  <!--------------------------------------------- Sidebar superior ------------------------------------------------------------------>
+  <button class="navbar-toggler d-lg-none pointer" type="button" appMobileSidebarToggler>&#9776;</button>
+  <a class="navbar-brand" href="#"></a>
+  <ul class="nav navbar-nav d-md-down-none">
+    <li class="nav-item">
+      <a class="nav-link navbar-toggler pointer" href="#" appSidebarToggler>&#9776;</a>
+    </li>
+  </ul>
+  <!--------------------------------------------- /Sidebar superior----------------------------------------------------------------->
+<!--------------------------------------------- Imagen y BOTONERA  derecha------------------------------------------------------------------>
+  <ul class="nav navbar-nav ml-auto" >
+    <li class="nav-item dropdown" dropdown style="left:-30px;position:relative;">
+      <a href class="nav-link dropdown-toggle" dropdownToggle (click)="false">
+        
+        <img src={{avatar}} class="img-avatar">
+        <span class="d-md-down-none">{{userData?.name}}</span>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right animated fadeIn " *dropdownMenu aria-labelledby="simple-dropdown" style="top:46px">
+
+        <div class="dropdown-header text-center" style="margin-top: -7px;"><strong>Usuario</strong></div>
+        
+        <button class="dropdown-item pointer" [routerLink]="['/perfil',userData?.id]"><i class="fa fa-user"></i> Perfil </button>
+
+        <div class="dropdown-header text-center"><strong>Sistema</strong></div>
+
+        <div class="divider"></div>
+        <a class="dropdown-item" (click)='endSession()'><i class="fa fa-lock"></i> Salir del Sistema</a>
+      </div>
+    </li>
+  </ul>
+</header>
+<!---------------------------------------------// Imagen y BOTONERA  derecha----------------------------------------------------------------->
+
+<!----------------------------------------------- Sidebar BOTONERA ------------------------------------------------------------------>
+<div class="app-body" >
+    <div class="sidebar animated slideInLeft fast" >
+        <nav class="sidebar-nav">
+            <ul class="nav">
+              <li class="nav-item">
+                <a class="nav-link active" routerLinkActive="active" [routerLink]="['/dashboard']"><i class="icon-speedometer"></i>   Dashboard</a>
+              </li>
+              <li  class="nav-item nav-dropdown" *ngIf='userData?.admin=="true"' appNavDropdown  >
+                  <a class="nav-link nav-dropdown-toggle" href="#" appNavDropdownToggle><i class="icon-wrench"></i> Administracion</a>
+                  <ul class="nav-dropdown-items">
+                    <li class="nav-item">
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/admiot']"><i class="icon-feed"></i> Dispositivos IOT</a>
+                    </li>
+                    <li class="nav-item">
+
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/admcuentas']"><i class="icon-people"></i> Cuentas de Usuario</a>
+                    </li>
+                  </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+<!--------------------------------------------- /Sidebar BOTONERA ----------------------------------------------------------------->
+    <!-- Main content -->
+    <main class="main">
+
+        <!-- Breadcrumb -->
+        <!-- Descomentar  el siguiente ol mostrará siempre la ruta donde te encontrás-->
+        <!-- <ol class="breadcrumb">
+            <app-breadcrumbs></app-breadcrumbs>
+        </ol> -->
+
+        <div class="container-fluid contenedor">
+            <router-outlet></router-outlet>
+        </div>
+        <!-- /.conainer-fluid -->
+    </main>
+</div>
+
+<footer class="app-footer animated slideInRight" >
+    <span class="float-right"><a href="http://www.tecsolutions.com.ar">Tecsolutions Network</a> &copy; 2017.
+    </span>
+</footer>

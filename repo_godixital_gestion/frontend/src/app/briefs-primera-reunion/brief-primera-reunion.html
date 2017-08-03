@@ -1,0 +1,1120 @@
+<div class="page-wrapper">
+
+    <!-- HEADER -->
+
+    <page-header>
+    </page-header>
+
+    <!-- FINAL DE HEADER -->
+
+    <!-- DIVISOR -->
+
+    <div class="clearfix"> </div>
+
+    <!-- FINAL DE DIVISOR -->
+
+
+
+    <div class="page-container">
+
+        <!-- SIDEBAR -->
+
+        <page-sidebar>
+        </page-sidebar>
+
+        <!-- FINAL SIDEBAR -->
+
+        <!-- CONTENIDO -->
+
+        <div class="page-content-wrapper">
+
+            <div class="page-content">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Begin: Demo Datatable 1 -->
+                        <div class="portlet light portlet-fit portlet-datatable bordered">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <ol class="breadcrumb" style="background-color:transparent;">
+                                        <li class="caption-subject font-dark sbold uppercase"><a [routerLink]="['/clientes']"><i class="fa fa-users" aria-hidden="true"></i> Clientes</a></li>
+                                        <li class="caption-subject font-dark sbold uppercase">Brief primera reunión</li>
+                                        <li class="caption-subject font-dark sbold uppercase">{{selectedName}}</li>
+                                        <li *ngIf="dataBrief" class="caption-subject font-dark sbold uppercase">{{dataBrief.estado}}</li>
+                                        <li class="caption-subject font-dark sbold" *ngIf="estadoGuardado"><span class="label label-info"><strong>Guardado</strong></span></li>
+                                        <li class="caption-subject font-dark sbold" *ngIf="!estadoGuardado"><span class="label label-warning"><strong>Guardando...</strong></span></li>
+                                    </ol>
+                                </div>
+                                <div *ngIf="formBrief" class="actions">
+                                    <a class="btn green sbold" href="{{urlExport}}" target="_blank">
+                                        <i class="fa fa-file-excel-o" aria-hidden="true"></i> Exportar a excel
+                                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                                    </a>
+                                    <button [disabled]="loader" class="btn yellow sbold" (click)="guardarBrief(formBrief)">
+                                        <i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar en borrador
+                                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                                    </button>
+                                    <button *ngIf="dataBrief.estado != 'Generado' " [disabled]="loader || formBrief.invalid" class="btn blue sbold" (click)="generarBrief(formBrief)">
+                                        <i class="fa fa-folder-open-o" aria-hidden="true"></i> Generar brief de primera reunión
+                                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                                    </button>
+                                </div>
+                            </div>
+
+                            <form *ngIf="dataBrief" novalidate [formGroup]="formBrief">
+                              <div class="container-fluid">
+
+                                  <div *ngIf="formBrief.invalid" class="alert alert-info alert-dismissable">
+                                    <ul>
+                                      <li>El botón <strong>Generar brief de primera reunión</strong> se habilitará cuando estén completos todos los campos requeridos.</li>
+                                    </ul>
+                                  </div>
+
+                                  <!-- INICIAL -->
+                                  <div class="col-md-6">
+
+                                      <!-- INICIAL -->
+                                      <br>
+                                      <div class="portlet box blue">
+                                          <div class="portlet-title">
+                                              <div class="caption">
+                                                  Inicial
+                                              </div>
+                                              <div class="tools">
+                                                  <a href="javascript:;" class="collapse"> </a>
+                                              </div>
+                                          </div>
+                                          <div class="portlet-body">
+                                            <br>
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Recibir contrato firmado
+                                                      <input type="checkbox" name="contrato_firmado" formControlName="contrato_firmado" (change)="guardarCambio('contrato_firmado', formBrief.controls.contrato_firmado.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Presentarse y presentar al supervisor
+                                                      <input type="checkbox" value="false" name="presentarse" formControlName="presentarse" (change)="guardarCambio('presentarse', formBrief.controls.presentarse.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Explicarle la agenda y el motivo de la reunión
+                                                      <input type="checkbox" value="false" name="explicacion_agenda" formControlName="explicacion_agenda" (change)="guardarCambio('explicacion_agenda', formBrief.controls.explicacion_agenda.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Explicar que el interlocutor de parte de ellos debe ser sólo 1 persona
+                                                      <input type="checkbox" value="false" name="explicacion_interlocutor" formControlName="explicacion_interlocutor" (change)="guardarCambio('explicacion_interlocutor', formBrief.controls.explicacion_interlocutor.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <label for="">Definir quién será el interlocutor en la comunicación con el cliente. Pedir datos de contacto de la mayor cantidad de medios posibles: Whatsapp, Mail, Celular, Teléfono fijo, etc.</label>
+                                              <br>
+                                              <button class="btn green sbold" type="button">Contactos del cliente</button>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <label for="">Relevar en detalle si hay socios u otros participantes que deben estar enterados de las acciones</label>
+                                              <br>
+                                              <button class="btn green sbold" type="button">Contactos del cliente</button>
+                                            </div>
+
+                                          </div>
+                                      </div>
+
+                                      <!-- ADWORDS -->
+                                      <br>
+                                      <div class="portlet box blue">
+                                          <div class="portlet-title">
+                                              <div class="caption">
+                                                  Adwords
+                                              </div>
+                                              <div class="tools">
+                                                  <a href="javascript:;" class="expand"> </a>
+                                              </div>
+                                          </div>
+                                          <div class="portlet-body" style="display:none !important">
+                                            <br>
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.estrategia_general.errors && formBrief.controls.estrategia_general.dirty }">
+                                                <label for="estrategia_general">Estrategia general, notas varias, palabras clave, etc. <strong class="text-danger">*</strong></label>
+                                                <textarea class="form-control" rows="8" name="estrategia_general" formControlName="estrategia_general" (change)="guardarCambio('estrategia_general', formBrief.controls.estrategia_general.value)"></textarea>
+
+                                                <div *ngIf="formBrief.controls.estrategia_general.errors && formBrief.controls.estrategia_general.dirty">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.estrategia_general.errors.required">La estrategia general, notas varias, palabras clave, etc. Es requerido</strong>
+                                                </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.segmentacion_geografica.errors && formBrief.controls.segmentacion_geografica.dirty }">
+                                                <label for="segmentacion_geografica">Segmentación geográfica <strong class="text-danger">*</strong></label>
+                                                <textarea class="form-control" rows="8" name="segmentacion_geografica" formControlName="segmentacion_geografica" (change)="guardarCambio('segmentacion_geografica', formBrief.controls.segmentacion_geografica.value)"></textarea>
+
+                                                <div *ngIf="formBrief.controls.segmentacion_geografica.errors && formBrief.controls.segmentacion_geografica.dirty">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.segmentacion_geografica.errors.required">La segmentación geográfica es requerida</strong>
+                                                </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.presupuesto_adwords.errors && formBrief.controls.presupuesto_adwords.dirty }">
+                                                <label for="presupuesto_adwords">Presupuesto <strong class="text-danger">*</strong></label>
+                                                <textarea class="form-control" rows="8" name="presupuesto_adwords" formControlName="presupuesto_adwords" (change)="guardarCambio('presupuesto_adwords', formBrief.controls.presupuesto_adwords.value)"></textarea>
+
+                                                <div *ngIf="formBrief.controls.presupuesto_adwords.errors && formBrief.controls.presupuesto_adwords.dirty">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.presupuesto_adwords.errors.required">El presupuesto es requerido</strong>
+                                                </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                                <label for="acceso_campana">Accesos a campaña anterior</label>
+                                                <textarea class="form-control" rows="8" name="acceso_campana" formControlName="acceso_campana" (change)="guardarCambio('acceso_campana', formBrief.controls.acceso_campana.value)"></textarea>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Explicar formas de pago y facturación
+                                                      <input type="checkbox" value="false" name="explicacion_formas_pago" formControlName="explicacion_formas_pago" (change)="guardarCambio('explicacion_formas_pago', formBrief.controls.explicacion_formas_pago.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                                <label for="datos_facturacion">Datos de facturación y tarjeta: Método de pago, información fiscal y datos varios</label>
+                                                <textarea class="form-control" rows="8" name="datos_facturacion" formControlName="datos_facturacion" (change)="guardarCambio('datos_facturacion', formBrief.controls.datos_facturacion.value)"></textarea>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                                <label for="como_buscaria_cliente">¿Cómo buscaría un cliente tuyo en Google?</label>
+                                                <textarea class="form-control" rows="8" name="como_buscaria_cliente" formControlName="como_buscaria_cliente" (change)="guardarCambio('como_buscaria_cliente', formBrief.controls.como_buscaria_cliente.value)"></textarea>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Aclarar que no siempre sale primero, y tampoco sale el 100% de las veces
+                                                      <input type="checkbox" value="false" name="aclaratoria" formControlName="aclaratoria" (change)="guardarCambio('aclaratoria', formBrief.controls.aclaratoria.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Explicar el proceso de mejora de campañas de Adwords
+                                                      <input type="checkbox" value="false" name="explicacion_mejora" formControlName="explicacion_mejora" (change)="guardarCambio('explicacion_mejora', formBrief.controls.explicacion_mejora.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                          </div>
+                                      </div>
+
+                                      <!-- REMARKETING -->
+                                      <br>
+                                      <div class="portlet box blue">
+                                          <div class="portlet-title">
+                                              <div class="caption">
+                                                  Remarketing
+                                              </div>
+                                              <div class="tools">
+                                                  <a href="javascript:;" class="expand"> </a>
+                                              </div>
+                                          </div>
+                                          <div class="portlet-body" style="display:none !important">
+                                            <br>
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Recordarle qué es. Explicar que se hace a lo último del plan de acción
+                                                      <input type="checkbox" value="false" name="explicacion_remarketing" formControlName="explicacion_remarketing" (change)="guardarCambio('explicacion_remarketing', formBrief.controls.explicacion_remarketing.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                                <label for="comentarios_remarketing">Comentarios varios Remarketing</label>
+                                                <textarea class="form-control" rows="8" name="comentarios_remarketing" formControlName="comentarios_remarketing" (change)="guardarCambio('comentarios_remarketing', formBrief.controls.comentarios_remarketing.value)"></textarea>
+                                            </div>
+
+                                          </div>
+                                      </div>
+
+                                      <!-- FACEBOOK POSTEOS -->
+                                      <br>
+                                      <div class="portlet box blue">
+                                          <div class="portlet-title">
+                                              <div class="caption">
+                                                  Facebook posteos
+                                              </div>
+                                              <div class="tools">
+                                                  <a href="javascript:;" class="expand"> </a>
+                                              </div>
+                                          </div>
+                                          <div class="portlet-body" style="display:none !important">
+                                            <br>
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.estrategia_facebook_posteos.errors && formBrief.controls.estrategia_facebook_posteos.dirty }">
+                                                <label for="estrategia_facebook_posteos">Estrategia general posteos en Facebook <strong class="text-danger">*</strong></label>
+                                                <textarea class="form-control" rows="8" name="estrategia_facebook_posteos" formControlName="estrategia_facebook_posteos" (change)="guardarCambio('estrategia_facebook_posteos', formBrief.controls.estrategia_facebook_posteos.value)"></textarea>
+
+                                                <div *ngIf="formBrief.controls.estrategia_facebook_posteos.errors && formBrief.controls.estrategia_facebook_posteos.dirty">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.estrategia_facebook_posteos.errors.required">La estrategia general posteos en Facebook es requerida</strong>
+                                                </div>
+
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                                <label for="datos_fan_page_posteos">Datos de su Fan Page</label>
+                                                <textarea class="form-control" rows="8" name="datos_fan_page_posteos" formControlName="datos_fan_page_posteos" (change)="guardarCambio('datos_fan_page_posteos', formBrief.controls.datos_fan_page_posteos.value)"></textarea>
+                                            </div>
+
+                                          </div>
+                                      </div>
+
+                                      <!-- CHAT -->
+                                      <br>
+                                      <div class="portlet box blue">
+                                          <div class="portlet-title">
+                                              <div class="caption">
+                                                  Chat
+                                              </div>
+                                              <div class="tools">
+                                                  <a href="javascript:;" class="expand"> </a>
+                                              </div>
+                                          </div>
+                                          <div class="portlet-body" style="display:none !important">
+                                            <br>
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Explicación básica de como funciona
+                                                      <input type="checkbox" value="false" name="explicacion_chat" formControlName="explicacion_chat" (change)="guardarCambio('explicacion_chat', formBrief.controls.explicacion_chat.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                          </div>
+                                      </div>
+
+                                      <!-- ADMINISTRATIVO -->
+                                      <br>
+                                      <div class="portlet box blue">
+                                          <div class="portlet-title">
+                                              <div class="caption">
+                                                  Administrativo
+                                              </div>
+                                              <div class="tools">
+                                                  <a href="javascript:;" class="expand"> </a>
+                                              </div>
+                                          </div>
+                                          <div class="portlet-body" style="display:none !important">
+                                            <br>
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Todo lo administrativo se habla con sector Administración: Facturas, pagos, etc.
+                                                      <input type="checkbox" value="false" name="depende_administracion" formControlName="depende_administracion" (change)="guardarCambio('depende_administracion', formBrief.controls.depende_administracion.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Recordar y confirmar que el pago es adelantado del 1 al 5 de cada mes
+                                                      <input type="checkbox" value="false" name="recordar_pago" formControlName="recordar_pago" (change)="guardarCambio('recordar_pago', formBrief.controls.recordar_pago.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <label>Datos de la persona administrativa de la empresa</label>
+                                              <br>
+                                              <button class="btn green sbold" type="button">Datos del cliente</button>
+                                            </div>
+
+                                          </div>
+                                      </div>
+
+                                      <!-- FINAL -->
+                                      <br>
+                                      <div class="portlet box blue">
+                                          <div class="portlet-title">
+                                              <div class="caption">
+                                                  Final
+                                              </div>
+                                              <div class="tools">
+                                                  <a href="javascript:;" class="expand"> </a>
+                                              </div>
+                                          </div>
+                                          <div class="portlet-body" style="display:none !important">
+                                            <br>
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Explicar cómo tiene que gestionar las ventas
+                                                      <input type="checkbox" value="false" name="explicacion_gestion_ventas" formControlName="explicacion_gestion_ventas" (change)="guardarCambio('explicacion_gestion_ventas', formBrief.controls.explicacion_gestion_ventas.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Se hacen reuniones presenciales trimestrales y el resto por teléfono
+                                                      <input type="checkbox" value="false" name="reuniones" formControlName="reuniones" (change)="guardarCambio('reuniones', formBrief.controls.reuniones.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Nuestra forma de trabajo es de manera semanal
+                                                      <input type="checkbox" value="false" name="forma_trabajo" formControlName="forma_trabajo" (change)="guardarCambio('forma_trabajo', formBrief.controls.forma_trabajo.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Plan de acción: Tiempos semanales para hacer las tareas
+                                                      <input type="checkbox" value="false" name="plan_accion" formControlName="plan_accion" (change)="guardarCambio('plan_accion', formBrief.controls.plan_accion.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Expectativas luego del plan de accion: Consultas y ventas
+                                                      <input type="checkbox" value="false" name="expectativas_plan_accion" formControlName="expectativas_plan_accion" (change)="guardarCambio('expectativas_plan_accion', formBrief.controls.expectativas_plan_accion.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Cómo y cuando llegan los reportes
+                                                      <input type="checkbox" value="false" name="reportes" formControlName="reportes" (change)="guardarCambio('reportes', formBrief.controls.reportes.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Recordar y confirmar que el pago es adelantado del 1 al 5 de cada mes
+                                                      <input type="checkbox" value="false" name="recordar_pago_adelantado" formControlName="recordar_pago_adelantado" (change)="guardarCambio('recordar_pago_adelantado', formBrief.controls.recordar_pago_adelantado.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Formas de aprobación de las piezas. Devoluciones de clientes de forma unificada. También unificar el envió de información general.
+                                                      <input type="checkbox" value="false" name="formas_aprobacion" formControlName="formas_aprobacion" (change)="guardarCambio('formas_aprobacion', formBrief.controls.formas_aprobacion.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Explicar que se va a juntar con el equipo para definir cantidad de landings, campañas.
+                                                      <input type="checkbox" value="false" name="explicacion_cantidad_landings_campanas" formControlName="explicacion_cantidad_landings_campanas" (change)="guardarCambio('explicacion_cantidad_landings_campanas', formBrief.controls.explicacion_cantidad_landings_campanas.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Explicarles bien claro y concreto como responder las consultas: Llamar en el momento.
+                                                      <input type="checkbox" value="false" name="explicacion_responder_consultas" formControlName="explicacion_responder_consultas" (change)="guardarCambio('explicacion_responder_consultas', formBrief.controls.explicacion_responder_consultas.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.puntos_conflictos.errors && formBrief.controls.puntos_conflictos.dirty }">
+                                                <label for="puntos_conflictos">¿Cuales son los posibles puntos de conflicto con el cliente? <strong class="text-danger">*</strong></label>
+                                                <textarea class="form-control" rows="8" name="puntos_conflictos" formControlName="puntos_conflictos" (change)="guardarCambio('puntos_conflictos', formBrief.controls.puntos_conflictos.value)"></textarea>
+
+                                                <div *ngIf="formBrief.controls.puntos_conflictos.errors && formBrief.controls.puntos_conflictos.dirty">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.puntos_conflictos.errors.required">Los posibles puntos de conflicto son requeridos</strong>
+                                                </div>
+                                            </div>
+
+                                          </div>
+                                      </div>
+
+                                  </div>
+
+                                  <div class="col-md-6">
+                                      <!-- MODELO DE NEGOCIOS -->
+                                      <br>
+                                      <div class="portlet box red">
+                                          <div class="portlet-title">
+                                              <div class="caption">
+                                                  Modelo de negocios
+                                              </div>
+                                              <div class="tools">
+                                                  <a href="javascript:;" class="expand"> </a>
+                                              </div>
+                                          </div>
+                                          <div class="portlet-body" style="display:none !important">
+                                            <br>
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.modelo_negocio.errors && formBrief.controls.modelo_negocio.dirty }">
+                                                <label for="modelo_negocio">Modelo de negocios del cliente: Productos y servicios, diferenciales, competencia, clientes, tipo de venta, etc. <strong class="text-danger">*</strong></label>
+                                                <textarea class="form-control" rows="8" name="modelo_negocio" formControlName="modelo_negocio" (change)="guardarCambio('modelo_negocio', formBrief.controls.modelo_negocio.value)"></textarea>
+
+                                                <div *ngIf="formBrief.controls.modelo_negocio.errors && formBrief.controls.modelo_negocio.dirty">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.modelo_negocio.errors.required">Los modelo de negocios del cliente presupuesto son requeridos</strong>
+                                                </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                                <label for="expectativas_performance">Setear expectativas de performance. Definir cantidad de consultas y definir calidad</label>
+                                                <textarea class="form-control" rows="8" name="expectativas_performance" formControlName="expectativas_performance" (change)="guardarCambio('expectativas_performance', formBrief.controls.expectativas_performance.value)"></textarea>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                                <label for="relevo_ventas">Relevar cómo gestiona sus ventas actuamente y cómo las va a manejar ahora</label>
+                                                <textarea class="form-control" rows="8" name="relevo_ventas" formControlName="relevo_ventas" (change)="guardarCambio('relevo_ventas', formBrief.controls.relevo_ventas.value)"></textarea>
+                                            </div>
+
+                                          </div>
+                                      </div>
+
+                                      <!-- LANDING PAGES -->
+                                      <br>
+                                      <div class="portlet box red">
+                                          <div class="portlet-title">
+                                              <div class="caption">
+                                                  Landing pages
+                                              </div>
+                                              <div class="tools">
+                                                  <a href="javascript:;" class="expand"> </a>
+                                              </div>
+                                          </div>
+                                          <div class="portlet-body" style="display:none !important">
+                                            <br>
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Recordar el objetivo de la landing: Generar ventas. Es una herramienta para mejorar las campañas
+                                                      <input type="checkbox" value="false" name="recordar_objetivo" formControlName="recordar_objetivo" (change)="guardarCambio('recordar_objetivo', formBrief.controls.recordar_objetivo.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> La landing no es un sitio web. Explicar diferencias
+                                                      <input type="checkbox" value="false" name="diferencia_landing" formControlName="diferencia_landing" (change)="guardarCambio('diferencia_landing', formBrief.controls.diferencia_landing.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Mostrar ejemplos de landings. Explicar que tiene que lanzarse rápido
+                                                      <input type="checkbox" value="false" name="mostrar_ejemplos_landings" formControlName="mostrar_ejemplos_landings" (change)="guardarCambio('mostrar_ejemplos_landings', formBrief.controls.mostrar_ejemplos_landings.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                                <label for="pedir_datos_landing">Pedir teléfono, e-mail y whatsapp para poner en la landing</label>
+                                                <textarea class="form-control" rows="8" name="pedir_datos_landing" formControlName="pedir_datos_landing" (change)="guardarCambio('pedir_datos_landing', formBrief.controls.pedir_datos_landing.value)"></textarea>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.estrategia_landing.errors && formBrief.controls.estrategia_landing.dirty }">
+                                                <label for="estrategia_landing">Estrategia general de Landings y otra información <strong class="text-danger">*</strong></label>
+                                                <textarea class="form-control" rows="8" name="estrategia_landing" formControlName="estrategia_landing" (change)="guardarCambio('estrategia_landing', formBrief.controls.estrategia_landing.value)"></textarea>
+
+                                                <div *ngIf="formBrief.controls.estrategia_landing.errors && formBrief.controls.estrategia_landing.dirty">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.estrategia_landing.errors.required">La estrategia general de Landings y otra información es requerida</strong>
+                                                </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                                <label for="secciones_landing">Secciones de la landing</label>
+                                                <textarea class="form-control" rows="8" name="secciones_landing" formControlName="secciones_landing" (change)="guardarCambio('secciones_landing', formBrief.controls.secciones_landing.value)"></textarea>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Explicar por qué la hosteamos nosotros en MKT1
+                                                      <input type="checkbox" value="false" name="pq_hosteamos" formControlName="pq_hosteamos" (change)="guardarCambio('pq_hosteamos', formBrief.controls.pq_hosteamos.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                                <label for="donde_hostear">Donde hostearla?</label>
+                                                <input type="text" class="form-control" name="donde_hostear" formControlName="donde_hostear" (change)="guardarCambio('donde_hostear', formBrief.controls.donde_hostear.value)">
+                                            </div>
+
+                                          </div>
+                                      </div>
+
+                                      <!-- FACEBOOK ADS -->
+                                      <br>
+                                      <div class="portlet box red">
+                                          <div class="portlet-title">
+                                              <div class="caption">
+                                                  Facebook Ads
+                                              </div>
+                                              <div class="tools">
+                                                  <a href="javascript:;" class="expand"> </a>
+                                              </div>
+                                          </div>
+                                          <div class="portlet-body" style="display:none !important">
+                                            <br>
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.estrategia_facebook_ads.errors && formBrief.controls.estrategia_facebook_ads.dirty }">
+                                                <label for="estrategia_facebook_ads">Estrategia general Facebook Ads y perfil de sus clientes <strong class="text-danger">*</strong></label>
+                                                <textarea class="form-control" rows="8" name="estrategia_facebook_ads" formControlName="estrategia_facebook_ads" (change)="guardarCambio('estrategia_facebook_ads', formBrief.controls.estrategia_facebook_ads.value)"></textarea>
+
+                                                <div *ngIf="formBrief.controls.estrategia_facebook_ads.errors && formBrief.controls.estrategia_facebook_ads.dirty">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.estrategia_facebook_ads.errors.required">La estrategia general Facebook Ads y perfil de sus clientes es requerido</strong>
+                                                </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                                <label for="datos_fan_page_ads">Datos de su Fan Page y cuenta publicitaria. Pedir accesos</label>
+                                                <textarea class="form-control" rows="8" name="datos_fan_page_ads" formControlName="datos_fan_page_ads" (change)="guardarCambio('datos_fan_page_ads', formBrief.controls.datos_fan_page_ads.value)"></textarea>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                                <label for="datos_tdc">Datos de tarjeta de crédito</label>
+                                                <textarea class="form-control" rows="8" name="datos_tdc" formControlName="datos_tdc" (change)="guardarCambio('datos_tdc', formBrief.controls.datos_tdc.value)"></textarea>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                                <label for="presupuesto_facebook_ads">Presupuesto</label>
+                                                <textarea class="form-control" rows="8" name="presupuesto_facebook_ads" formControlName="presupuesto_facebook_ads" (change)="guardarCambio('presupuesto_facebook_ads', formBrief.controls.presupuesto_facebook_ads.value)"></textarea>
+                                            </div>
+
+                                          </div>
+                                      </div>
+
+                                      <!-- MAILING -->
+                                      <br>
+                                      <div class="portlet box red">
+                                          <div class="portlet-title">
+                                              <div class="caption">
+                                                  Mailing
+                                              </div>
+                                              <div class="tools">
+                                                  <a href="javascript:;" class="expand"> </a>
+                                              </div>
+                                          </div>
+                                          <div class="portlet-body" style="display:none !important">
+                                            <br>
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.estrategia_mailing.errors && formBrief.controls.estrategia_mailing.dirty }">
+                                                <label for="estrategia_mailing">Estrategia general Mailing <strong class="text-danger">*</strong></label>
+                                                <textarea class="form-control" rows="8" name="estrategia_mailing" formControlName="estrategia_mailing" (change)="guardarCambio('estrategia_mailing', formBrief.controls.estrategia_mailing.value)"></textarea>
+
+                                                <div *ngIf="formBrief.controls.estrategia_mailing.errors && formBrief.controls.estrategia_mailing.dirty">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.estrategia_mailing.errors.required">La estrategia general Mailing es requerida</strong>
+                                                </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                                <label for="info_primeros_mailings">Información para primeros mailings</label>
+                                                <textarea class="form-control" rows="8" name="info_primeros_mailings" formControlName="info_primeros_mailings" (change)="guardarCambio('info_primeros_mailings', formBrief.controls.info_primeros_mailings.value)"></textarea>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Pedir base de datos
+                                                      <input type="checkbox" value="false" name="pedir_bd" formControlName="pedir_bd" (change)="guardarCambio('pedir_bd', formBrief.controls.pedir_bd.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Explicar que el mailing no genera ventas de forma directa
+                                                      <input type="checkbox" value="false" name="explicacion_mailing_no_ventas" formControlName="explicacion_mailing_no_ventas" (change)="guardarCambio('explicacion_mailing_no_ventas', formBrief.controls.explicacion_mailing_no_ventas.value)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                          </div>
+                                      </div>
+
+                                      <!-- DATOS DE ACCESO -->
+                                      <br>
+                                      <div class="portlet box red">
+                                          <div class="portlet-title">
+                                              <div class="caption">
+                                                  Datos de acceso
+                                              </div>
+                                              <div class="tools">
+                                                  <a href="javascript:;" class="expand"> </a>
+                                              </div>
+                                          </div>
+                                          <div class="portlet-body" style="display:none !important">
+                                            <br>
+                                            <div class="form-group">
+                                                <label for="datos_sitio">Datos de acceso al sitio, FTP, Hosting, Nic.ar. Sólo en caso necesario</label>
+                                                <textarea class="form-control" rows="8" name="datos_sitio" formControlName="datos_sitio" (change)="guardarCambio('datos_sitio', formBrief.controls.datos_sitio.value)"></textarea>
+                                            </div>
+
+                                          </div>
+                                      </div>
+
+                                      <!-- CHECKLIST -->
+                                      <br>
+                                      <div class="portlet box red">
+                                          <div class="portlet-title">
+                                              <div class="caption">
+                                                  Checklist
+                                              </div>
+                                              <div class="tools">
+                                                  <a href="javascript:;" class="expand"> </a>
+                                              </div>
+                                          </div>
+                                          <div class="portlet-body" style="display:none !important">
+                                            <br>
+
+                                            <h4><strong>Inicial</strong></h4>
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Recibir contrato firmado
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.contrato_firmado.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('contrato_firmado', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Presentarse y presentart al supervisor
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.presentarse.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('presentarse', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Explicarle la agenda y el motivo de la reunión
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.explicacion_agenda.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('explicacion_agenda', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Explicar que el interlocutor de parte de ellos debe ser sólo 1 persona
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.explicacion_interlocutor.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('explicacion_interlocutor', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <hr>
+
+                                            <h4><strong>Adwords</strong></h4>
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Explicar formas de pago y facturación
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.explicacion_formas_pago.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('explicacion_formas_pago', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Aclarar que no siempre sale primero, y tampoco sale el 100% de las veces
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.aclaratoria.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('aclaratoria', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Explicar el proceso de mejora de campañas de Adwords
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.explicacion_mejora.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('explicacion_mejora', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <hr>
+
+                                            <h4><strong>Landing pages</strong></h4>
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Recordar el objetivo de la landing: Generar ventas. Es una herramienta para mejorar las campañas
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.recordar_objetivo.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('recordar_objetivo', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> La landing no es un sitio web. Explicar diferencias
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.diferencia_landing.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('diferencia_landing', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Mostrar ejemplos de landings. Explicar que tiene que lanzarse rápido
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.mostrar_ejemplos_landings.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('mostrar_ejemplos_landings', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Explicar por qué la hosteamos nosotros en MKT1
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.pq_hosteamos.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('pq_hosteamos', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <hr>
+
+                                            <h4><strong>Remarketing</strong></h4>
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Recordarle qué es. Explicar que se hace a lo último del plan de acción
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.explicacion_remarketing.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('explicacion_remarketing', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <hr>
+
+                                            <h4><strong>Mailing</strong></h4>
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Pedir base de datos
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.pedir_bd.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('pedir_bd', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Explicar que el mailing no genera ventas de forma directa
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.explicacion_mailing_no_ventas.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('explicacion_mailing_no_ventas', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <hr>
+
+                                            <h4><strong>Chat</strong></h4>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Explicación básica de como funciona
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.explicacion_chat.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('explicacion_chat', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <hr>
+
+                                            <h4><strong>Administrativo</strong></h4>
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Todo lo administrativo se habla con sector Administración: Facturas, pagos, etc.
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.depende_administracion.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('depende_administracion', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Recordar y confirmar que el pago es adelantado del 1 al 5 de cada mes
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.recordar_pago.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('recordar_pago', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <hr>
+
+                                            <h4><strong>Final</strong></h4>
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Explicar cómo tiene que gestionar las ventas
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.explicacion_gestion_ventas.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('explicacion_gestion_ventas', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Se hacen reuniones presenciales trimestrales y el resto por teléfono
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.reuniones.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('reuniones', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Nuestra forma de trabajo es de manera semanal
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.forma_trabajo.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('forma_trabajo', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Plan de acción: Tiempos semanales para hacer las tareas
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.plan_accion.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('plan_accion', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Expectativas luego del plan de accion: Consultas y ventas
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.expectativas_plan_accion.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('expectativas_plan_accion', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Cómo y cuando llegan los reportes
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.reportes.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('reportes', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Recordar y confirmar que el pago es adelantado del 1 al 5 de cada mes
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.recordar_pago_adelantado.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('recordar_pago_adelantado', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Formas de aprobación de las piezas. Devoluciones de clientes de forma unificada. También unificar el envió de información general.
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.formas_aprobacion.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('formas_aprobacion', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Explicar que se va a juntar con el equipo para definir cantidad de landings, campañas.
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.explicacion_cantidad_landings_campanas.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('explicacion_cantidad_landings_campanas', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                            <br><br>
+
+                                            <div class="form-group">
+                                              <div class="mt-checkbox-list">
+                                                  <label class="mt-checkbox"> Explicarles bien claro y concreto como responder las consultas: Llamar en el momento.
+                                                      <input type="checkbox" [(ngModel)]="formBrief.controls.explicacion_responder_consultas.value" [ngModelOptions]="{standalone: true}" (ngModelChange)="setControl('explicacion_responder_consultas', $event)">
+                                                      <span></span>
+                                                  </label>
+                                              </div>
+                                            </div>
+
+                                          </div>
+                                      </div>
+
+                                  </div>
+
+                              </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- FINAL DEL CONTENIDO -->
+
+    </div>
+
+    <!-- FOOTER -->
+
+    <page-footer>
+    </page-footer>
+
+    <!-- FINAL DE FOOTER -->
+
+</div>
+
+<div class="quick-nav-overlay"></div>

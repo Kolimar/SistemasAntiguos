@@ -1,0 +1,85 @@
+<div class="container-fluid">
+      <div class="card">
+        <form [formGroup]="nuevoUsuarioForm" (ngSubmit)="crearUsuario($event)">
+        <div class="card-header">
+          <strong>Crear
+          </strong>usuario
+        </div>
+        <ng2-toasty></ng2-toasty>
+        <div class="card-block">
+            <div class="form-group row">
+              <label class="col-md-3 form-control-label" for="name">Nombre <span class="text-danger">*</span></label>
+              <div class="col-md-9">
+                <input formControlName="name" type="nombre" name="name" class="form-control" placeholder="Nombre" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-3 form-control-label" for="last_name">Apellido <span class="text-danger">*</span></label>
+              <div class="col-md-9">
+                <input formControlName="last_name" type="apellido" name="last_name" class="form-control" placeholder="Apellido" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-3 form-control-label" for="email">Email <span class="text-danger">*</span></label>
+              <div class="col-md-9">
+                <input formControlName="email" type="email" name="email" class="form-control" placeholder="Email" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-3 form-control-label" for="empresa">Empresa </label>
+              <div class="col-md-9">
+                <input formControlName="empresa" type="empresa" name="empresa" class="form-control" pTooltip="Este campo es opcional" tooltipPosition="top" tooltipEvent="focus" placeholder="Empresa">
+              </div>
+            </div>
+          <!--  <div class="form-group row">
+              <label class="col-md-3 form-control-label" for="admin">Perfil del usuario<span class="text-danger">*</span></label>
+              <div class="col-md-9">
+              <p-dropdown [options]="perfiles" formControlName="admin" required></p-dropdown>
+              </div>
+            </div>  -->
+            <div class="form-group row">
+            <label class="col-md-3 form-control-label" for="verified">Habilitado <span class="text-danger">*</span></label>
+            <div class="col-md-9">
+            <label class="switch switch-text switch-primary">
+            <input  formControlName="verified" type="habilitado" name="verified" type="checkbox" class="switch-input" checked>
+            <span class="switch-label" data-on="Si" data-off="No"></span>
+            <span class="switch-handle"></span>
+            </label>
+            </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-3 form-control-label" for="password">Contraseña <span class="text-danger">*</span></label>
+              <div class="col-md-9">
+                <input formControlName="password" type="password" name="password" class="form-control" placeholder="Password" pTooltip="Puede ser alfanumérica y debe contener 6 carácteres como mínimo" tooltipPosition="top" tooltipEvent="focus" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-3 form-control-label" for="password_confirmation">Confirme la Contraseña <span class="text-danger">*</span></label>
+              <div class="col-md-9">
+                <input formControlName="password_confirmation" type="password" name="password_confirmation" class="form-control" placeholder="Password" pTooltip="Debe coincidir con la contraseña del campo anterior." tooltipPosition="top" tooltipEvent="focus" required>
+              </div>
+            </div>
+
+            <!-- <div class="form-group row">
+              <label class="col-md-3 form-control-label" for="avatar">Avatar <span class="text-danger">*</span></label>
+              <div class="col-md-9">
+              <p-fileUpload name="myfile[]"
+                            chooseLabel="Seleccionar Imagen"
+                            uploadLabel="Subir"
+                            cancelLabel="Cancelar"
+                            accept="image/*"
+                            maxFileSize="1000000"
+                            url="http://localhost/recibidor">
+                            </p-fileUpload>
+              </div>
+            </div> -->
+        </div>
+        <div class="card-footer text-right">
+          <button type="button" (click)="cambioScreen('cuentas')" class="btn btn-danger">Cancelar</button>
+
+          <button type="submit" [disabled]="!nuevoUsuarioForm.valid || this.load " class="btn btn-primary">Guardar</button>
+        </div>
+        </form>
+
+      </div>
+</div>

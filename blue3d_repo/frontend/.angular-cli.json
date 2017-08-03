@@ -1,0 +1,84 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "project": {
+    "name": "Blue3D"
+  },
+  "apps": [
+    {
+      "root": "src",
+      "outDir": "dist",
+      "assets": [
+        "assets",
+        "favicon.ico"
+      ],
+      "index": "index.html",
+      "main": "main.ts",
+      "polyfills": "polyfills.ts",
+      "test": "test.ts",
+      "tsconfig": "tsconfig.app.json",
+      "testTsconfig": "tsconfig.spec.json",
+      "prefix": "app",
+      "styles": [
+        "styles.css",
+        "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+        "./assets/metronic/apps/css/styles.css",
+        "./assets/metronic/global/plugins/bootstrap/css/bootstrap.min.css",
+        "./assets/metronic/global/plugins/font-awesome/css/font-awesome.min.css",
+        "./assets/metronic/global/plugins/simple-line-icons/simple-line-icons.min.css",
+        "./assets/metronic/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" ,
+        "../node_modules/ng2-toasty/style-bootstrap.css",
+        "../node_modules/ng2-toasty/style-default.css",
+        "../node_modules/ng2-toasty/style-material.css",
+        "./assets/metronic/global/css/components.min.css",
+        "./assets/metronic/global/css/plugins.min.css",
+        "./assets/metronic/layouts/layout/css/layout.min.css",
+        "./assets/metronic/layouts/layout/css/themes/darkblue.min.css",
+        "./assets/metronic/layouts/layout/css/custom.min.css",
+        "./assets/metronic/pages/css/login.min.css"
+      ],
+      "scripts": [
+        "./assets/metronic/global/plugins/jquery.min.js",
+        "./assets/metronic/global/plugins/bootstrap/js/bootstrap.min.js",
+        "./assets/metronic/global/plugins/js.cookie.min.js",
+        "./assets/metronic/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js",
+        "./assets/metronic/global/plugins/jquery.blockui.min.js",
+        "./assets/metronic/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js",
+        "./assets/metronic/global/scripts/app.min.js",
+        "./assets/metronic/layouts/layout/scripts/layout.min.js",
+        "./assets/metronic/layouts/layout/scripts/demo.min.js",
+        "./assets/metronic/layouts/global/scripts/quick-sidebar.min.js",
+        "./assets/metronic/layouts/global/scripts/quick-nav.min.js"
+      ],
+      "environmentSource": "environments/environment.ts",
+      "environments": {
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
+      }
+    }
+  ],
+  "e2e": {
+    "protractor": {
+      "config": "./protractor.conf.js"
+    }
+  },
+  "lint": [
+    {
+      "project": "src/tsconfig.app.json"
+    },
+    {
+      "project": "src/tsconfig.spec.json"
+    },
+    {
+      "project": "e2e/tsconfig.e2e.json"
+    }
+  ],
+  "test": {
+    "karma": {
+      "config": "./karma.conf.js"
+    }
+  },
+  "defaults": {
+    "styleExt": "css",
+    "component": {}
+  }
+}

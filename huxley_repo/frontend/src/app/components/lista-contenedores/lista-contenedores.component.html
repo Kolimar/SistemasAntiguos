@@ -1,0 +1,127 @@
+
+<p-dialog header="Log Contenedor {{contenedorActivo}}" [(visible)]="modal" modal="modal" width="800" height="400" [responsive]="true" [resizable]="false" [draggable]="false">
+    
+    <div style="position: absolute;display: block;">
+      
+    <ul >
+        <li *ngFor="let log of logdeCont">
+          <b>{{log.fecha| date: 'dd/MM/yyyy HH:mm:ss'}} </b>
+          
+          {{" ("+  log.username.toUpperCase()  +") "+ log.descripcion}}
+
+          <hr>
+        </li>
+    </ul>
+    </div>
+
+        <p-footer>
+            <button type="button pull-right" pButton icon="fa-check" (click)="modal=false" label="Volver"></button>
+            
+        </p-footer>
+</p-dialog>
+
+<div class="animated fadeIn">
+        <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="pull-left">Contenedores</h5>
+                                    <button class="btn btn-outline-primary pull-right pointer" style="margin: 0px;" ><i class="fa fa-table "></i>Exportar a Excel</button>
+                                </div>
+                                <div class="card-block" style="flex: 1 1 auto;padding: 1.25rem;">
+                                    <table class="table table-bordered table-striped table-sm">
+                                        <thead>
+                                            <tr role="row" class="heading">
+                                                <th>
+                                                Codigo
+                                                <i (click)='sortbydesc("codigo")' class="fa fa-arrow-down pull-right pointer hoverBlue hidden-s" aria-hidden="true"></i>
+                                                <i (click)='sortby("codigo")' class="fa fa-arrow-up pull-right pointer hoverBlue hidden-s" aria-hidden="true"></i>
+                                               </th >
+                                                <th class="hidden-s">
+                                                Size
+                                                <i (click)='sortbydesc("size")' class="fa fa-arrow-down pull-right pointer hoverBlue hidden-s" aria-hidden="true"></i>
+                                                <i (click)='sortby("size")' class="fa fa-arrow-up pull-right pointer hoverBlue hidden-s" aria-hidden="true"></i>
+                                                  
+                                                </th>
+                                                <th class="hidden-s">Tipo
+                                                <i (click)='sortbydesc("tipo")' class="fa fa-arrow-down pull-right pointer hoverBlue hidden-s" aria-hidden="true"></i>
+                                                <i (click)='sortby("tipo")' class="fa fa-arrow-up pull-right pointer hoverBlue hidden-s" aria-hidden="true"></i></th>
+                                                <th class="hidden-s">Deposito
+                                                <i (click)='sortbydesc("Deposito")' class="fa fa-arrow-down pull-right pointer hoverBlue hidden-s" aria-hidden="true"></i>
+                                                <i (click)='sortby("Deposito")' class="fa fa-arrow-up pull-right pointer hoverBlue hidden-s" aria-hidden="true"></i></th>
+                                                <th class="hidden-s">Dias plaza</th>
+                                                <th>Estado</th>
+                                                <th>Bloqueado</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                            <tr role="row" class="filter hidden-s">
+                                                <th>
+                                                  <input type="text"  [(ngModel)]="busquedaCodigo"  class="form-control hidden-s" (change)="change(estadoFiltro)">
+                                                </th>
+                                                <th>
+                                                  <input type="text"  [(ngModel)]="busquedaSize"  class="form-control hidden-s" (change)="change(estadoFiltro)">
+                                                </th>
+                                                <th class="hidden-s">
+                                                <input type="text" [(ngModel)]="busquedaTipo" class="form-control" (change)="change(estadoFiltro)">     
+                                                </th>
+                                                <th class="hidden-s">
+                                                <input  type="text" [(ngModel)]="busquedaDeposito" class="form-control" (change)="change(estadoFiltro)"></th>
+                                                <th class="hidden-s">
+                                                <input  type="text" [(ngModel)]="busquedaDiasplaza" class="form-control" (change)="change(estadoFiltro)"></th>
+                                                <th>
+                                                 <select class="form-control hidden-s" id="sel1" (change)="change(estadoFiltro)">
+                                                  <option value="9">Todos</option>
+                                                  <option value=1>AVERIADO</option>
+                                                  <option value=0>OK</option>
+                                                  
+                                                </select></th>
+                                                <th>
+                                                 <select [(ngModel)]="busquedaBloqueado" class="form-control hidden-s" id="sel1" (change)="change(estadoFiltro)">
+                                                  <option value="9">Todos</option>
+                                                  <option value=1>Bloqueado</option>
+                                                  <option value=0>Desbloqueado</option>
+                                                  
+                                                </select></th>
+                                                <th>
+                                                <button class="btn btn-block btn-outline-primary hidden-s" (click)="resetFilter()">Limpiar Filtros</button></th>
+
+                                            </tr>
+                                        </thead>
+                                 <tbody *ngFor="let item of Contenedores">
+                                      <tr>
+                                          <td>{{item.codigo}}</td>
+                                          <td class="hidden-s">{{item.size}}</td>
+                                          <td class="hidden-s">{{item.tipo}}</td>
+                                          <td class="hidden-s">{{item.nombreDeposito}}</td>
+                                          <td class="hidden-s">{{item.fecha_ultimo_movimiento}}</td>
+                                          <td *ngIf="item.estado=='AVERIADO'" class="badge badge-danger badge_tec">
+                                            AVERIADO
+                                          </td>
+                                          <td *ngIf="item.estado=='OK'" class="badge badge-success badge_tec">
+                                            OK
+                                          </td>
+                                          <td *ngIf="item.bloqueado=='Disponible'" class="badge badge-success badge_tec">
+                                            Disponible
+                                          </td>
+                                          <td *ngIf="item.bloqueado=='Bloqueado'" class="badge badge-danger badge_tec">
+                                            Bloqueado
+                                          </td>                                         
+                                          <td><button class="btn btn-outline-primary pointer hidden-s" style="margin:5px;" (click)="cambioScreen('editar',item,200)"><i class="icon-pencil"></i></button>&nbsp;<button class="btn btn-outline-primary pointer " (click)="cargarLog(item.id,item.codigo)" style="margin:5px;"><i class="icon-notebook"></i></button></td>
+                                      </tr>
+                                  </tbody>
+                                  
+                              </table>
+                              <div *ngIf="Contenedores?.length==0" class="card col-12">
+                                    <h3 class="text-center" style="padding:20px">
+                                       No hay registros que coincidan con la busqueda
+                                    </h3>
+                              </div>
+
+                    <button *ngIf="this.viewMore" class="btn btn-primary btn-block pointer" (click)="loadData()"><i class="fa fa-arrow-down  fa-lg fa-fw pull-left " aria-hidden="true"></i> Ver Más </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/.col-->
+                    </div>
+
+</div>

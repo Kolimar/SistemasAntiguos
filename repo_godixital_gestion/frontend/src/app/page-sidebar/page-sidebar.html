@@ -1,0 +1,126 @@
+<div class="page-sidebar-wrapper">
+
+    <div class="page-sidebar navbar-collapse collapse">
+
+        <ul class="page-sidebar-menu  page-header-fixed" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 20px">
+            <li class="sidebar-toggler-wrapper hide">
+                <div class="sidebar-toggler">
+                    <span></span>
+                </div>
+            </li>
+            <li class="sidebar-search-wrapper">
+                <form class="sidebar-search  " action="page_general_search_3.html" method="POST">
+                    <a href="javascript:;" class="remove">
+                        <i class="icon-close"></i>
+                    </a>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search...">
+                        <span class="input-group-btn">
+                            <a href="javascript:;" class="btn submit">
+                                <i class="icon-magnifier"></i>
+                            </a>
+                        </span>
+                    </div>
+                </form>
+            </li>
+
+            <li class="nav-item">
+                <a [routerLink]="['/tareas-templates']" class="nav-link ">
+                    <i class="fa fa-tasks" aria-hidden="true"></i>
+                    <span class="title">Tareas templates</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a [routerLink]="['/servicios']" class="nav-link ">
+                    <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                    <span class="title">Servicios</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a [routerLink]="['/tareas']" class="nav-link ">
+                    <i class="fa fa-thumb-tack" aria-hidden="true"></i>
+                    <span class="title">Tareas</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a [routerLink]="['/briefs']" class="nav-link ">
+                    <i class="fa fa-briefcase" aria-hidden="true"></i>
+                    <span class="title">Brief de ventas</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a [routerLink]="['/clientes']" class="nav-link ">
+                    <i class="fa fa-users" aria-hidden="true"></i>
+                    <span class="title">Clientes</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a [routerLink]="['/logs']" class="nav-link ">
+                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                    <span class="title">Logs</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a [routerLink]="['/panel-clientes']" class="nav-link ">
+                    <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                    <span class="title">Panel de clientes</span>
+                </a>
+            </li>
+
+            <li class="nav-item" [ngClass]="{ 'active': menuAbmActive }">
+                <a (click)="onMenuAbm()">
+                    <i class="fa fa-wrench" aria-hidden="true"></i>
+                    <span class="title">ABMs</span>
+                    <span class="arrow open"></span>
+                </a>
+                <ul class="sub-menu" id="sub-menu-abm">
+                    <li class="nav-item">
+                        <a [routerLink]="['/roles-contactos']" class="nav-link ">
+                            <i class="fa fa-user-secret" aria-hidden="true"></i>
+                            <span class="title">Roles de contacto</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a [routerLink]="['/formas-pago']" class="nav-link ">
+                            <i class="fa fa-money" aria-hidden="true"></i>
+                            <span class="title">Formas de pago</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a [routerLink]="['/canales-adquisicion']" class="nav-link ">
+                            <i class="fa fa-exchange" aria-hidden="true"></i>
+                            <span class="title">Canales de adquisición</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a [routerLink]="['/motivos-logs']" class="nav-link ">
+                            <i class="fa fa-archive" aria-hidden="true"></i>
+                            <span class="title">Motivos de logs</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a [routerLink]="['/tipos-tareas']" class="nav-link ">
+                            <i class="fa fa-tags" aria-hidden="true"></i>
+                            <span class="title">Tipos de tareas</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a [routerLink]="['/users']" class="nav-link ">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            <span class="title">Usuarios</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
+
+    </div>
+
+</div>

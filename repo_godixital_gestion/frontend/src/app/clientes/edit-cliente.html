@@ -1,0 +1,2068 @@
+<div class="page-wrapper">
+
+    <!-- HEADER -->
+
+    <page-header>
+    </page-header>
+
+    <!-- FINAL DE HEADER -->
+
+    <!-- DIVISOR -->
+
+    <div class="clearfix"> </div>
+
+    <!-- FINAL DE DIVISOR -->
+
+
+
+    <div class="page-container">
+
+        <!-- SIDEBAR -->
+
+        <page-sidebar>
+        </page-sidebar>
+
+        <!-- FINAL SIDEBAR -->
+
+        <!-- CONTENIDO -->
+
+        <div class="page-content-wrapper">
+
+            <div class="page-content">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Begin: Demo Datatable 1 -->
+                        <div class="portlet light portlet-fit portlet-datatable bordered">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <ol class="breadcrumb" style="background-color:transparent;">
+                                        <li class="caption-subject font-dark sbold uppercase"><a [routerLink]="['/clientes']"><i class="fa fa-users" aria-hidden="true"></i> Clientes</a></li>
+                                        <li class="caption-subject font-dark sbold uppercase">Editar</li>
+                                        <li *ngIf="dataCliente" class="caption-subject font-dark sbold uppercase">{{ selectedName }}</li>
+                                        <li *ngIf="dataCliente" class="caption-subject font-dark sbold">
+                                          <span *ngIf="dataCliente.estado && !dataCliente.fecha_baja && !dataCliente.motivo_baja" class="label label-success"><strong>Activo</strong></span>
+                                          <span *ngIf="dataCliente.estado && dataCliente.fecha_baja && dataCliente.motivo_baja && curDate" class="label label-sm label-success"><strong>Activo (será dado de baja el día {{ dataCliente.fecha_baja | date:'dd-MM-y' }})</strong></span>
+                                          <span *ngIf="!dataCliente.estado && dataCliente.fecha_baja && dataCliente.motivo_baja" class="label label-danger"><strong> Inactivo (dado de baja el día {{ dataCliente.fecha_baja | date:'dd-MM-y' }})</strong></span>
+                                        </li>
+                                        <li class="caption-subject font-dark sbold" *ngIf="estadoGuardado"><span class="label label-info"><strong>Guardado</strong></span></li>
+                                        <li class="caption-subject font-dark sbold" *ngIf="!estadoGuardado"><span class="label label-warning"><strong>Guardando...</strong></span></li>
+                                    </ol>
+                                </div>
+                            </div>
+
+                            <div *ngIf="dataCliente" class="container-fluid">
+                                <div class="note note-success">
+                                    <div class="container-fluid">
+
+                                        <div class="col-md-6">
+                                          <h4>Cliente: <strong>{{ dataCliente.nombre }}</strong></h4>
+                                          <h4>Project manager asignado: <strong>{{ dataCliente.nombres_pm }} {{ dataCliente.apellidos_pm }}</strong></h4>
+                                          <h4>Fecha de comienzo de gestión: <strong>{{ dataCliente.fecha_comienzo | date:'dd-MM-y' }}</strong></h4>
+                                        </div>
+                                        <div class="col-md-6">
+                                          <h4 *ngIf="headerContacto && esPrincipal">Contacto: <strong>{{ headerContacto.nombre }} {{ headerContacto.apellido }}</strong>
+                                              <strong>/</strong>
+                                              <span *ngFor="let telefonos of headerContacto?.telefonos; let first= first">
+                                                <strong *ngIf="first">{{ telefonos.telefono }}</strong>
+                                              </span>
+                                              <strong>/</strong>
+                                              <span *ngFor="let emails of headerContacto?.emails; let first= first">
+                                                <strong *ngIf="first">{{ emails.email }}</strong>
+                                              </span>
+                                              <strong>/</strong>
+                                          </h4>
+                                          <h4>Servicios contratados: <strong *ngFor="let servicio of modelServicioContratado">{{ servicio.nombre_servicio }} / </strong></h4>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ERRORES DE SOLAPA PRINCIAL -->
+                            <div *ngIf="dataCliente" class="container-fluid">
+                              <div class="alert alert-danger alert-dismissible"
+                              *ngIf="(formClientePrincipal.controls.nombre.errors && formClientePrincipal.controls.nombre.dirty) || (formClientePrincipal.controls.pm_asignado.errors && formClientePrincipal.controls.pm_asignado.dirty) || (formClientePrincipal.controls.fecha_comienzo.errors && formClientePrincipal.controls.fecha_comienzo.dirty) || (formClientePrincipal.controls.monto_abono.errors && formClientePrincipal.controls.monto_abono.dirty) || (formClientePrincipal.controls.fecha_primera_reunion.errors && formClientePrincipal.controls.fecha_primera_reunion.dirty)">
+                                  <strong>Alerta!</strong> Faltan datos por completar en la solapa <strong>Principal</strong>.
+                              </div>
+                            </div>
+
+                            <!-- ERRORES DE SOLAPA ADMINISTRACION -->
+                            <div *ngIf="dataCliente" class="container-fluid">
+                              <div class="alert alert-danger alert-dismissible"
+                              *ngIf="(formClienteAdministracion.controls.contrato_firmado.errors && formClienteAdministracion.controls.contrato_firmado.dirty)">
+                                  <strong>Alerta!</strong> Faltan datos por completar en la solapa <strong>Administración</strong>.
+                              </div>
+                            </div>
+
+                            <!-- ERRORES DE SOLAPA VENTAS -->
+                            <div *ngIf="dataCliente" class="container-fluid">
+                              <div class="alert alert-danger alert-dismissible"
+                              *ngIf="(formClienteVentas.controls.propuesta_original.errors && formClienteVentas.controls.propuesta_original.dirty) || (formClienteVentas.controls.id_canal_adquisicion.errors && formClienteVentas.controls.id_canal_adquisicion.dirty) || (formClienteVentas.controls.comentario_adquisicion.errors && formClienteVentas.controls.comentario_adquisicion.dirty) || (formClienteVentas.controls.puntaje_cliente.errors && formClienteVentas.controls.puntaje_cliente.dirty) || (formClienteVentas.controls.puntaje_cliente.errors && formClienteVentas.controls.puntaje_cliente.dirty)">
+                                  <strong>Alerta!</strong> Faltan datos por completar en la solapa <strong>Ventas</strong>.
+                              </div>
+                            </div>
+
+                            <!-- ERRORES DE SOLAPA CAMPAÑA -->
+                            <div *ngIf="dataCliente" class="container-fluid">
+                              <div class="alert alert-danger alert-dismissible"
+                              *ngIf="(formClienteCampanas.controls.presupuesto_invertir_publicidad.errors && formClienteCampanas.controls.presupuesto_invertir_publicidad.dirty) || (formClienteCampanas.controls.estrategia_general.errors && formClienteCampanas.controls.estrategia_general.dirty) || (formClienteCampanas.controls.segmentacion_geografica.errors && formClienteCampanas.controls.segmentacion_geografica.dirty) || (formClienteCampanas.controls.presupuesto_adwords.errors && formClienteCampanas.controls.presupuesto_adwords.dirty) || (formClienteCampanas.controls.estrategia_facebook_ads.errors && formClienteCampanas.controls.estrategia_facebook_ads.dirty)">
+                                  <strong>Alerta!</strong> Faltan datos por completar en la solapa <strong>Campañas</strong>.
+                              </div>
+                            </div>
+
+                            <!-- ERRORES DE SOLAPA DISEÑO -->
+                            <div *ngIf="dataCliente" class="container-fluid">
+                              <div class="alert alert-danger alert-dismissible"
+                              *ngIf="(formClienteDiseno.controls.sitio_web.errors && formClienteDiseno.controls.sitio_web.dirty) || (formClienteDiseno.controls.fan_page.errors && formClienteDiseno.controls.fan_page.dirty) || (formClienteDiseno.controls.estrategia_landing.errors && formClienteDiseno.controls.estrategia_landing.dirty) || (formClienteDiseno.controls.estrategia_facebook_posteos.errors && formClienteDiseno.controls.estrategia_facebook_posteos.dirty) || (formClienteDiseno.controls.estrategia_mailing.errors && formClienteDiseno.controls.estrategia_mailing.dirty)">
+                                  <strong>Alerta!</strong> Faltan datos por completar en la solapa <strong>Diseño</strong>.
+                              </div>
+                            </div>
+
+                            <!-- ERRORES DE SOLAPA DETALLE DE EMPRESA -->
+                            <div *ngIf="dataCliente" class="container-fluid">
+                              <div class="alert alert-danger alert-dismissible"
+                              *ngIf="(formClienteDetalleEmpresa.controls.id_tipo_empresa.errors && formClienteDetalleEmpresa.controls.id_tipo_empresa.dirty) || (formClienteDetalleEmpresa.controls.rubro.errors && formClienteDetalleEmpresa.controls.rubro.dirty) || (formClienteDetalleEmpresa.controls.id_tipo_venta.errors && formClienteDetalleEmpresa.controls.id_tipo_venta.dirty) || (formClienteDetalleEmpresa.controls.modelo_negocio.errors && formClienteDetalleEmpresa.controls.modelo_negocio.dirty) || (formClienteDetalleEmpresa.controls.calidad_modelo_negocio.errors && formClienteDetalleEmpresa.controls.calidad_modelo_negocio.dirty) || (formClienteDetalleEmpresa.controls.acciones_realiza_internet.errors && formClienteDetalleEmpresa.controls.acciones_realiza_internet.dirty) || (formClienteDetalleEmpresa.controls.upselibilidad.errors && formClienteDetalleEmpresa.controls.upselibilidad.dirty) || (formClienteDetalleEmpresa.controls.comentario_upselibilidad.errors && formClienteDetalleEmpresa.controls.comentario_upselibilidad.dirty) || (formClienteDetalleEmpresa.controls.educabilidad.errors && formClienteDetalleEmpresa.controls.educabilidad.dirty) || (formClienteDetalleEmpresa.controls.comentario_educabilidad.errors && formClienteDetalleEmpresa.controls.comentario_educabilidad.dirty) || (formClienteDetalleEmpresa.controls.conocimiento_internet.errors && formClienteDetalleEmpresa.controls.conocimiento_internet.dirty) || (formClienteDetalleEmpresa.controls.conocimiento_internet.errors && formClienteDetalleEmpresa.controls.conocimiento_internet.dirty) || (formClienteDetalleEmpresa.controls.capacidad_financiera_cliente.errors && formClienteDetalleEmpresa.controls.capacidad_financiera_cliente.dirty) || (formClienteDetalleEmpresa.controls.nivel_esperado_hinchapelotes.errors && formClienteDetalleEmpresa.controls.nivel_esperado_hinchapelotes.dirty) || (formClienteDetalleEmpresa.controls.competidores_cliente.errors && formClienteDetalleEmpresa.controls.competidores_cliente.dirty) || (formClienteDetalleEmpresa.controls.personalidad.errors && formClienteDetalleEmpresa.controls.personalidad.dirty) || (formClienteDetalleEmpresa.controls.modelo_negocio_brief.errors && formClienteDetalleEmpresa.controls.modelo_negocio_brief.dirty) || (formClienteDetalleEmpresa.controls.puntos_conflictos.errors && formClienteDetalleEmpresa.controls.puntos_conflictos.dirty)">
+                                  <strong>Alerta!</strong> Faltan datos por completar en la solapa <strong>Detalle de la empresa</strong>.
+                              </div>
+                            </div>
+
+                            <div class="portlet-body">
+
+                                <div class="tabbable-custom nav-justified">
+                                    <ul class="nav nav-tabs nav-justified">
+                                        <li class="active">
+                                            <a href="#tab_principal" data-toggle="tab"> Principal </a>
+                                        </li>
+                                        <li>
+                                            <a href="#tab_administracion" data-toggle="tab"> Administración </a>
+                                        </li>
+                                        <li>
+                                            <a href="#tab_ventas" data-toggle="tab"> Ventas </a>
+                                        </li>
+                                        <li>
+                                            <a href="#tab_campañas" data-toggle="tab"> Campañas </a>
+                                        </li>
+                                        <li>
+                                            <a href="#tab_diseño" data-toggle="tab"> Diseño </a>
+                                        </li>
+                                        <li>
+                                            <a href="#tab_detalle_empresa" data-toggle="tab"> Detalle de la empresa </a>
+                                        </li>
+                                        <li>
+                                            <a href="#tab_pm" data-toggle="tab"> PMs </a>
+                                        </li>
+                                    </ul>
+
+                                    <!-- MAIN TABS DETALLE -->
+                                    <div class="tab-content">
+                                        <br>
+                                        <!-- PRINCIPAL -->
+                                        <div class="tab-pane active" id="tab_principal">
+                                            <form *ngIf="dataCliente" novalidate [formGroup]="formClientePrincipal" id="formClientePrincipal">
+                                                <div class="container-fluid">
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClientePrincipal.controls.nombre.errors && formClientePrincipal.controls.nombre.dirty }">
+                                                            <label for="nombre">Nombre del cliente <strong class="text-danger">*</strong></label>
+                                                            <input type="text" class="form-control" name="nombre" id="nombre" formControlName="nombre" (change)="guardarCambio('nombre', formClientePrincipal.controls.nombre.value, 'formClientePrincipal')" maxlength="50">
+
+                                                            <div *ngIf="formClientePrincipal.controls.nombre.errors && formClientePrincipal.controls.nombre.dirty">
+                                                                <strong class="help-block" *ngIf="formClientePrincipal.controls.nombre.errors.required">El nombre del cliente es requerido</strong>
+                                                                <strong class="help-block" *ngIf="formClientePrincipal.controls.nombre.errors.maxlength">El nombre del cliente debe contener menos de 50 caracteres</strong>
+                                                                <strong class="help-block" *ngIf="formClientePrincipal.controls.nombre.errors.sinEspacios">El nombre del cliente no debe contener espacios en blaco al inicio del texto</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClientePrincipal.controls.pm_asignado.errors && formClientePrincipal.controls.pm_asignado.dirty }">
+                                                            <label for="pm_asignado">Project manager asignado <strong class="text-danger">*</strong></label>
+                                                            <select class="form-control" name="pm_asignado" id="pm_asignado" formControlName="pm_asignado" (change)="guardarCambio('pm_asignado', formClientePrincipal.controls.pm_asignado.value, 'formClientePrincipal')">
+                                                                <option value="">Ninguno...</option>
+                                                                <option *ngFor="let pm of listPms" value="{{ pm.id }}">{{ pm.nombres }} {{ pm.apellidos }}</option>
+                                                            </select>
+
+                                                            <div *ngIf="formClientePrincipal.controls.pm_asignado.errors && formClientePrincipal.controls.pm_asignado.dirty">
+                                                                <strong class="help-block" *ngIf="formClientePrincipal.controls.pm_asignado.errors.required">El project manager es requerido</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div *ngIf="!esPrincipal" class="alert alert-danger">
+                                                          <strong>Debe asignar al menos un contacto principal</strong>
+                                                        </div>
+                                                        <div class="portlet box blue">
+                                                            <div class="portlet-title">
+                                                                <div class="caption">
+                                                                    Contactos <strong class="text-danger">*</strong>
+                                                                </div>
+                                                                <div class="actions">
+                                                                    <button (click)="showModalCreateContacto()" class="btn blue sbold" type="button" name="button" style="border:1px solid #fff"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="portlet-body">
+                                                                <div class="table-responsive">
+                                                                  <table class="table table-striped table-bordered table-hover">
+                                                                    <thead>
+                                                                      <tr>
+                                                                        <th>Nombre</th>
+                                                                        <th>Apellido</th>
+                                                                        <th>Religión judía</th>
+                                                                        <th>¿Por qué medio es mejor contactarlo?</th>
+                                                                        <th>Comentarios</th>
+                                                                        <th>¿Es el contacto principal?</th>
+                                                                        <th>Acciones</th>
+                                                                      </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                      <tr *ngFor="let contacto of modelContacto; let i=index">
+                                                                        <td>{{ contacto.nombre }}</td>
+                                                                        <td>{{ contacto.apellido }}</td>
+                                                                        <td>
+                                                                          <span *ngIf="contacto.religion_judia == 0" class="label label-sm label-danger"><strong>No</strong></span>
+                                                                          <span *ngIf="contacto.religion_judia == 1" class="label label-sm label-success"><strong>Si</strong></span>
+                                                                        </td>
+                                                                        <td>{{ contacto.medio_contacto }}</td>
+                                                                        <td>{{ contacto.comentario_contacto }}</td>
+                                                                        <td>
+                                                                          <span *ngIf="contacto.es_principal == 0" class="label label-sm label-danger"><strong>No</strong></span>
+                                                                          <span *ngIf="contacto.es_principal == 1" class="label label-sm label-success"><strong>Si</strong></span>
+                                                                        </td>
+                                                                        <td width="20%">
+                                                                          <button (click)="showModalEditContacto(i)" class="btn yellow sbold btn-sm" type="button" name="button">
+                                                                              <i class="fa fa-pencil"></i>
+                                                                          </button>
+                                                                          <button data-toggle="modal" data-target="#eliminar-contacto" (click)="onDeleteContacto(contacto, i)" class="btn btn-danger sbold btn-sm" type="button" name="button">
+                                                                              <i class="fa fa-trash" aria-hidden="true"></i>
+                                                                          </button>
+                                                                        </td>
+                                                                      </tr>
+                                                                    </tbody>
+                                                                  </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClientePrincipal.controls.fecha_primera_reunion.errors && formClientePrincipal.controls.fecha_comienzo.dirty }">
+                                                            <label for="fecha_comienzo">Fecha de comienzo de gestión <strong class="text-danger uppercaster">*</strong></label>
+                                                            <my-date-picker name="fecha_comienzo" [options]="myDatePickerOptions" formControlName="fecha_comienzo" (dateChanged)="capturarFechaComienzo($event, 'fecha_comienzo')"></my-date-picker>
+
+                                                            <div *ngIf="formClientePrincipal.controls.fecha_comienzo.errors && formClientePrincipal.controls.fecha_comienzo.dirty">
+                                                                <strong class="help-block" *ngIf="formClientePrincipal.controls.fecha_comienzo.errors.required">La fecha de comienzo de gestión es requerida</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group">
+                                                            <label for="fecha_primera_reunion">Fecha de primera reunión</label>
+                                                            <my-date-picker name="fecha_primera_reunion" [options]="myDatePickerOptions" formControlName="fecha_primera_reunion" (dateChanged)="capturarFechaComienzo($event, 'fecha_primera_reunion')"></my-date-picker>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col-md-6">
+
+                                                        <div class="portlet box green">
+                                                            <div class="portlet-title">
+                                                                <div class="caption">
+                                                                    Servicios <strong class="text-danger">*</strong>
+                                                                </div>
+                                                                <div class="actions">
+                                                                    <button (click)="showModalCreateServicio()" class="btn green sbold" type="button" name="button" style="border:1px solid #fff"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="portlet-body">
+                                                                <div class="table-responsive">
+                                                                  <table class="table table-striped table-bordered table-hover">
+                                                                    <thead>
+                                                                      <tr>
+                                                                        <th>Servicio</th>
+                                                                        <th>Cantidad mensual</th>
+                                                                        <th>Fecha de comienzo</th>
+                                                                        <th>Acciones</th>
+                                                                      </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                      <tr *ngFor="let servicioContratado of modelServicioContratado; let i=index">
+                                                                        <td>
+                                                                          <span class="label label-sm label-success"><strong>{{ servicioContratado.nombre_servicio }}</strong></span>
+                                                                        </td>
+                                                                        <td>{{ servicioContratado.cantidad_mensual }}</td>
+                                                                        <td>{{ servicioContratado.fecha_comienzo | date:'dd-MM-y' }}</td>
+                                                                        <td>
+                                                                          <button (click)="showModalEditServicio(servicioContratado, i)" class="btn yellow sbold btn-sm" type="button" name="button">
+                                                                              <i class="fa fa-pencil"></i>
+                                                                          </button>
+                                                                          <button data-toggle="modal" data-target="#eliminar-servicio" (click)="onDeleteServicio(servicioContratado, i)" class="btn btn-danger sbold btn-sm" type="button" name="button">
+                                                                              <i class="fa fa-trash" aria-hidden="true"></i>
+                                                                          </button>
+                                                                        </td>
+                                                                      </tr>
+                                                                    </tbody>
+                                                                  </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClientePrincipal.controls.monto_abono.errors && formClientePrincipal.controls.monto_abono.dirty }">
+                                                            <label for="monto_abono">Monto del abono <strong class="text-danger">*</strong></label>
+                                                            <input type="text" class="form-control" [textMask]="{mask: numberMask}" name="monto_abono" id="monto_abono" formControlName="monto_abono" (change)="guardarCambio('monto_abono', formClientePrincipal.controls.monto_abono.value, 'formClientePrincipal')">
+
+                                                            <div *ngIf="formClientePrincipal.controls.monto_abono.errors && formClientePrincipal.controls.monto_abono.dirty ">
+                                                                <strong class="help-block" *ngIf="formClientePrincipal.controls.monto_abono.errors.required">El monto del abono es requerido</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group">
+                                                            <label for="scoring">Scoring</label>
+                                                            <select class="form-control" name="scoring" id="scoring" formControlName="scoring" (change)="guardarCambio('scoring', formClientePrincipal.controls.scoring.value, 'formClientePrincipal')">
+                                                                <option value="">Ninguno...</option>
+                                                                <option value="1">1</option>
+                                                                <option value="2">2</option>
+                                                                <option value="3">3</option>
+                                                                <option value="4">4</option>
+                                                                <option value="5">5</option>
+                                                                <option value="6">6</option>
+                                                                <option value="7">7</option>
+                                                                <option value="8">8</option>
+                                                                <option value="9">9</option>
+                                                                <option value="10">10</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group">
+                                                            <label for="fecha_baja">Fecha de baja</label>
+                                                            <my-date-picker name="fecha_baja" [options]="myDatePickerOptions" formControlName="fecha_baja" (dateChanged)="capturarFechaComienzo($event, 'fecha_baja')"></my-date-picker>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClientePrincipal.controls.motivo_baja.errors && formClientePrincipal.controls.motivo_baja.dirty }">
+                                                            <label for="motivo_baja">Motivo de baja</label>
+                                                            <input type="text" class="form-control" name="motivo_baja" id="motivo_baja" formControlName="motivo_baja" (change)="guardarCambio('motivo_baja', formClientePrincipal.controls.motivo_baja.value, 'formClientePrincipal')" maxlength="80">
+
+                                                            <div *ngIf="formClientePrincipal.controls.motivo_baja.errors && formClientePrincipal.controls.motivo_baja.dirty ">
+                                                                <strong class="help-block" *ngIf="formClientePrincipal.controls.motivo_baja.errors.maxlength">Elmotivo de baja debe tener menos de 80 caracteres</strong>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                        <!-- FINAL PRINCIPAL -->
+
+                                        <!-- ADMINISTRACION -->
+                                        <div class="tab-pane" id="tab_administracion">
+                                            <br>
+                                            <form *ngIf="dataCliente" novalidate [formGroup]="formClienteAdministracion" id="formClienteAdministracion">
+                                                <div class="container-fluid">
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteAdministracion.controls.id_metodo_facturacion.errors && formClienteAdministracion.controls.id_metodo_facturacion.dirty }">
+                                                            <label for="metodo_facturacion">Método de facturación</label>
+                                                            <select class="form-control" name="id_metodo_facturacion" formControlName="id_metodo_facturacion" id="id_metodo_facturacion" (change)="guardarCambio('id_metodo_facturacion', formClienteAdministracion.controls.id_metodo_facturacion.value, 'formClienteAdministracion')">
+                                                                <option value="">Ninguno...</option>
+                                                                <option *ngFor="let metodo_facturacion of listMetodosFacturacion" value="{{metodo_facturacion.id}}">{{metodo_facturacion.nombre}}</option>
+                                                            </select>
+
+                                                            <div *ngIf="formClienteAdministracion.controls.id_metodo_facturacion.errors && formClienteAdministracion.controls.id_metodo_facturacion.dirty">
+                                                                <strong class="help-block" *ngIf="formClienteAdministracion.controls.id_metodo_facturacion.errors.required">El método de facturación es requerido</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="row">
+
+                                                          <div class="form-group" [ngClass]="{ 'has-error': formClienteAdministracion.controls.contrato_firmado.errors && formClienteAdministracion.controls.contrato_firmado.dirty }">
+                                                            <label for="contrato_firmado" class="control-label col-md-12">¿Firmó contrato? <strong class="text-danger">*</strong></label>
+
+                                                            <div class="col-lg-5 col-md-12">
+                                                              <select class="form-control" name="contrato_firmado" id="contrato_firmado" formControlName="contrato_firmado" (change)="guardarCambio('contrato_firmado', formClienteAdministracion.controls.contrato_firmado.value, 'formClienteAdministracion')" (change)="firmoContrato(formClienteAdministracion.controls.contrato_firmado.value)">
+                                                                <option value="0">No</option>
+                                                                <option value="1" data-toggle="modal" data-target="#adjuntar-contrato">Si</option>
+                                                              </select>
+                                                            </div>
+
+                                                            <div class="col-lg-5 col-md-12">
+                                                              <div *ngIf="formClienteAdministracion.controls.contrato_firmado.errors && formClienteAdministracion.controls.contrato_firmado.dirty">
+                                                                <strong class="help-block" *ngIf="formClienteAdministracion.controls.contrato_firmado.errors.required">Firmó contrato es requerido</strong>
+                                                              </div>
+                                                            </div>
+
+                                                          </div>
+
+                                                          <div class="form-group">
+                                                            <div class="col-lg-3 col-md-6">
+                                                              <button class="btn blue sbold" data-toggle="modal" data-target="#adjuntar-contrato">
+                                                                <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                                                Adjuntar contrato
+                                                              </button>
+                                                            </div>
+                                                          </div>
+
+                                                          <div class="form-group">
+                                                            <div class="col-lg-3 col-md-6">
+                                                              <button *ngIf="!existeContrato" [disabled]="!existeContrato" class="btn yellow sbold">
+                                                                <i class="fa fa-download" aria-hidden="true"></i>
+                                                                Descargar contrato
+                                                              </button>
+                                                              <a *ngIf="existeContrato" class="btn yellow sbold" href="{{urlDescargaContrato}}" target="_blank" style="color:#fff;text-decoration:none">
+                                                                <i class="fa fa-download" aria-hidden="true"></i>
+                                                                Descargar contrato
+                                                              </a>
+                                                            </div>
+                                                          </div>
+
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group">
+                                                            <label for="quien_factura">¿Quién factura?</label>
+                                                            <select class="form-control" name="quien_factura" id="quien_factura" formControlName="quien_factura" (change)="guardarCambio('quien_factura', formClienteAdministracion.controls.quien_factura.value, 'formClienteAdministracion')">
+                                                                <option value="Nadie">Nadie</option>
+                                                                <option value="Go dixital S.R.L.">Go dixital S.R.L.</option>
+                                                                <option value="Felipe Roitman">Felipe Roitman</option>
+                                                                <option value="Carmen Orellana">Carmen Orellana</option>
+                                                                <option value="Nicolás Cordeiro">Nicolás Cordeiro</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group">
+                                                            <label for="forma_pago">Forma de pago</label>
+                                                            <select class="form-control" name="id_forma_pago" id="id_forma_pago" formControlName="id_forma_pago" (change)="guardarCambio('id_forma_pago', formClienteAdministracion.controls.id_forma_pago.value, 'formClienteAdministracion')">
+                                                                <option value="">Ninguna...</option>
+                                                                <option *ngFor="let formaPago of listFormasPago" value="{{ formaPago.id }}">{{ formaPago.nombre }}</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group">
+                                                            <label for="condicion_iva">Condición IVA</label>
+                                                            <select class="form-control" name="condicion_iva" id="condicion_iva" formControlName="condicion_iva" (change)="guardarCambio('condicion_iva', formClienteAdministracion.controls.condicion_iva.value, 'formClienteAdministracion')">
+                                                                <option value="">Ninguna</option>
+                                                                <option value="Responsable inscripto">Responsable inscripto</option>
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteAdministracion.controls.cuit.errors && formClienteAdministracion.controls.cuit.dirty }">
+                                                            <label for="cuit">CUIT</label>
+                                                            <input type="text" [textMask]="{mask: onlyNumberMask}" class="form-control" name="cuit" id="cuit" formControlName="cuit" (change)="guardarCambio('cuit', formClienteAdministracion.controls.cuit.value, 'formClienteAdministracion')" maxlength="11">
+
+                                                            <div *ngIf="formClienteAdministracion.controls.cuit.errors && formClienteAdministracion.controls.cuit.dirty">
+                                                                <strong class="help-block" *ngIf="formClienteAdministracion.controls.cuit.errors.maxlength">El cuit debe tener menos de 11 caracteres</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteAdministracion.controls.asunto_factura.errors && formClienteAdministracion.controls.asunto_factura.dirty }">
+                                                            <label for="asunto_factura">Asunto factura</label>
+                                                            <input type="text" class="form-control" name="asunto_factura" id="asunto_factura" formControlName="asunto_factura" (change)="guardarCambio('asunto_factura', formClienteAdministracion.controls.asunto_factura.value, 'formClienteAdministracion')" maxlength="50">
+
+                                                            <div *ngIf="formClienteAdministracion.controls.asunto_factura.errors && formClienteAdministracion.controls.asunto_factura.dirty">
+                                                                <strong class="help-block" *ngIf="formClienteAdministracion.controls.asunto_factura.errors.maxlength">El asunto de la factura debe tener menos de 50 caracteres</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteAdministracion.controls.nombre_fiscal.errors && formClienteAdministracion.controls.nombre_fiscal.dirty }">
+                                                            <label for="nombre_fiscal">Nombre fiscal</label>
+                                                            <input type="text" class="form-control" name="nombre_fiscal" id="nombre_fiscal" formControlName="nombre_fiscal" (change)="guardarCambio('nombre_fiscal', formClienteAdministracion.controls.nombre_fiscal.value, 'formClienteAdministracion')" maxlength="50">
+
+                                                            <div *ngIf="formClienteAdministracion.controls.nombre_fiscal.errors && formClienteAdministracion.controls.nombre_fiscal.dirty">
+                                                                <strong class="help-block" *ngIf="formClienteAdministracion.controls.nombre_fiscal.errors.maxlength">El nombre fiscal debe tener menos de 50 caracteres</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteAdministracion.controls.direccion_retiro_pago.errors && formClienteAdministracion.controls.direccion_retiro_pago.dirty }">
+                                                            <label for="direccion_retiro_pago">Dirección de retiro de pago</label>
+                                                            <input type="text" class="form-control" name="direccion_retiro_pago" id="direccion_retiro_pago" formControlName="direccion_retiro_pago" (change)="guardarCambio('direccion_retiro_pago', formClienteAdministracion.controls.direccion_retiro_pago.value, 'formClienteAdministracion')" maxlength="80">
+
+                                                            <div *ngIf="formClienteAdministracion.controls.direccion_retiro_pago.errors && formClienteAdministracion.controls.direccion_retiro_pago.dirty">
+                                                                <strong class="help-block" *ngIf="formClienteAdministracion.controls.direccion_retiro_pago.errors.maxlength">La dirección de retiro de pago debe tener menos de 80 caracteres</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group">
+                                                          <div class="mt-checkbox-list">
+                                                              <label class="mt-checkbox"> Recibir contrato firmado
+                                                                  <input type="checkbox" name="recibir_contrato_firmado" formControlName="recibir_contrato_firmado" (change)="guardarCambioBrief('recibir_contrato_firmado', formClienteAdministracion.controls.recibir_contrato_firmado.value, 'formClienteAdministracion')">
+                                                                  <span></span>
+                                                              </label>
+                                                          </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                        <!-- FINAL ADMINISTRACION -->
+
+                                        <!-- VENTAS -->
+                                        <div class="tab-pane" id="tab_ventas">
+                                            <br>
+                                            <form *ngIf="dataCliente" novalidate [formGroup]="formClienteVentas" id="formClienteVentas">
+                                                <div class="container-fluid">
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteVentas.controls.propuesta_original.errors && formClienteVentas.controls.propuesta_original.dirty }">
+                                                            <label for="propuesta_original">Propuesta original enviada <strong class="text-danger">*</strong></label>
+                                                            <textarea class="form-control" rows="8" formControlName="propuesta_original" (change)="guardarCambio('propuesta_original', formClienteVentas.controls.propuesta_original.value, 'formClienteVentas')"></textarea>
+
+                                                            <div *ngIf="formClienteVentas.controls.propuesta_original.errors && formClienteVentas.controls.propuesta_original.dirty">
+                                                                <strong class="help-block" *ngIf="formClienteVentas.controls.propuesta_original.errors.required">La propuesta original enviada es requerida</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteVentas.controls.id_canal_adquisicion.errors && formClienteVentas.controls.id_canal_adquisicion.dirty }">
+                                                            <label for="id_canal_adquisicion">Canal de adquisición <strong class="text-danger">*</strong></label>
+                                                            <select multiple class="form-control" name="id_canal_adquisicion" id="id_canal_adquisicion" formControlName="id_canal_adquisicion" (change)="guardarCambio('id_canal_adquisicion', formClienteVentas.controls.id_canal_adquisicion.value, 'formClienteVentas')">
+                                                                <option *ngFor="let canalAdquisicion of listCanalesAdquicision" value="{{canalAdquisicion.id}}">{{canalAdquisicion.nombre}}</option>
+                                                            </select>
+
+                                                            <div *ngIf="formClienteVentas.controls.id_canal_adquisicion.errors && formClienteVentas.controls.id_canal_adquisicion.dirty">
+                                                                <strong class="help-block" *ngIf="formClienteVentas.controls.id_canal_adquisicion.errors.required">El canal de adquisición es requerido</strong>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteVentas.controls.comentario_adquisicion.errors && formClienteVentas.controls.comentario_adquisicion.dirty }">
+                                                            <label for="comentario_adquisicion">Comentarios de adquisición <strong class="text-danger">*</strong></label>
+                                                            <textarea class="form-control" rows="8" formControlName="comentario_adquisicion" (change)="guardarCambio('comentario_adquisicion', formClienteVentas.controls.comentario_adquisicion.value, 'formClienteVentas')"></textarea>
+
+                                                            <div *ngIf="formClienteVentas.controls.comentario_adquisicion.errors && formClienteVentas.controls.comentario_adquisicion.dirty">
+                                                                <strong class="help-block" *ngIf="formClienteVentas.controls.comentario_adquisicion.errors.required">Los comentario de adquisición son requeridos</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteVentas.controls.puntaje_cliente.errors && formClienteVentas.controls.puntaje_cliente.dirty }">
+                                                            <label for="puntaje_cliente">Puntaje general del cliente (inicial) <strong class="text-danger">*</strong></label>
+                                                            <select class="form-control" name="puntaje_cliente" formControlName="puntaje_cliente" id="puntaje_cliente" maxlength="2" (change)="guardarCambio('puntaje_cliente', formClienteVentas.controls.puntaje_cliente.value, 'formClienteVentas')">
+                                                              <option value="">Ninguno...</option>
+                                                              <option value="1">1</option>
+                                                              <option value="2">2</option>
+                                                              <option value="3">3</option>
+                                                              <option value="4">4</option>
+                                                              <option value="5">5</option>
+                                                              <option value="6">6</option>
+                                                              <option value="7">7</option>
+                                                              <option value="8">8</option>
+                                                              <option value="9">9</option>
+                                                              <option value="10">10</option>
+                                                            </select>
+                                                            <div *ngIf="formClienteVentas.controls.puntaje_cliente.errors && formClienteVentas.controls.puntaje_cliente.dirty">
+                                                                <strong class="help-block" *ngIf="formClienteVentas.controls.puntaje_cliente.errors.required">El puntaje general del cliente es requerido</strong>
+                                                                <strong class="help-block" *ngIf="formClienteVentas.controls.puntaje_cliente.errors.pattern">El puntaje general del cliente debe estar comprendido entre 1 y 10</strong>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                        <!-- FINAL VENTAS -->
+
+                                        <!-- CAMPAÑAS -->
+                                        <div class="tab-pane" id="tab_campañas">
+                                            <br>
+                                            <form *ngIf="dataCliente" novalidate [formGroup]="formClienteCampanas" id="formClienteCampanas">
+                                                <div class="container-fluid">
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteCampanas.controls.presupuesto_invertir_publicidad.errors && formClienteCampanas.controls.presupuesto_invertir_publicidad.dirty }">
+                                                            <label for="presupuesto_invertir_publicidad">Presupuesto mensual a invertir en publicidad <strong class="text-danger">*</strong></label>
+                                                            <input type="text" class="form-control" [textMask]="{mask: numberMask}" name="presupuesto_invertir_publicidad" id="presupuesto_invertir_publicidad" formControlName="presupuesto_invertir_publicidad" (change)="guardarCambio('presupuesto_invertir_publicidad', formClienteCampanas.controls.presupuesto_invertir_publicidad.value, 'formClienteCampanas')">
+
+                                                            <div *ngIf="formClienteCampanas.controls.presupuesto_invertir_publicidad.errors && formClienteCampanas.controls.presupuesto_invertir_publicidad.dirty">
+                                                                <strong class="help-block" *ngIf="formClienteCampanas.controls.presupuesto_invertir_publicidad.errors.required">El Presupuesto mensual a invertir en publicidad es requerido</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group">
+                                                            <label for="distribucion_presupuesto_publicidad">Distribución del presupuesto en publicidad</label>
+                                                            <textarea class="form-control" rows="8" formControlName="distribucion_presupuesto_publicidad" (change)="guardarCambio('distribucion_presupuesto_publicidad', formClienteCampanas.controls.distribucion_presupuesto_publicidad.value, 'formClienteCampanas')"></textarea>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteCampanas.controls.objetivo_mensual.errors && formClienteCampanas.controls.objetivo_mensual.dirty }">
+                                                            <label for="objetivo_mensual">Objetivo consultas mensuales</label>
+                                                            <input type="text" [textMask]="{mask: onlyNumberMask}" class="form-control" name="objetivo_mensual" id="objetivo_mensual" formControlName="objetivo_mensual" maxlength="5" (change)="guardarCambio('objetivo_mensual', formClienteCampanas.controls.objetivo_mensual.value, 'formClienteCampanas')">
+
+                                                            <div *ngIf="formClienteCampanas.controls.objetivo_mensual.errors && formClienteCampanas.controls.objetivo_mensual.dirty ">
+                                                                <strong class="help-block" *ngIf="formClienteCampanas.controls.objetivo_mensual.errors.pattern">El Objetivo consultas mensuales debe estar comprendido entre 0 y 10000</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group">
+                                                            <label for="expectativas_performance">Setear expectativas de performance. Definir cantidad de consultas y definir calidad</label>
+                                                            <textarea class="form-control" rows="8" name="expectativas_performance" formControlName="expectativas_performance" (change)="guardarCambioBrief('expectativas_performance', formClienteCampanas.controls.expectativas_performance.value, 'formClienteCampanas')"></textarea>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteCampanas.controls.estrategia_general.errors && formClienteCampanas.controls.estrategia_general.dirty }">
+                                                            <label for="estrategia_general">Estrategia general, notas varias, palabras clave, etc. <strong class="text-danger">*</strong></label>
+                                                            <textarea class="form-control" rows="8" name="estrategia_general" formControlName="estrategia_general" (change)="guardarCambioBrief('estrategia_general', formClienteCampanas.controls.estrategia_general.value, 'formClienteCampanas')"></textarea>
+
+                                                            <div *ngIf="formClienteCampanas.controls.estrategia_general.errors && formClienteCampanas.controls.estrategia_general.dirty">
+                                                                <strong class="help-block" *ngIf="formClienteCampanas.controls.estrategia_general.errors.required">La estrategia general, notas varias, palabras clave, etc. Es requerido</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteCampanas.controls.segmentacion_geografica.errors && formClienteCampanas.controls.segmentacion_geografica.dirty }">
+                                                            <label for="segmentacion_geografica">Segmentación geográfica <strong class="text-danger">*</strong></label>
+                                                            <textarea class="form-control" rows="8" name="segmentacion_geografica" formControlName="segmentacion_geografica" (change)="guardarCambioBrief('segmentacion_geografica', formClienteCampanas.controls.segmentacion_geografica.value, 'formClienteCampanas')"></textarea>
+
+                                                            <div *ngIf="formClienteCampanas.controls.segmentacion_geografica.errors && formClienteCampanas.controls.segmentacion_geografica.dirty">
+                                                                <strong class="help-block" *ngIf="formClienteCampanas.controls.segmentacion_geografica.errors.required">La segmentación geográfica es requerida</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteCampanas.controls.presupuesto_adwords.errors && formClienteCampanas.controls.presupuesto_adwords.dirty }">
+                                                            <label for="presupuesto_adwords">Presupuesto Adwords <strong class="text-danger">*</strong></label>
+                                                            <textarea class="form-control" rows="8" name="presupuesto_adwords" formControlName="presupuesto_adwords" (change)="guardarCambioBrief('presupuesto_adwords', formClienteCampanas.controls.presupuesto_adwords.value, 'formClienteCampanas')"></textarea>
+
+                                                            <div *ngIf="formClienteCampanas.controls.presupuesto_adwords.errors && formClienteCampanas.controls.presupuesto_adwords.dirty">
+                                                                <strong class="help-block" *ngIf="formClienteCampanas.controls.presupuesto_adwords.errors.required">El presupuesto es requerido</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group">
+                                                            <label for="acceso_campana">Accesos a campaña anterior</label>
+                                                            <textarea class="form-control" rows="8" name="acceso_campana" formControlName="acceso_campana" (change)="guardarCambioBrief('acceso_campana', formClienteCampanas.controls.acceso_campana.value, 'formClienteCampanas')"></textarea>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col-md-6">
+
+                                                      <div class="form-group">
+                                                          <label for="datos_facturacion">Datos de facturación y tarjeta: Método de pago, información fiscal y datos varios</label>
+                                                          <textarea class="form-control" rows="8" name="datos_facturacion" formControlName="datos_facturacion" (change)="guardarCambioBrief('datos_facturacion', formClienteCampanas.controls.datos_facturacion.value, 'formClienteCampanas')"></textarea>
+                                                      </div>
+
+                                                      <br>
+                                                      <br>
+
+                                                      <div class="form-group">
+                                                          <label for="como_buscaria_cliente">¿Cómo buscaría un cliente tuyo en Google?</label>
+                                                          <textarea class="form-control" rows="8" name="como_buscaria_cliente" formControlName="como_buscaria_cliente" (change)="guardarCambioBrief('como_buscaria_cliente', formClienteCampanas.controls.como_buscaria_cliente.value, 'formClienteCampanas')"></textarea>
+                                                      </div>
+
+                                                      <br>
+                                                      <br>
+
+                                                      <div class="form-group">
+                                                          <label for="comentarios_remarketing">Comentarios varios Remarketing</label>
+                                                          <textarea class="form-control" rows="8" name="comentarios_remarketing" formControlName="comentarios_remarketing" (change)="guardarCambioBrief('comentarios_remarketing', formClienteCampanas.controls.comentarios_remarketing.value, 'formClienteCampanas')"></textarea>
+                                                      </div>
+
+                                                      <br>
+                                                      <br>
+
+                                                      <div class="form-group" [ngClass]="{ 'has-error': formClienteCampanas.controls.estrategia_facebook_ads.errors && formClienteCampanas.controls.estrategia_facebook_ads.dirty }">
+                                                          <label for="estrategia_facebook_ads">Estrategia general Facebook Ads y perfil de sus clientes <strong class="text-danger">*</strong></label>
+                                                          <textarea class="form-control" rows="8" name="estrategia_facebook_ads" formControlName="estrategia_facebook_ads" (change)="guardarCambioBrief('estrategia_facebook_ads', formClienteCampanas.controls.estrategia_facebook_ads.value, 'formClienteCampanas')"></textarea>
+
+                                                          <div *ngIf="formClienteCampanas.controls.estrategia_facebook_ads.errors && formClienteCampanas.controls.estrategia_facebook_ads.dirty">
+                                                              <strong class="help-block" *ngIf="formClienteCampanas.controls.estrategia_facebook_ads.errors.required">La estrategia general Facebook Ads y perfil de sus clientes es requerido</strong>
+                                                          </div>
+                                                      </div>
+
+                                                      <br><br>
+
+                                                      <div class="form-group">
+                                                          <label for="datos_fan_page_ads">Datos de su Fan Page y cuenta publicitaria. Pedir accesos</label>
+                                                          <textarea class="form-control" rows="8" name="datos_fan_page_ads" formControlName="datos_fan_page_ads" (change)="guardarCambioBrief('datos_fan_page_ads', formClienteCampanas.controls.datos_fan_page_ads.value, 'formClienteCampanas')"></textarea>
+                                                      </div>
+
+                                                      <br><br>
+
+                                                      <div class="form-group">
+                                                          <label for="datos_tdc">Datos de tarjeta de crédito</label>
+                                                          <textarea class="form-control" rows="8" name="datos_tdc" formControlName="datos_tdc" (change)="guardarCambioBrief('datos_tdc', formClienteCampanas.controls.datos_tdc.value, 'formClienteCampanas')"></textarea>
+                                                      </div>
+
+                                                      <br><br>
+
+                                                      <div class="form-group">
+                                                          <label for="presupuesto_facebook_ads">Presupuesto Facebook ads</label>
+                                                          <textarea class="form-control" rows="8" name="presupuesto_facebook_ads" formControlName="presupuesto_facebook_ads" (change)="guardarCambioBrief('presupuesto_facebook_ads', formClienteCampanas.controls.presupuesto_facebook_ads.value, 'formClienteCampanas')"></textarea>
+                                                      </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                        <!-- FINAL CAMPAÑAS -->
+
+                                        <!-- DISEÑO -->
+                                        <div class="tab-pane" id="tab_diseño">
+                                            <br>
+                                            <form *ngIf="dataCliente" novalidate [formGroup]="formClienteDiseno" id="formClienteDiseno">
+                                                <div class="container-fluid">
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteDiseno.controls.sitio_web.errors && formClienteDiseno.controls.sitio_web.dirty }">
+                                                            <label for="sitio_web">Sitio web</label>
+                                                            <input type="text" class="form-control" name="sitio_web" id="sitio_web" formControlName="sitio_web" (change)="guardarCambio('sitio_web', formClienteDiseno.controls.sitio_web.value, 'formClienteDiseno')" maxlength="80">
+
+                                                            <div *ngIf="formClienteDiseno.controls.sitio_web.errors && formClienteDiseno.controls.sitio_web.dirty ">
+                                                                <strong class="help-block" *ngIf="formClienteDiseno.controls.sitio_web.errors.maxlength">El sitio web debe contener menos de 80 caracteres</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteDiseno.controls.fan_page.errors && formClienteDiseno.controls.fan_page.dirty }">
+                                                            <label for="fan_page">Fan page</label>
+                                                            <input type="text" class="form-control" name="fan_page" id="fan_page" formControlName="fan_page" (change)="guardarCambio('fan_page', formClienteDiseno.controls.fan_page.value, 'formClienteDiseno')" maxlength="80">
+
+                                                            <div *ngIf="formClienteDiseno.controls.fan_page.errors && formClienteDiseno.controls.fan_page.dirty ">
+                                                                <strong class="help-block" *ngIf="formClienteDiseno.controls.fan_page.errors.maxlength">El fan page debe contener menos de 80 caracteres</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group">
+                                                            <label for="pedir_datos_landing">Pedir teléfono, e-mail y whatsapp para poner en la landing</label>
+                                                            <textarea class="form-control" rows="8" name="pedir_datos_landing" formControlName="pedir_datos_landing" (change)="guardarCambioBrief('pedir_datos_landing', formClienteDiseno.controls.pedir_datos_landing.value, 'formClienteDiseno')"></textarea>
+                                                        </div>
+
+                                                        <br><br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteDiseno.controls.estrategia_landing.errors && formClienteDiseno.controls.estrategia_landing.dirty }">
+                                                            <label for="estrategia_landing">Estrategia general de Landings y otra información <strong class="text-danger">*</strong></label>
+                                                            <textarea class="form-control" rows="8" name="estrategia_landing" formControlName="estrategia_landing" (change)="guardarCambioBrief('estrategia_landing', formClienteDiseno.controls.estrategia_landing.value, 'formClienteDiseno')"></textarea>
+
+                                                            <div *ngIf="formClienteDiseno.controls.estrategia_landing.errors && formClienteDiseno.controls.estrategia_landing.dirty">
+                                                                <strong class="help-block" *ngIf="formClienteDiseno.controls.estrategia_landing.errors.required">La estrategia general de Landings y otra información es requerida</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br><br>
+
+                                                        <div class="form-group">
+                                                            <label for="secciones_landing">Secciones de la landing</label>
+                                                            <textarea class="form-control" rows="8" name="secciones_landing" formControlName="secciones_landing" (change)="guardarCambioBrief('secciones_landing', formClienteDiseno.controls.secciones_landing.value, 'formClienteDiseno')"></textarea>
+                                                        </div>
+
+                                                        <br><br>
+
+                                                        <div class="form-group">
+                                                            <label for="donde_hostear">Donde hostearla?</label>
+                                                            <input type="text" class="form-control" name="donde_hostear" formControlName="donde_hostear" (change)="guardarCambioBrief('donde_hostear', formClienteDiseno.controls.donde_hostear.value, 'formClienteDiseno')">
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col-md-6">
+
+                                                        <div class="portlet box yellow">
+                                                            <div class="portlet-title">
+                                                                <div class="caption">
+                                                                    Landings
+                                                                </div>
+                                                            </div>
+                                                            <div class="portlet-body">
+                                                                <div data-rail-visible="1">
+                                                                  <table class="table table-striped table-bordered table-hover">
+                                                                    <thead>
+                                                                      <tr>
+                                                                        <th>URL</th>
+                                                                      </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                      <tr *ngFor="let landing of listLanding">
+                                                                        <td>
+                                                                          <a href="{{landing}}" target="_blank">{{landing}}</a>
+                                                                        </td>
+                                                                      </tr>
+                                                                    </tbody>
+                                                                  </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteDiseno.controls.estrategia_facebook_posteos.errors && formClienteDiseno.controls.estrategia_facebook_posteos.dirty }">
+                                                            <label for="estrategia_facebook_posteos">Estrategia general posteos en Facebook <strong class="text-danger">*</strong></label>
+                                                            <textarea class="form-control" rows="8" name="estrategia_facebook_posteos" formControlName="estrategia_facebook_posteos" (change)="guardarCambioBrief('estrategia_facebook_posteos', formClienteDiseno.controls.estrategia_facebook_posteos.value, 'formClienteDiseno')"></textarea>
+
+                                                            <div *ngIf="formClienteDiseno.controls.estrategia_facebook_posteos.errors && formClienteDiseno.controls.estrategia_facebook_posteos.dirty">
+                                                                <strong class="help-block" *ngIf="formClienteDiseno.controls.estrategia_facebook_posteos.errors.required">La estrategia general posteos en Facebook es requerida</strong>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group">
+                                                            <label for="datos_fan_page_posteos">Datos de su Fan Page</label>
+                                                            <textarea class="form-control" rows="8" name="datos_fan_page_posteos" formControlName="datos_fan_page_posteos" (change)="guardarCambioBrief('datos_fan_page_posteos', formClienteDiseno.controls.datos_fan_page_posteos.value, 'formClienteDiseno')"></textarea>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteDiseno.controls.estrategia_mailing.errors && formClienteDiseno.controls.estrategia_mailing.dirty }">
+                                                            <label for="estrategia_mailing">Estrategia general Mailing <strong class="text-danger">*</strong></label>
+                                                            <textarea class="form-control" rows="8" name="estrategia_mailing" formControlName="estrategia_mailing" (change)="guardarCambioBrief('estrategia_mailing', formClienteDiseno.controls.estrategia_mailing.value, 'formClienteDiseno')"></textarea>
+
+                                                            <div *ngIf="formClienteDiseno.controls.estrategia_mailing.errors && formClienteDiseno.controls.estrategia_mailing.dirty">
+                                                                <strong class="help-block" *ngIf="formClienteDiseno.controls.estrategia_mailing.errors.required">La estrategia general Mailing es requerida</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group">
+                                                            <label for="info_primeros_mailings">Información para primeros mailings</label>
+                                                            <textarea class="form-control" rows="8" name="info_primeros_mailings" formControlName="info_primeros_mailings" (change)="guardarCambioBrief('info_primeros_mailings', formClienteDiseno.controls.info_primeros_mailings.value, 'formClienteDiseno')"></textarea>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                        <!-- FINAL DISEÑO -->
+
+                                        <!-- DETALLE EMPRESA -->
+                                        <div class="tab-pane" id="tab_detalle_empresa">
+                                            <br>
+                                            <form *ngIf="dataCliente" novalidate [formGroup]="formClienteDetalleEmpresa" id="formClienteDetalleEmpresa">
+                                                <div class="container-fluid">
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteDetalleEmpresa.controls.id_tipo_empresa.errors && formClienteDetalleEmpresa.controls.id_tipo_empresa.dirty }">
+                                                            <label for="id_tipo_empresa">Tipo de empresa <strong class="text-danger">*</strong></label>
+                                                            <select multiple class="form-control" name="id_tipo_empresa" id="id_tipo_empresa" formControlName="id_tipo_empresa" (change)="guardarCambio('id_tipo_empresa', formClienteDetalleEmpresa.controls.id_tipo_empresa.value, 'formClienteDetalleEmpresa')">
+                                                                <option *ngFor="let tipoEmpresa of listTiposEmpresas" value="{{ tipoEmpresa.id }}">{{ tipoEmpresa.nombre }}</option>
+                                                            </select>
+
+                                                            <div *ngIf="formClienteDetalleEmpresa.controls.id_tipo_empresa.errors && formClienteDetalleEmpresa.controls.id_tipo_empresa.dirty ">
+                                                                <strong class="help-block" *ngIf="formClienteDetalleEmpresa.controls.id_tipo_empresa.errors.required">El tipo de empresa es requerido</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteDetalleEmpresa.controls.rubro.errors && formClienteDetalleEmpresa.controls.rubro.dirty  }">
+                                                            <label for="rubro">Rubro <strong class="text-danger">*</strong></label>
+                                                            <input type="text" class="form-control" name="rubro" id="rubro" formControlName="rubro" (change)="guardarCambio('rubro', formClienteDetalleEmpresa.controls.rubro.value, 'formClienteDetalleEmpresa')" maxlength="80">
+
+                                                            <div *ngIf="formClienteDetalleEmpresa.controls.rubro.errors && formClienteDetalleEmpresa.controls.rubro.dirty ">
+                                                                <strong class="help-block" *ngIf="formClienteDetalleEmpresa.controls.rubro.errors.required">El rubro es requerido</strong>
+                                                                <strong class="help-block" *ngIf="formClienteDetalleEmpresa.controls.rubro.errors.maxlength">El rubro debe contener menos de 80 caracteres</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteDetalleEmpresa.controls.id_tipo_venta.errors && formClienteDetalleEmpresa.controls.id_tipo_venta.dirty  }">
+                                                            <label for="id_tipo_venta">Tipo de venta <strong class="text-danger">*</strong></label>
+                                                            <select multiple class="form-control" name="id_tipo_venta" id="id_tipo_venta" formControlName="id_tipo_venta" (change)="guardarCambio('id_tipo_venta', formClienteDetalleEmpresa.controls.id_tipo_venta.value, 'formClienteDetalleEmpresa')">
+                                                                <option *ngFor="let tipoVenta of listTiposVenta" value="{{ tipoVenta.id }}">{{ tipoVenta.nombre }}</option>
+                                                            </select>
+
+                                                            <div *ngIf="formClienteDetalleEmpresa.controls.id_tipo_venta.errors && formClienteDetalleEmpresa.controls.id_tipo_venta.dirty ">
+                                                                <strong class="help-block" *ngIf="formClienteDetalleEmpresa.controls.id_tipo_venta.errors.required">El tipo de venta es requerido</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteDetalleEmpresa.controls.modelo_negocio.errors && formClienteDetalleEmpresa.controls.modelo_negocio.dirty  }">
+                                                            <label for="modelo_negocio">Modelo de negocio <strong class="text-danger">*</strong></label>
+                                                            <textarea class="form-control" rows="8" formControlName="modelo_negocio" (change)="guardarCambio('modelo_negocio', formClienteDetalleEmpresa.controls.modelo_negocio.value, 'formClienteDetalleEmpresa')"></textarea>
+
+                                                            <div *ngIf="formClienteDetalleEmpresa.controls.modelo_negocio.errors && formClienteDetalleEmpresa.controls.modelo_negocio.dirty ">
+                                                                <strong class="help-block" *ngIf="formClienteDetalleEmpresa.controls.modelo_negocio.errors.required">El modelo de negocio es requerido</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteDetalleEmpresa.controls.calidad_modelo_negocio.errors && formClienteDetalleEmpresa.controls.calidad_modelo_negocio.dirty  }">
+                                                            <label for="calidad_modelo_negocio">Calidad del modelo de negocio <strong class="text-danger">*</strong></label>
+                                                            <select class="form-control" name="calidad_modelo_negocio" id="calidad_modelo_negocio" formControlName="calidad_modelo_negocio" (change)="guardarCambio('calidad_modelo_negocio', formClienteDetalleEmpresa.controls.calidad_modelo_negocio.value, 'formClienteDetalleEmpresa')">
+                                                                <option value="">Ninguno...</option>
+                                                                <option value="Alta">Alta</option>
+                                                                <option value="Media">Media</option>
+                                                                <option value="Baja">Baja</option>
+                                                            </select>
+
+                                                            <div *ngIf="formClienteDetalleEmpresa.controls.calidad_modelo_negocio.errors && formClienteDetalleEmpresa.controls.calidad_modelo_negocio.dirty ">
+                                                                <strong class="help-block" *ngIf="formClienteDetalleEmpresa.controls.calidad_modelo_negocio.errors.required">La calidad de modelo de negocio es requerido</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteDetalleEmpresa.controls.acciones_realiza_internet.errors && formClienteDetalleEmpresa.controls.acciones_realiza_internet.dirty  }">
+                                                            <label for="acciones_realiza_internet">Acciones que realiza actualmente en internet <strong class="text-danger">*</strong></label>
+                                                            <textarea class="form-control" rows="8" formControlName="acciones_realiza_internet" (change)="guardarCambio('acciones_realiza_internet', formClienteDetalleEmpresa.controls.acciones_realiza_internet.value, 'formClienteDetalleEmpresa')"></textarea>
+
+                                                            <div *ngIf="formClienteDetalleEmpresa.controls.acciones_realiza_internet.errors && formClienteDetalleEmpresa.controls.acciones_realiza_internet.dirty ">
+                                                                <strong class="help-block" *ngIf="formClienteDetalleEmpresa.controls.acciones_realiza_internet.errors.required">Las acciones que realiza actualmente en internet son requeridas</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteDetalleEmpresa.controls.upselibilidad.errors && formClienteDetalleEmpresa.controls.upselibilidad.dirty  }">
+                                                            <label for="upselibilidad">Upselibilidad <strong class="text-danger">*</strong></label>
+                                                            <select class="form-control" name="upselibilidad" id="upselibilidad" formControlName="upselibilidad" (change)="guardarCambio('upselibilidad', formClienteDetalleEmpresa.controls.upselibilidad.value, 'formClienteDetalleEmpresa')">
+                                                                <option value="">Ninguna...</option>
+                                                                <option value="Alta">Alta</option>
+                                                                <option value="Media">Media</option>
+                                                                <option value="Baja">Baja</option>
+                                                            </select>
+
+                                                            <div *ngIf="formClienteDetalleEmpresa.controls.upselibilidad.errors && formClienteDetalleEmpresa.controls.upselibilidad.dirty ">
+                                                                <strong class="help-block" *ngIf="formClienteDetalleEmpresa.controls.upselibilidad.errors.required">La upselibilidad es requerida</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteDetalleEmpresa.controls.comentario_upselibilidad.errors && formClienteDetalleEmpresa.controls.comentario_upselibilidad.dirty  }">
+                                                            <label for="comentario_upselibilidad">Comentarios de upselibilidad <strong class="text-danger">*</strong></label>
+                                                            <textarea class="form-control" rows="8" formControlName="comentario_upselibilidad" (change)="guardarCambio('comentario_upselibilidad', formClienteDetalleEmpresa.controls.comentario_upselibilidad.value, 'formClienteDetalleEmpresa')"></textarea>
+
+                                                            <div *ngIf="formClienteDetalleEmpresa.controls.comentario_upselibilidad.errors && formClienteDetalleEmpresa.controls.comentario_upselibilidad.dirty ">
+                                                                <strong class="help-block" *ngIf="formClienteDetalleEmpresa.controls.comentario_upselibilidad.errors.required">Los Comentarios de upselibilidad son requeridos</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteDetalleEmpresa.controls.modelo_negocio_brief.errors && formClienteDetalleEmpresa.controls.modelo_negocio_brief.dirty }">
+                                                            <label for="modelo_negocio_brief">Modelo de negocios del cliente: Productos y servicios, diferenciales, competencia, clientes, tipo de venta, etc. <strong class="text-danger">*</strong></label>
+                                                            <textarea class="form-control" rows="8" name="modelo_negocio_brief" formControlName="modelo_negocio_brief" (change)="guardarCambioBrief('modelo_negocio_brief', formClienteDetalleEmpresa.controls.modelo_negocio_brief.value, 'formClienteDetalleEmpresa')"></textarea>
+
+                                                            <div *ngIf="formClienteDetalleEmpresa.controls.modelo_negocio_brief.errors && formClienteDetalleEmpresa.controls.modelo_negocio_brief.dirty">
+                                                                <strong class="help-block" *ngIf="formClienteDetalleEmpresa.controls.modelo_negocio_brief.errors.required">Los modelo de negocios del cliente presupuesto son requeridos</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group">
+                                                            <label for="relevo_ventas">Relevar cómo gestiona sus ventas actuamente y cómo las va a manejar ahora</label>
+                                                            <textarea class="form-control" rows="8" name="relevo_ventas" formControlName="relevo_ventas" (change)="guardarCambioBrief('relevo_ventas', formClienteDetalleEmpresa.controls.relevo_ventas.value, 'formClienteDetalleEmpresa')"></textarea>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteDetalleEmpresa.controls.educabilidad.errors && formClienteDetalleEmpresa.controls.educabilidad.dirty  }">
+                                                            <label for="educabilidad">Educabilidad <strong class="text-danger">*</strong></label>
+                                                            <select class="form-control" name="educabilidad" id="educabilidad" formControlName="educabilidad" (change)="guardarCambio('educabilidad', formClienteDetalleEmpresa.controls.educabilidad.value, 'formClienteDetalleEmpresa')">
+                                                                <option value="">Ninguna...</option>
+                                                                <option value="Alta">Alta</option>
+                                                                <option value="Media">Media</option>
+                                                                <option value="Baja">Baja</option>
+                                                            </select>
+
+                                                            <div *ngIf="formClienteDetalleEmpresa.controls.educabilidad.errors && formClienteDetalleEmpresa.controls.educabilidad.dirty ">
+                                                                <strong class="help-block" *ngIf="formClienteDetalleEmpresa.controls.educabilidad.errors.required">La educabilidad es requerida</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteDetalleEmpresa.controls.comentario_educabilidad.errors && formClienteDetalleEmpresa.controls.comentario_educabilidad.dirty  }">
+                                                            <label for="comentario_educabilidad">Comentarios de educabilidad <strong class="text-danger">*</strong></label>
+                                                            <textarea class="form-control" rows="8" formControlName="comentario_educabilidad" (change)="guardarCambio('comentario_educabilidad', formClienteDetalleEmpresa.controls.comentario_educabilidad.value, 'formClienteDetalleEmpresa')"></textarea>
+
+                                                            <div *ngIf="formClienteDetalleEmpresa.controls.comentario_educabilidad.errors && formClienteDetalleEmpresa.controls.comentario_educabilidad.dirty ">
+                                                                <strong class="help-block" *ngIf="formClienteDetalleEmpresa.controls.comentario_educabilidad.errors.required">Los comentarios de educabilidad son requeridos</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteDetalleEmpresa.controls.conocimiento_internet.errors && formClienteDetalleEmpresa.controls.conocimiento_internet.dirty  }">
+                                                            <label for="conocimiento_internet">Nivel de conocimiento de internet <strong class="text-danger">*</strong></label>
+                                                            <select class="form-control" name="conocimiento_internet" id="conocimiento_internet" formControlName="conocimiento_internet" (change)="guardarCambio('conocimiento_internet', formClienteDetalleEmpresa.controls.conocimiento_internet.value, 'formClienteDetalleEmpresa')">
+                                                                <option value="">Ninguno...</option>
+                                                                <option value="Alta">Alta</option>
+                                                                <option value="Media">Media</option>
+                                                                <option value="Baja">Baja</option>
+                                                            </select>
+
+                                                            <div *ngIf="formClienteDetalleEmpresa.controls.conocimiento_internet.errors && formClienteDetalleEmpresa.controls.conocimiento_internet.dirty ">
+                                                                <strong class="help-block" *ngIf="formClienteDetalleEmpresa.controls.conocimiento_internet.errors.required">El nivel de conocimiento de internet es requerido</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteDetalleEmpresa.controls.capacidad_financiera_cliente.errors && formClienteDetalleEmpresa.controls.capacidad_financiera_cliente.dirty  }">
+                                                            <label for="capacidad_financiera_cliente">Capacidad financiera del cliente <strong class="text-danger">*</strong></label>
+                                                            <select class="form-control" name="capacidad_financiera_cliente" id="capacidad_financiera_cliente" formControlName="capacidad_financiera_cliente" (change)="guardarCambio('capacidad_financiera_cliente', formClienteDetalleEmpresa.controls.capacidad_financiera_cliente.value, 'formClienteDetalleEmpresa')">
+                                                                <option value="">Ninguna...</option>
+                                                                <option value="Alta">Alta</option>
+                                                                <option value="Media">Media</option>
+                                                                <option value="Baja">Baja</option>
+                                                            </select>
+
+                                                            <div *ngIf="formClienteDetalleEmpresa.controls.capacidad_financiera_cliente.errors && formClienteDetalleEmpresa.controls.capacidad_financiera_cliente.dirty ">
+                                                                <strong class="help-block" *ngIf="formClienteDetalleEmpresa.controls.capacidad_financiera_cliente.errors.required">La capacidad financiera del cliente es requerida</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteDetalleEmpresa.controls.nivel_esperado_hinchapelotes.errors && formClienteDetalleEmpresa.controls.nivel_esperado_hinchapelotes.dirty  }">
+                                                            <label for="nivel_esperado_hinchapelotes">Nivel esperado de hinchapelotes <strong class="text-danger">*</strong></label>
+                                                            <select class="form-control" name="nivel_esperado_hinchapelotes" id="nivel_esperado_hinchapelotes" formControlName="nivel_esperado_hinchapelotes" (change)="guardarCambio('nivel_esperado_hinchapelotes', formClienteDetalleEmpresa.controls.nivel_esperado_hinchapelotes.value, 'formClienteDetalleEmpresa')">
+                                                                <option value="">Ninguno...</option>
+                                                                <option value="Alta">Alta</option>
+                                                                <option value="Media">Media</option>
+                                                                <option value="Baja">Baja</option>
+                                                            </select>
+
+                                                            <div *ngIf="formClienteDetalleEmpresa.controls.nivel_esperado_hinchapelotes.errors && formClienteDetalleEmpresa.controls.nivel_esperado_hinchapelotes.dirty ">
+                                                                <strong class="help-block" *ngIf="formClienteDetalleEmpresa.controls.nivel_esperado_hinchapelotes.errors.required">El nivel esperado de hinchapelotes del cliente es requerido</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteDetalleEmpresa.controls.competidores_cliente.errors && formClienteDetalleEmpresa.controls.competidores_cliente.dirty  }">
+                                                            <label for="competidores_cliente">Cuales son los competidores que mira el cliente? <strong class="text-danger">*</strong></label>
+                                                            <textarea class="form-control" rows="8" formControlName="competidores_cliente" (change)="guardarCambio('competidores_cliente', formClienteDetalleEmpresa.controls.competidores_cliente.value, 'formClienteDetalleEmpresa')"></textarea>
+
+                                                            <div *ngIf="formClienteDetalleEmpresa.controls.competidores_cliente.errors && formClienteDetalleEmpresa.controls.competidores_cliente.dirty ">
+                                                                <strong class="help-block" *ngIf="formClienteDetalleEmpresa.controls.competidores_cliente.errors.required">Los competidores que mira el cliente son requeridos</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteDetalleEmpresa.controls.personalidad.errors && formClienteDetalleEmpresa.controls.personalidad.dirty  }">
+                                                            <label for="personalidad">Personalidad <strong class="text-danger">*</strong></label>
+                                                            <textarea class="form-control" rows="8" formControlName="personalidad" (change)="guardarCambio('personalidad', formClienteDetalleEmpresa.controls.personalidad.value, 'formClienteDetalleEmpresa')"></textarea>
+
+                                                            <div *ngIf="formClienteDetalleEmpresa.controls.personalidad.errors && formClienteDetalleEmpresa.controls.personalidad.dirty ">
+                                                                <strong class="help-block" *ngIf="formClienteDetalleEmpresa.controls.personalidad.errors.required">La personalidad del cliente es requerida</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group" [ngClass]="{ 'has-error': formClienteDetalleEmpresa.controls.puntos_conflictos.errors && formClienteDetalleEmpresa.controls.puntos_conflictos.dirty }">
+                                                            <label for="puntos_conflictos">¿Cuales son los posibles puntos de conflicto con el cliente? <strong class="text-danger">*</strong></label>
+                                                            <textarea class="form-control" rows="8" name="puntos_conflictos" formControlName="puntos_conflictos" (change)="guardarCambioBrief('puntos_conflictos', formClienteDetalleEmpresa.controls.puntos_conflictos.value, 'formClienteDetalleEmpresa')"></textarea>
+
+                                                            <div *ngIf="formClienteDetalleEmpresa.controls.puntos_conflictos.errors && formClienteDetalleEmpresa.controls.puntos_conflictos.dirty">
+                                                                <strong class="help-block" *ngIf="formClienteDetalleEmpresa.controls.puntos_conflictos.errors.required">Los posibles puntos de conflicto son requeridos</strong>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                        <!-- FINAL DETALLE EMPRESA -->
+
+                                        <!-- PM -->
+                                        <div class="tab-pane" id="tab_pm">
+                                            <br>
+                                            <form *ngIf="dataCliente" novalidate [formGroup]="formClientePM" id="formClientePM">
+                                                <div class="container-fluid">
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group">
+                                                            <label for="etapa">Etapa </label>
+                                                            <select class="form-control" name="etapa" id="etapa" formControlName="etapa" (change)="guardarCambio('etapa', formClientePM.controls.etapa.value, 'formClientePM')">
+                                                                <option value="Setup">Setup</option>
+                                                                <option value="Despegue">Despegue</option>
+                                                                <option value="Piloto">Piloto</option>
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group">
+                                                            <label for="resumen_cliente">Resumen del cliente</label>
+                                                            <textarea class="form-control" rows="8" formControlName="resumen_cliente" (change)="guardarCambio('resumen_cliente', formClientePM.controls.resumen_cliente.value, 'formClientePM')"></textarea>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                        <!-- FINAL PM -->
+
+                                    </div>
+                                    <!-- FINAL MAIN TABS DETALLE -->
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- FINAL DEL CONTENIDO -->
+
+    </div>
+
+    <!-- FOOTER -->
+
+    <page-footer>
+    </page-footer>
+
+    <!-- FINAL DE FOOTER -->
+
+</div>
+
+<div class="quick-nav-overlay"></div>
+
+<!-- MODAL NUEVO CONTACTO -->
+<div bsModal #modalCreateContacto="bs-modal" id="nuevo-contacto" class="modal fade" tabindex="-1" role="basic" aria-hidden="true" [config]="{backdrop: 'static', keyboard: false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <form class="form-horizontal" novalidate [formGroup]="formCreateContacto" id="fmrCreateContacto">
+
+                <div class="modal-header">
+
+                    <h4 class="modal-title pull-left">Nuevo contacto</h4>
+
+                    <div class="pull-right">
+                      <button type="button" class="btn dark btn-outline" data-dismiss="modal" (click)="hideModalCreateContacto()">Cerrar</button>
+                      <button (click)="createContacto()" [disabled]="loader" class="btn blue sbold">
+                          Guardar contacto
+                          <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                      </button>
+                    </div>
+
+                </div>
+
+                <div class="modal-body">
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formCreateContacto.controls.nombre_contacto.errors && formCreateContacto.controls.nombre_contacto.pristine && isSubmitContacto }">
+                      <label for="nombre_contacto" class="control-label col-md-3">
+                          Nombre <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <input type="text" name="nombre_contacto" id="nombre_contacto" formControlName="nombre_contacto" class="form-control">
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formCreateContacto.controls.nombre_contacto.errors && formCreateContacto.controls.nombre_contacto.pristine && isSubmitContacto">
+                          <strong class="help-block" *ngIf="formCreateContacto.controls.nombre_contacto.errors.required">El nombre del contacto es requerido</strong>
+                          <strong class="help-block" *ngIf="formCreateContacto.controls.nombre_contacto.errors.maxlength">El nombre del contacto no debe poseer mas de 50 caracteres</strong>
+                          <strong class="help-block" *ngIf="formCreateContacto.controls.nombre_contacto.errors.sinEspacios">El nombre del contacto no debe poseer espacios en blanco al inicio del texto</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="apellido_contacto" class="control-label col-md-3">
+                          Apellido
+                      </label>
+                      <div class="col-md-8">
+                          <input type="text" name="apellido_contacto" id="apellido_contacto" formControlName="apellido_contacto" class="form-control">
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="religion_judia" class="control-label col-md-3">
+                          ¿Religión judía? <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <select name="religion_judia" id="religion_judia" formControlName="religion_judia" class="form-control">
+                            <option value="0">No</option>
+                            <option value="1">Si</option>
+                          </select>
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formCreateContacto.controls.medio_contacto.errors && formCreateContacto.controls.medio_contacto.pristine && isSubmitContacto }">
+                      <label for="medio_contacto" class="control-label col-md-3">
+                          ¿Por qué medio es mejor contactarlo? <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <textarea name="medio_contacto" id="medio_contacto" formControlName="medio_contacto" class="form-control" rows="4"></textarea>
+                      </div>
+
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formCreateContacto.controls.medio_contacto.errors && formCreateContacto.controls.medio_contacto.pristine && isSubmitContacto">
+                          <strong class="help-block" *ngIf="formCreateContacto.controls.medio_contacto.errors.required">Los comentarios son requeridos</strong>
+                          <strong class="help-block" *ngIf="formCreateContacto.controls.medio_contacto.errors.sinEspacios">Los comentarios no deben poseer espacios en blanco al inicio del texto</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="comentarios_contactos" class="control-label col-md-3">
+                          Comentarios
+                      </label>
+                      <div class="col-md-8">
+                          <textarea name="comentarios_contactos" id="comentarios_contactos" formControlName="comentarios_contactos" class="form-control" rows="4"></textarea>
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="es_principal" class="control-label col-md-3">
+                          ¿Es el contacto principal? <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <select name="es_principal" id="es_principal" formControlName="es_principal" class="form-control">
+                            <option value="0">No</option>
+                            <option value="1">Si</option>
+                          </select>
+                      </div>
+                  </div>
+
+                  <hr>
+
+                  <div class="portlet box blue">
+                      <div class="portlet-title">
+                        <div class="caption">
+                            Roles <strong class="text-danger">*</strong>
+                        </div>
+                      </div>
+                      <div class="portlet-body">
+
+                        <form  novalidate [formGroup]="formCreateRolContacto" id="formCreateRolContacto">
+
+                          <div class="form-group" [ngClass]="{ 'has-error': formCreateRolContacto.controls.rol_contacto.errors && formCreateRolContacto.controls.rol_contacto.pristine && isSubmitRolContacto }">
+                              <div class="col-md-10">
+                                  <select name="rol_contacto" id="rol_contacto" formControlName="rol_contacto" class="form-control" (change)="capturarRolContacto($event)">
+                                    <option value="">Ninguno...</option>
+                                    <option *ngFor="let rol of listRolesContacto" value="{{ rol.id }}">{{ rol.nombre }}</option>
+                                  </select>
+                              </div>
+                              <div class="col-md-2">
+                                <button (click)="addRolesModalCreateContacto()" class="btn blue sbold" type="button" name="button" style="border:1px solid #fff"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                              </div>
+                              <div class="col-md-12" *ngIf="formCreateRolContacto.controls.rol_contacto.errors && formCreateRolContacto.controls.rol_contacto.pristine && isSubmitRolContacto">
+                                  <strong class="help-block" *ngIf="formCreateRolContacto.controls.rol_contacto.errors.required">El rol del contacto es requerido</strong>
+                              </div>
+                          </div>
+
+                        </form>
+
+                        <div class="table-responsive">
+                          <table class="table table-striped table-bordered table-hover" >
+                            <thead>
+                              <tr>
+                                <th>Roles</th>
+                                <th>Acciones</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let rol of modelModalContacto?.roles; let i=index">
+                                <td><span class="label label-sm label-success"><strong>{{ rol.nombre_rol }}</strong></span></td>
+                                <td>
+                                  <button (click)="deleteRolesModalCreateContacto(i)" class="btn btn-danger sbold btn-sm" type="button" name="button">
+                                      <i class="fa fa-trash" aria-hidden="true"></i>
+                                  </button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+
+                      </div>
+                  </div>
+
+                  <hr>
+
+                  <div class="row">
+
+                    <div class="col-md-6">
+
+                      <div class="portlet box blue">
+                          <div class="portlet-title">
+                            <div class="caption">
+                                Emails <strong class="text-danger">*</strong>
+                            </div>
+                          </div>
+                          <div class="portlet-body">
+
+                            <form novalidate [formGroup]="formCreateEmailContacto" id="formCreateEmailContacto">
+
+                              <div class="form-group" [ngClass]="{ 'has-error': formCreateEmailContacto.controls.email_contacto.errors && formCreateEmailContacto.controls.email_contacto.pristine && isSubmitEmailContacto }">
+                                  <div class="col-md-10">
+                                    <input type="text" class="form-control" name="email_contacto" formControlName="email_contacto" id="email_contacto">
+                                  </div>
+                                  <div class="col-md-2">
+                                    <button (click)="addEmailModalCreateContacto()" class="btn blue sbold" type="button" name="button" style="border:1px solid #fff"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                  </div>
+                                  <div class="col-md-12" *ngIf="formCreateEmailContacto.controls.email_contacto.errors && formCreateEmailContacto.controls.email_contacto.pristine && isSubmitEmailContacto">
+                                      <strong class="help-block" *ngIf="formCreateEmailContacto.controls.email_contacto.errors.required">La descripción del email es requerida</strong>
+                                      <strong class="help-block" *ngIf="formCreateEmailContacto.controls.email_contacto.errors.pattern">El formato de email es incorrecto. Ej: nombre@mail.com</strong>
+                                  </div>
+                              </div>
+
+                            </form>
+
+                            <div class="table-responsive">
+                              <table class="table table-striped table-bordered table-hover" >
+                                <thead>
+                                  <tr>
+                                    <th>Email</th>
+                                    <th>Acciones</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let email of modelModalContacto?.emails; let i=index">
+                                    <td>{{ email.email }}</td>
+                                    <td>
+                                      <button (click)="deleteEmailModalCreateContacto(i)" class="btn btn-danger sbold btn-sm" type="button" name="button">
+                                          <i class="fa fa-trash" aria-hidden="true"></i>
+                                      </button>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+
+                          </div>
+                      </div>
+
+                  </div>
+
+                  <div class="col-md-6">
+
+                    <div class="portlet box blue">
+                        <div class="portlet-title">
+                          <div class="caption">
+                              Teléfonos <strong class="text-danger">*</strong>
+                          </div>
+                        </div>
+                        <div class="portlet-body">
+
+                          <form novalidate [formGroup]="formCreateTelefonoContacto" id="formCreateTelefonoContacto">
+                            <div class="form-group" [ngClass]="{ 'has-error': formCreateTelefonoContacto.controls.tipo_telefono.errors && formCreateTelefonoContacto.controls.tipo_telefono.pristine && isSubmitTelefonoContacto }">
+                                <label for="tipo_telefono" class="control-label col-md-3">
+                                  Tipo <strong class="text-danger">*</strong>
+                                </label>
+                                <div class="col-md-8">
+                                  <select class="form-control" name="tipo_telefono" formControlName="tipo_telefono" formControlName="tipo_telefono" id="tipo_telefono" (change)="capturarTipoTelefono($event)">
+                                    <option value="">Ninguno...</option>
+                                    <option *ngFor="let tipo_telefono of listTiposTelefonos" value="{{ tipo_telefono.id }}">{{ tipo_telefono.nombre }}</option>
+                                  </select>
+                                </div>
+
+                                <div class="col-md-offset-3 col-md-8" *ngIf="formCreateTelefonoContacto.controls.tipo_telefono.errors && formCreateTelefonoContacto.controls.tipo_telefono.pristine && isSubmitTelefonoContacto">
+                                    <strong class="help-block" *ngIf="formCreateTelefonoContacto.controls.tipo_telefono.errors.required">El tipo de teléfono es requerido</strong>
+                                </div>
+                            </div>
+
+                            <div class="form-group" [ngClass]="{ 'has-error': formCreateTelefonoContacto.controls.telefono_contacto.errors && formCreateTelefonoContacto.controls.telefono_contacto.pristine && isSubmitTelefonoContacto }">
+                                <label for="telefono_contacto" class="control-label col-md-3">
+                                  Número <strong class="text-danger">*</strong>
+                                </label>
+                                <div class="col-md-7">
+                                  <input type="text" class="form-control" [textMask]="{mask: onlyNumberMask}" name="telefono_contacto" formControlName="telefono_contacto" formControlName="telefono_contacto" id="telefono_contacto">
+                                </div>
+                                <div class="col-md-2">
+                                  <button (click)="addTelefonoModalCreateContacto()" class="btn blue sbold" type="button" name="button" style="border:1px solid #fff"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="col-md-offset-3 col-md-8" *ngIf="formCreateTelefonoContacto.controls.telefono_contacto.errors && formCreateTelefonoContacto.controls.telefono_contacto.pristine && isSubmitTelefonoContacto">
+                                    <strong class="help-block" *ngIf="formCreateTelefonoContacto.controls.telefono_contacto.errors.required">El teléfono es requerido</strong>
+                                </div>
+                            </div>
+                          </form>
+
+                          <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                              <tr>
+                                <th>Tipo teléfono</th>
+                                <th>Teléfono</th>
+                                <th>Acciones</th>
+                              </tr>
+                            </thead>
+
+                            <tbody>
+                              <tr *ngFor="let telefonos of modelModalContacto?.telefonos; let i=index">
+                                <td>{{ telefonos.nombre_tipo_telefono }}</td>
+                                <td>{{ telefonos.telefono }}</td>
+                                <td>
+                                  <button (click)="deleteTelefonoModalCreateContacto(i)" class="btn btn-danger sbold btn-sm" type="button" name="button">
+                                      <i class="fa fa-trash" aria-hidden="true"></i>
+                                  </button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+
+                        </div>
+                    </div>
+
+                  </div>
+
+                  </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal" (click)="hideModalCreateContacto()">Cerrar</button>
+                    <button (click)="createContacto()" [disabled]="loader" class="btn blue sbold">
+                        Guardar contacto
+                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL EDITAR CONTACTO -->
+<div bsModal #modalEditContacto="bs-modal" id="editar-contacto" class="modal fade" tabindex="-1" role="basic" aria-hidden="true" [config]="{backdrop: 'static', keyboard: false}">
+    <div class="modal-dialog modal-lg">
+        <div *ngIf="formEditContacto && formEditEmailContacto && formEditTelefonoContacto" class="modal-content">
+
+          <form class="form-horizontal" novalidate [formGroup]="formEditContacto" id="formEditContacto">
+
+              <div class="modal-header">
+
+                  <h4 class="modal-title pull-left">Editar contacto</h4>
+
+                  <div class="pull-right">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal" (click)="hideModalEditContacto()">Cerrar</button>
+                    <button (click)="editContacto()" class="btn blue sbold" [disabled]="loader">
+                        Editar contacto
+                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                    </button>
+                  </div>
+
+              </div>
+
+              <div class="modal-body">
+
+                <div class="form-group" [ngClass]="{ 'has-error': formEditContacto.controls.nombre_contacto.errors && formEditContacto.controls.nombre_contacto.pristine && isSubmitContacto }">
+                    <label for="nombre_contacto" class="control-label col-md-3">
+                        Nombre <strong class="text-danger">*</strong>
+                    </label>
+                    <div class="col-md-8">
+                        <input type="text" name="nombre_contacto" id="nombre_contacto" formControlName="nombre_contacto" class="form-control">
+                    </div>
+                    <div class="col-md-offset-3 col-md-8" *ngIf="formEditContacto.controls.nombre_contacto.errors && formEditContacto.controls.nombre_contacto.pristine && isSubmitContacto">
+                        <strong class="help-block" *ngIf="formEditContacto.controls.nombre_contacto.errors.required">El nombre del contacto es requerido</strong>
+                        <strong class="help-block" *ngIf="formEditContacto.controls.nombre_contacto.errors.maxlength">El nombre del contacto no debe poseer mas de 50 caracteres</strong>
+                        <strong class="help-block" *ngIf="formEditContacto.controls.nombre_contacto.errors.sinEspacios">El nombre del contacto no debe poseer espacios en blanco al inicio del texto</strong>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="apellido_contacto" class="control-label col-md-3">
+                        Apellido
+                    </label>
+                    <div class="col-md-8">
+                        <input type="text" name="apellido_contacto" id="apellido_contacto" formControlName="apellido_contacto" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="religion_judia" class="control-label col-md-3">
+                        ¿Religión judía? <strong class="text-danger">*</strong>
+                    </label>
+                    <div class="col-md-8">
+                        <select name="religion_judia" id="religion_judia" formControlName="religion_judia" class="form-control">
+                          <option value="0">No</option>
+                          <option value="1">Si</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group" [ngClass]="{ 'has-error': formEditContacto.controls.medio_contacto.errors && formEditContacto.controls.medio_contacto.pristine && isSubmitContacto }">
+                    <label for="medio_contacto" class="control-label col-md-3">
+                        ¿Por qué medio es mejor contactarlo? <strong class="text-danger">*</strong>
+                    </label>
+                    <div class="col-md-8">
+                        <textarea name="medio_contacto" id="medio_contacto" formControlName="medio_contacto" class="form-control" rows="4"></textarea>
+                    </div>
+
+                    <div class="col-md-offset-3 col-md-8" *ngIf="formEditContacto.controls.medio_contacto.errors && formEditContacto.controls.medio_contacto.pristine && isSubmitContacto">
+                        <strong class="help-block" *ngIf="formEditContacto.controls.medio_contacto.errors.required">Los comentarios son requeridos</strong>
+                        <strong class="help-block" *ngIf="formEditContacto.controls.medio_contacto.errors.sinEspacios">Los comentarios no deben poseer espacios en blanco al inicio del texto</strong>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="comentarios_contactos" class="control-label col-md-3">
+                        Comentarios
+                    </label>
+                    <div class="col-md-8">
+                        <textarea name="comentarios_contactos" id="comentarios_contactos" formControlName="comentarios_contactos" class="form-control" rows="4"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="es_principal" class="control-label col-md-3">
+                        ¿Es el contacto principal? <strong class="text-danger">*</strong>
+                    </label>
+                    <div class="col-md-8">
+                        <select name="es_principal" id="es_principal" formControlName="es_principal" class="form-control">
+                          <option value="0">No</option>
+                          <option value="1">Si</option>
+                        </select>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="portlet box blue">
+                    <div class="portlet-title">
+                      <div class="caption">
+                          Roles <strong class="text-danger">*</strong>
+                      </div>
+                    </div>
+                    <div class="portlet-body">
+
+                      <form  novalidate [formGroup]="formEditRolContacto" id="formEditRolContacto">
+
+                        <div class="form-group" [ngClass]="{ 'has-error': formEditRolContacto.controls.rol_contacto.errors && formEditRolContacto.controls.rol_contacto.pristine && isSubmitRolContacto }">
+                            <div class="col-md-10">
+                                <select name="rol_contacto" id="rol_contacto" formControlName="rol_contacto" class="form-control" (change)="capturarRolContacto($event)">
+                                  <option value="">Ninguno...</option>
+                                  <option *ngFor="let rol of listRolesContacto" value="{{ rol.id }}">{{ rol.nombre }}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                              <button (click)="addRolesModalEditContacto()" class="btn blue sbold" type="button" name="button" style="border:1px solid #fff"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                            </div>
+                            <div class="col-md-12" *ngIf="formEditRolContacto.controls.rol_contacto.errors && formEditRolContacto.controls.rol_contacto.pristine && isSubmitRolContacto">
+                                <strong class="help-block" *ngIf="formEditRolContacto.controls.rol_contacto.errors.required">El rol del contacto es requerido</strong>
+                            </div>
+                        </div>
+
+                      </form>
+
+                      <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover" >
+                          <thead>
+                            <tr>
+                              <th>Roles</th>
+                              <th>Acciones</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let rol of modelContacto[indexModalEdicionContacto]?.roles; let i=index">
+                              <td><span class="label label-sm label-success"><strong>{{ rol.nombre_rol }}</strong></span></td>
+                              <td>
+                                <button (click)="deleteRolesModalEditContacto(i)" class="btn btn-danger sbold btn-sm" type="button" name="button">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="row">
+
+                  <div class="col-md-6">
+
+                    <div class="portlet box blue">
+                        <div class="portlet-title">
+                          <div class="caption">
+                              Emails <strong class="text-danger">*</strong>
+                          </div>
+                        </div>
+                        <div class="portlet-body">
+
+                          <form novalidate [formGroup]="formEditEmailContacto" id="formEditEmailContacto">
+                            <div class="form-group" [ngClass]="{ 'has-error': formEditEmailContacto.controls.email_contacto.errors && formEditEmailContacto.controls.email_contacto.pristine && isSubmitEmailContacto }">
+                                <div class="col-md-10">
+                                  <input type="text" class="form-control" name="email_contacto" formControlName="email_contacto" id="email_contacto">
+                                </div>
+                                <div class="col-md-2">
+                                  <button (click)="addEmailModalEditContacto()" class="btn blue sbold" type="button" name="button" style="border:1px solid #fff"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="col-md-12" *ngIf="formEditEmailContacto.controls.email_contacto.errors && formEditEmailContacto.controls.email_contacto.pristine && isSubmitEmailContacto">
+                                    <strong class="help-block" *ngIf="formEditEmailContacto.controls.email_contacto.errors.required">La descripción del email es requerida</strong>
+                                    <strong class="help-block" *ngIf="formEditEmailContacto.controls.email_contacto.errors.pattern">El formato de email es incorrecto. Ej: nombre@mail.com</strong>
+                                </div>
+                            </div>
+
+                          </form>
+
+                          <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover" >
+                              <thead>
+                                <tr>
+                                  <th>Email</th>
+                                  <th>Acciones</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let email of modelContacto[indexModalEdicionContacto]?.emails; let i=index">
+                                  <td>{{ email.email }}</td>
+                                  <td>
+                                    <button (click)="deleteEmailModalEditContacto(i)" class="btn btn-danger sbold btn-sm" type="button" name="button">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                  <div class="portlet box blue">
+                      <div class="portlet-title">
+                        <div class="caption">
+                            Teléfonos <strong class="text-danger">*</strong>
+                        </div>
+                      </div>
+                      <div class="portlet-body">
+
+                        <form novalidate [formGroup]="formEditTelefonoContacto" id="formEditTelefonoContacto">
+                          <div class="form-group" [ngClass]="{ 'has-error': formEditTelefonoContacto.controls.tipo_telefono.errors && formEditTelefonoContacto.controls.tipo_telefono.pristine && isSubmitTelefonoContacto }">
+                              <label for="tipo_telefono" class="control-label col-md-3">
+                                Tipo <strong class="text-danger">*</strong>
+                              </label>
+                              <div class="col-md-8">
+                                <select class="form-control" name="tipo_telefono" formControlName="tipo_telefono" formControlName="tipo_telefono" id="tipo_telefono" (change)="capturarTipoTelefono($event)">
+                                  <option value="">Ninguno...</option>
+                                  <option *ngFor="let tipo_telefono of listTiposTelefonos" value="{{ tipo_telefono.id }}">{{ tipo_telefono.nombre }}</option>
+                                </select>
+                              </div>
+
+                              <div class="col-md-offset-3 col-md-8" *ngIf="formEditTelefonoContacto.controls.tipo_telefono.errors && formEditTelefonoContacto.controls.tipo_telefono.pristine && isSubmitTelefonoContacto">
+                                  <strong class="help-block" *ngIf="formEditTelefonoContacto.controls.tipo_telefono.errors.required">El tipo de teléfono es requerido</strong>
+                              </div>
+                          </div>
+
+                          <div class="form-group" [ngClass]="{ 'has-error': formEditTelefonoContacto.controls.telefono_contacto.errors && formEditTelefonoContacto.controls.telefono_contacto.pristine && isSubmitTelefonoContacto }">
+                              <label for="telefono_contacto" class="control-label col-md-3">
+                                Teléfono <strong class="text-danger">*</strong>
+                              </label>
+                              <div class="col-md-7">
+                                <input type="text" class="form-control" [textMask]="{mask: onlyNumberMask}" name="telefono_contacto" formControlName="telefono_contacto" formControlName="telefono_contacto" id="telefono_contacto">
+                              </div>
+                              <div class="col-md-2">
+                                <button (click)="addTelefonoModalEditContacto()" class="btn blue sbold" type="button" name="button" style="border:1px solid #fff"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                              </div>
+                              <div class="col-md-offset-3 col-md-8" *ngIf="formEditTelefonoContacto.controls.telefono_contacto.errors && formEditTelefonoContacto.controls.telefono_contacto.pristine && isSubmitTelefonoContacto">
+                                  <strong class="help-block" *ngIf="formEditTelefonoContacto.controls.telefono_contacto.errors.required">El teléfono es requerido</strong>
+                              </div>
+                          </div>
+                        </form>
+
+                        <table class="table table-striped table-bordered table-hover">
+                          <thead>
+                            <tr>
+                              <th>Tipo</th>
+                              <th>Teléfono</th>
+                              <th>Acciones</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let telefono of modelContacto[indexModalEdicionContacto]?.telefonos; let i=index">
+                              <td>{{ telefono.nombre_tipo_telefono }}</td>
+                              <td>{{ telefono.telefono }}</td>
+                              <td>
+                                <button (click)="deleteTelefonoModalEditContacto(i)" class="btn btn-danger sbold btn-sm" type="button" name="button">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                      </div>
+                  </div>
+
+                </div>
+
+                </div>
+
+              </div>
+
+              <div class="modal-footer">
+                  <button type="button" class="btn dark btn-outline" data-dismiss="modal" (click)="hideModalEditContacto()">Cerrar</button>
+                  <button (click)="editContacto()" class="btn blue sbold" [disabled]="loader">
+                      Editar contacto
+                      <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                  </button>
+              </div>
+
+          </form>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL NUEVO SERVICIO -->
+<div bsModal #modalCreateServicio="bs-modal" id="nuevo-servicio" class="modal fade" tabindex="-1" role="basic" aria-hidden="true" [config]="{backdrop: 'static', keyboard: false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <form class="form-horizontal" novalidate [formGroup]="formCreateServicio" id="formCreateServicio">
+
+                <div class="modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="hideModalCreateServicio()">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+
+                    <h4 class="modal-title">Nuevo servicio</h4>
+
+                </div>
+
+                <div class="modal-body">
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formCreateServicio.controls.id_servicio.errors && formCreateServicio.controls.id_servicio.pristine && isSubmitServicio }">
+                      <label for="id_servicio" class="control-label col-md-3">
+                          Servicio <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <select name="id_servicio" id="id_servicio" formControlName="id_servicio" class="form-control" (change)="capturarServicioContratadoCreate($event, formCreateServicio.value.id_servicio)">
+                            <option value="">Ninguno...</option>
+                            <option *ngFor="let serviciosContratado of listServiciosContratados" value="{{ serviciosContratado.id }}">{{ serviciosContratado.nombre }}</option>
+                          </select>
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formCreateServicio.controls.id_servicio.errors && formCreateServicio.controls.id_servicio.pristine && isSubmitServicio">
+                          <strong class="help-block" *ngIf="formCreateServicio.controls.id_servicio.errors.required">El servicio es requerido</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formCreateServicio.controls.fecha_comienzo.errors && formCreateServicio.controls.fecha_comienzo.pristine && isSubmitServicio }">
+                      <label for="fecha_comienzo" class="control-label col-md-3">
+                          Fecha de comienzo <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <my-date-picker name="fecha_comienzo" [options]="myDatePickerOptions" formControlName="fecha_comienzo"></my-date-picker>
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formCreateServicio.controls.fecha_comienzo.errors && formCreateServicio.controls.fecha_comienzo.pristine && isSubmitServicio">
+                          <strong class="help-block" *ngIf="formCreateServicio.controls.fecha_comienzo.errors.required">La fecha de comienzo es requerida</strong>
+                      </div>
+                  </div>
+
+                  <div *ngIf="servicioRecurrente" class="form-group" [ngClass]="{ 'has-error': formCreateServicio.controls.cantidad_mensual.errors && formCreateServicio.controls.cantidad_mensual.pristine && isSubmitServicio && servicioRecurrente }">
+                      <label for="cantidad_mensual" class="control-label col-md-3">
+                          Cantidad mensual <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <input class="form-control" [textMask]="{mask: onlyNumberMask}" type="text" name="cantidad_mensual" formControlName="cantidad_mensual" id="cantidad_mensual" maxlength="3">
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formCreateServicio.controls.cantidad_mensual.errors && formCreateServicio.controls.cantidad_mensual.pristine && isSubmitServicio && servicioRecurrente">
+                          <strong class="help-block" *ngIf="formCreateServicio.controls.cantidad_mensual.errors.required">La cantidad mensual es requerida</strong>
+                      </div>
+                  </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal" (click)="hideModalCreateServicio()">Cerrar</button>
+                    <button (click)="createServicio()" class="btn green sbold" [disabled]="loader">
+                        Guardar servicio
+                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL EDITAR SERVICIO -->
+<div bsModal #modalEditServicio="bs-modal" id="editar-servicio" class="modal fade" tabindex="-1" role="basic" aria-hidden="true" [config]="{backdrop: 'static', keyboard: false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <form *ngIf="formEditServicio" class="form-horizontal" novalidate [formGroup]="formEditServicio" id="formEditServicio">
+
+                <div class="modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="hideModalEditServicio()">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+
+                    <h4 class="modal-title">Editar servicio</h4>
+
+                </div>
+
+                <div class="modal-body">
+
+                  <div class="form-group">
+                      <label class="control-label col-md-3">
+                          Servicio
+                      </label>
+                      <label class="control-label col-md-1">
+                          <span class="label label-success"><strong>{{ editServicioContratado.nombre_servicio }}</strong></span>
+                      </label>
+                  </div>
+
+                  <div class="form-group">
+                      <label class="control-label col-md-3">
+                          Fecha de comienzo
+                      </label>
+                      <label class="control-label col-md-1">
+                          <span class="label label-success"><strong>{{ editServicioContratado.fecha_comienzo | date:'dd-MM-y' }}</strong></span>
+                      </label>
+                  </div>
+
+                  <div *ngIf="servicioRecurrenteEdit" class="form-group" [ngClass]="{ 'has-error': formEditServicio.controls.cantidad_mensual.errors && formEditServicio.controls.cantidad_mensual.pristine && isSubmitServicio && servicioRecurrenteEdit }">
+                      <label for="cantidad_mensual" class="control-label col-md-3">
+                          Cantidad mensual <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <input class="form-control" [textMask]="{mask: onlyNumberMask}" type="text" name="cantidad_mensual" formControlName="cantidad_mensual" id="cantidad_mensual" maxlength="3">
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEditServicio.controls.cantidad_mensual.errors && formEditServicio.controls.cantidad_mensual.pristine && isSubmitServicio && servicioRecurrenteEdit">
+                          <strong class="help-block" *ngIf="formEditServicio.controls.cantidad_mensual.errors.required">La cantidad mensual es requerida</strong>
+                      </div>
+                  </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal" (click)="hideModalEditServicio()">Cerrar</button>
+                    <button *ngIf="servicioRecurrenteEdit" (click)="editServicio()" class="btn green sbold" [disabled]="loader">
+                        Editar servicio
+                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL ELIMINAR CONTACTO -->
+<div class="modal fade" id="eliminar-contacto" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h4 class="modal-title">Eliminar Contacto</h4>
+
+            </div>
+
+            <div class="modal-body" *ngIf="deleteContacto">
+                <h2>Desea eliminar el contacto <strong>{{ deleteContacto.nombre }} {{ deleteContacto.apellido }}</strong>?</h2>
+            </div>
+
+            <div class="modal-footer">
+                <form>
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cerrar</button>
+                    <button class="btn btn-danger sbold" [disabled]="loader" (click)="deleteContactoBrief()">
+                        Eliminar contacto
+                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                    </button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL ELIMINAR SERVICIO -->
+<div class="modal fade" id="eliminar-servicio" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h4 class="modal-title">Eliminar Servicio contratado</h4>
+
+            </div>
+
+            <div class="modal-body" *ngIf="deleteServicio">
+                <h2>Desea eliminar el servicio contratado <strong>{{ deleteServicio.nombre_servicio }}</strong>?</h2>
+            </div>
+
+            <div class="modal-footer">
+                <form>
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cerrar</button>
+                    <button class="btn btn-danger sbold" [disabled]="loader" (click)="deleteServicioBrief()">
+                        Eliminar servicio contratado
+                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                    </button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL ELIMINAR SERVICIO -->
+<div class="modal fade" id="mensaje-servicio-eliminado" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h4 class="modal-title">Mensaje</h4>
+
+            </div>
+
+            <div class="modal-body">
+                <div class="alert alert-danger alert-dismissible">
+                  <strong>Si desea eliminar las tareas de este servicio, hacerlo de manera manual.</strong>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL ELIMINAR SERVICIO -->
+<div class="modal fade" id="adjuntar-contrato" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h4 class="modal-title">Adjuntar contrato</h4>
+
+            </div>
+
+            <div class="modal-body">
+                <p-fileUpload mode="basic" name="archivo[]" url="{{urlUploadFile}}" (onUpload)="verificarSubidaArchivo($event)" (onError)="verificarErrorArchivo($event)" chooseLabel="Elegir contrato" uploadLabel="Subir contrato" cancelLabel="cancelar"></p-fileUpload>
+            </div>
+
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn blue sbold" data-dismiss="modal" (click)="subirContrato()">Subir archivo</button> -->
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

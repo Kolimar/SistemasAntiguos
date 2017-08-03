@@ -1,0 +1,98 @@
+<header class="app-header navbar">
+  <!--------------------------------------------- Sidebar superior ------------------------------------------------------------------>
+  <button class="navbar-toggler d-lg-none pointer" type="button" appMobileSidebarToggler>&#9776;</button>
+  <a class="navbar-brand" href="#"><div style="text-align: center;">HUXLEY S.A.</div></a>
+  <ul class="nav navbar-nav d-md-down-none">
+    <li class="nav-item">
+      <a class="nav-link navbar-toggler pointer" href="#" appSidebarToggler>&#9776;</a>
+    </li>
+  </ul>
+  <!--------------------------------------------- /Sidebar superior----------------------------------------------------------------->
+  <!--------------------------------------------- Imagen y BOTONERA  derecha------------------------------------------------------------------>
+  <ul class="nav navbar-nav ml-auto" >
+    <li class="nav-item dropdown" dropdown style="left:-30px;position:relative;">
+      <a href class="nav-link dropdown-toggle" dropdownToggle (click)="false">
+        
+        <img src={{avatar}} class="img-avatar">
+        <span class="d-md-down-none">{{userData?.name}}</span>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right animated fadeIn " *dropdownMenu aria-labelledby="simple-dropdown" style="top:46px">
+        <div class="dropdown-header text-center" style="margin-top: -7px;"><strong>Usuario</strong></div>
+        
+        <button class="dropdown-item pointer" [routerLink]="['/perfil',userData?.id]"><i class="fa fa-user"></i> Perfil </button>
+        <div class="dropdown-header text-center"><strong>Sistema</strong></div>
+        <div class="divider"></div>
+        <a class="dropdown-item pointer" (click)='endSession()'><i class="fa fa-lock"></i> Salir del Sistema</a>
+      </div>
+    </li>
+  </ul>
+</header>
+<!---------------------------------------------// Imagen y BOTONERA  derecha----------------------------------------------------------------->
+<!----------------------------------------------- Sidebar BOTONERA ------------------------------------------------------------------>
+<div class="app-body" >
+  <div class="sidebar animated slideInLeft fast" >
+    <nav class="sidebar-nav">
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/dashboard']"  routerLinkActive="active" ><i class="icon-speedometer"></i> Panel de control</a>
+        </li>
+        <li  class="nav-item nav-dropdown" appNavDropdown  >
+          <a class="nav-link nav-dropdown-toggle" href="#" appNavDropdownToggle><i class="fa fa-magic"></i>Acceso Rápido</a>
+          <ul class="nav-dropdown-items">
+            <li class="nav-item">
+              <a class="nav-link "[routerLink]="['/ingresos']"  routerLinkActive="active"><i class="icon-login"></i> Registrar ingreso</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"[routerLink]="['/egresos']"  routerLinkActive="active"><i class="icon-logout"></i> Registrar egreso</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link "[routerLink]="['/remisiones']"  routerLinkActive="active"><i class="icon-logout"></i> Registrar remision</a>
+            </li>
+          </ul>
+        </li>
+        <li  class="nav-item nav-dropdown" appNavDropdown  >
+          <a class="nav-link nav-dropdown-toggle" href="#" appNavDropdownToggle><i class="fa fa-list"></i>Operaciones</a>
+          <ul class="nav-dropdown-items">
+            <li class="nav-item">
+              <a class="nav-link "[routerLink]="['/contenedores']"  routerLinkActive="active"><i class="icon-grid"></i> Contenedores</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link "[routerLink]="['/movimientos']"  routerLinkActive="active"><i class="icon-list"></i> Movimientos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"[routerLink]="['/booking']"  routerLinkActive="active"><i class="icon-book-open"></i> Booking</a>
+            </li>
+          </ul>
+        </li>
+        <li  class="nav-item nav-dropdown" *ngIf='userData?.admin=="true"' appNavDropdown  >
+          <a class="nav-link nav-dropdown-toggle" href="#" appNavDropdownToggle><i class="icon-wrench"></i> Administracion</a>
+          <ul class="nav-dropdown-items">
+            <li class="nav-item">
+              <a class="nav-link" routerLinkActive="active" [routerLink]="['/admcuentas']"><i class="icon-people"></i> Cuentas de Usuario</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <!--------------------------------------------- /Sidebar BOTONERA ----------------------------------------------------------------->
+  <!-- Main content -->
+  <main class="main">
+    <!-- Breadcrumb -->
+    <!-- Descomentar  el siguiente ol mostrará siempre la ruta donde te encontrás-->
+    <!-- <ol class="breadcrumb">
+    <app-breadcrumbs></app-breadcrumbs>
+  </ol> -->
+  <div class="container-fluid contenedor">
+    <router-outlet></router-outlet>
+
+
+  </div>
+  <!-- /.conainer-fluid -->
+</main>
+</div>
+<footer class="app-footer animated slideInRight">
+<a href="#">Huxley S.A.</a> © 2017.
+<span class="float-right">Powered by <a href="http://www.tecsolutions.com.ar">Tec Solutions</a>
+</span>
+</footer>

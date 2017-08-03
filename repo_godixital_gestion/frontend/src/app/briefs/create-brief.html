@@ -1,0 +1,1377 @@
+<div class="page-wrapper">
+
+    <!-- HEADER -->
+
+    <page-header>
+    </page-header>
+
+    <!-- FINAL DE HEADER -->
+
+    <!-- DIVISOR -->
+
+    <div class="clearfix"> </div>
+
+    <!-- FINAL DE DIVISOR -->
+
+
+
+    <div class="page-container">
+
+        <!-- SIDEBAR -->
+
+        <page-sidebar>
+        </page-sidebar>
+
+        <!-- FINAL SIDEBAR -->
+
+        <!-- CONTENIDO -->
+
+        <div class="page-content-wrapper">
+
+            <div class="page-content">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Begin: Demo Datatable 1 -->
+                        <div class="portlet light portlet-fit portlet-datatable bordered">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <ol class="breadcrumb" style="background-color:transparent;">
+                                        <li class="caption-subject font-dark sbold uppercase"><a [routerLink]="['/briefs']"><i class="fa fa-briefcase" aria-hidden="true"></i> Brief de ventas</a></li>
+                                        <li class="caption-subject font-dark sbold uppercase">Nuevo brief de venta</li>
+                                    </ol>
+                                </div>
+                                <div class="actions">
+                                  <button (click)="borradorBrief()" [disabled]="loader" class="btn yellow sbold">
+                                      <i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar en borrador
+                                      <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                                  </button>
+                                  <button (click)="createCliente()" [disabled]="loader" class="btn blue sbold">
+                                      <i class="fa fa-users" aria-hidden="true"></i> Crear cliente
+                                      <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                                  </button>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="row">
+                                    <div *ngIf="formBrief.invalid && isSubmitBrief" class="alert alert-danger alert-dismissable">
+                                        <strong>Alerta!</strong> Faltan datos por completar.
+                                    </div>
+                                    <form novalidate [formGroup]="formBrief" id="formBrief">
+                                        <div class="col-md-6">
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.nombre.errors && formBrief.controls.nombre.pristine && isSubmitBrief }">
+                                                <label for="nombre">Nombre del cliente <strong class="text-danger">*</strong></label>
+                                                <input type="text" class="form-control" name="nombre" formControlName="nombre" id="nombre" maxlength="50">
+
+                                                <div *ngIf="formBrief.controls.nombre.errors && formBrief.controls.nombre.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.nombre.errors.required">El nombre del cliente es requerido</strong>
+                                                    <strong class="help-block" *ngIf="formBrief.controls.nombre.errors.maxlength">El nombre del cliente debe contener menos de 50 caracteres</strong>
+                                                    <strong class="help-block" *ngIf="formBrief.controls.nombre.errors.sinEspacios">El nombre del cliente no debe contener espacios en blaco al inicio del texto</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.pm_asignado.errors && formBrief.controls.pm_asignado.pristine && isSubmitBrief }">
+                                                <label for="pm_asignado">Project manager asignado <strong class="text-danger">*</strong></label>
+                                                <select class="form-control" name="pm_asignado" id="pm_asignado" formControlName="pm_asignado">
+                                                    <option value="">Ninguno...</option>
+                                                    <option *ngFor="let pm of listPms" value="{{pm.id}}">{{pm.nombres}} {{pm.apellidos}}</option>
+                                                </select>
+                                                <div *ngIf="formBrief.controls.pm_asignado.errors && formBrief.controls.pm_asignado.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.pm_asignado.errors.required">El project manager es requerido</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div *ngIf="!esPrincipal" class="alert alert-danger">
+                                              <strong>Debe asignar al menos un contacto principal</strong>
+                                            </div>
+                                            <div class="portlet box blue">
+                                                <div class="portlet-title">
+                                                    <div class="caption">
+                                                        Contactos <strong class="text-danger">*</strong>
+                                                    </div>
+                                                    <div class="actions">
+                                                        <button (click)="showModalCreateContacto()" class="btn blue sbold" type="button" name="button" style="border:1px solid #fff"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="portlet-body">
+                                                    <div class="table-responsive">
+                                                      <table class="table table-striped table-bordered table-hover">
+                                                        <thead>
+                                                          <tr>
+                                                            <th>Nombre</th>
+                                                            <th>Apellido</th>
+                                                            <th>Religión judía</th>
+                                                            <th>¿Por qué medio es mejor contactarlo?</th>
+                                                            <th>Comentarios</th>
+                                                            <th>¿Es el contacto principal?</th>
+                                                            <th>Acciones</th>
+                                                          </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                          <tr *ngFor="let contacto of modelContacto; let i=index">
+                                                            <td>{{ contacto.nombre }}</td>
+                                                            <td>{{ contacto.apellido }}</td>
+                                                            <td>
+                                                              <span *ngIf="contacto.religion_judia == 0" class="label label-sm label-danger"><strong>No</strong></span>
+                                                              <span *ngIf="contacto.religion_judia == 1" class="label label-sm label-success"><strong>Si</strong></span>
+                                                            </td>
+                                                            <td>{{ contacto.medio_contacto }}</td>
+                                                            <td>{{ contacto.comentario_contacto }}</td>
+                                                            <td>
+                                                              <span *ngIf="contacto.es_principal == 0" class="label label-sm label-danger"><strong>No</strong></span>
+                                                              <span *ngIf="contacto.es_principal == 1" class="label label-sm label-success"><strong>Si</strong></span>
+                                                            </td>
+                                                            <td width="20%">
+                                                              <button (click)="showModalEditContacto(i)" class="btn yellow sbold btn-sm" type="button" name="button">
+                                                                  <i class="fa fa-pencil"></i>
+                                                              </button>
+                                                              <button data-toggle="modal" data-target="#eliminar-contacto" (click)="onDeleteContacto(contacto, i)" class="btn btn-danger sbold btn-sm" type="button" name="button">
+                                                                  <i class="fa fa-trash" aria-hidden="true"></i>
+                                                              </button>
+                                                            </td>
+                                                          </tr>
+                                                        </tbody>
+                                                      </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.fecha_comienzo.errors && formBrief.controls.fecha_comienzo.pristine && isSubmitBrief }">
+                                                <label for="fecha_comienzo">Fecha de comienzo de gestión <strong class="text-danger uppercaster">*</strong></label>
+                                                <my-date-picker name="fecha_comienzo" [options]="myDatePickerOptions" formControlName="fecha_comienzo"></my-date-picker>
+
+                                                <div *ngIf="formBrief.controls.fecha_comienzo.errors && formBrief.controls.fecha_comienzo.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.fecha_comienzo.errors.required">La fecha de comienzo de gestión es requerida</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="portlet box green">
+                                                <div class="portlet-title">
+                                                    <div class="caption">
+                                                        Servicios <strong class="text-danger">*</strong>
+                                                    </div>
+                                                    <div class="actions">
+                                                        <button (click)="showModalCreateServicio()" class="btn green sbold" type="button" name="button" style="border:1px solid #fff"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="portlet-body">
+                                                    <div class="table-responsive">
+                                                      <table class="table table-striped table-bordered table-hover">
+                                                        <thead>
+                                                          <tr>
+                                                            <th>Servicio</th>
+                                                            <th>Cantidad mensual</th>
+                                                            <th>Acciones</th>
+                                                          </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                          <tr *ngFor="let servicioContratado of modelServicioContratado; let i=index">
+                                                            <td>
+                                                              <span class="label label-sm label-success"><strong>{{ servicioContratado.nombre_servicio }}</strong></span>
+                                                            </td>
+                                                            <td>{{ servicioContratado.cantidad_mensual }}</td>
+                                                            <td width="20%">
+                                                              <button (click)="showModalEditServicio(i)" class="btn yellow sbold btn-sm" type="button" name="button">
+                                                                  <i class="fa fa-pencil"></i>
+                                                              </button>
+                                                              <button data-toggle="modal" data-target="#eliminar-servicio" (click)="onDeleteServicio(servicioContratado, i)" class="btn btn-danger sbold btn-sm" type="button" name="button">
+                                                                  <i class="fa fa-trash" aria-hidden="true"></i>
+                                                              </button>
+                                                            </td>
+                                                          </tr>
+                                                        </tbody>
+                                                      </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.propuesta_original.errors && formBrief.controls.propuesta_original.pristine && isSubmitBrief }">
+                                                <label for="propuesta_original">Propuesta original enviada <strong class="text-danger">*</strong></label>
+                                                <textarea class="form-control" rows="8" formControlName="propuesta_original"></textarea>
+
+                                                <div *ngIf="formBrief.controls.propuesta_original.errors && formBrief.controls.propuesta_original.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.propuesta_original.errors.required">La propuesta original enviada es requerida</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.monto_abono.errors && formBrief.controls.monto_abono.pristine && isSubmitBrief }">
+                                                <label for="monto_abono">Monto del abono <strong>($)</strong> <strong class="text-danger">*</strong></label>
+                                                <input type="text" [textMask]="{mask: numberMask}" class="form-control" name="monto_abono" id="monto_abono" formControlName="monto_abono">
+
+                                                <div *ngIf="formBrief.controls.monto_abono.errors && formBrief.controls.monto_abono.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.monto_abono.errors.required">El monto del abono es requerido</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.presupuesto_invertir_publicidad.errors && formBrief.controls.presupuesto_invertir_publicidad.pristine && isSubmitBrief }">
+                                                <label for="presupuesto_invertir_publicidad">Presupuesto mensual a invertir en publicidad <strong>($)</strong> <strong class="text-danger">*</strong></label>
+                                                <input type="text" [textMask]="{mask: numberMask}" class="form-control" name="presupuesto_invertir_publicidad" formControlName="presupuesto_invertir_publicidad" id="presupuesto_invertir_publicidad">
+
+                                                <div *ngIf="formBrief.controls.presupuesto_invertir_publicidad.errors && formBrief.controls.presupuesto_invertir_publicidad.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.presupuesto_invertir_publicidad.errors.required">El Presupuesto mensual a invertir en publicidad es requerido</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group">
+                                                <label for="distribucion_presupuesto_publicidad">Distribución del presupuesto en publicidad</label>
+                                                <textarea class="form-control" rows="8" formControlName="distribucion_presupuesto_publicidad"></textarea>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group">
+                                                <label for="id_metodo_facturacion">Método de facturación</label>
+                                                <select class="form-control" name="id_metodo_facturacion" formControlName="id_metodo_facturacion" id="id_metodo_facturacion">
+                                                    <option value="">Ninguno...</option>
+                                                    <option *ngFor="let id_metodo_facturacion of listMetodosFacturacion" value="{{id_metodo_facturacion.id}}">{{id_metodo_facturacion.nombre}}</option>
+                                                </select>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.sitio_web.errors && formBrief.controls.sitio_web.pristine && isSubmitBrief }">
+                                                <label for="sitio_web">Sitio web</label>
+                                                <input type="text" class="form-control" name="sitio_web" formControlName="sitio_web" id="sitio_web"  maxlength="80">
+
+                                                <div *ngIf="formBrief.controls.sitio_web.errors && formBrief.controls.sitio_web.pristine && isSubmitBrief">
+                                                  <strong class="help-block" *ngIf="formBrief.controls.sitio_web.errors.maxlength">El sitio web debe contener menos de 80 caracteres</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.fan_page.errors && formBrief.controls.fan_page.pristine && isSubmitBrief }">
+                                                <label for="fan_page">Fan page de facebook</label>
+                                                <input type="text" class="form-control" name="fan_page" formControlName="fan_page" id="fan_page"  maxlength="80">
+
+                                                <div *ngIf="formBrief.controls.fan_page.errors && formBrief.controls.fan_page.pristine && isSubmitBrief">
+                                                  <strong class="help-block" *ngIf="formBrief.controls.fan_page.errors.maxlength">El fan page debe contener menos de 80 caracteres</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.id_tipo_empresa.errors && formBrief.controls.id_tipo_empresa.pristine && isSubmitBrief }">
+                                                <label for="id_tipo_empresa">Tipo de empresa <strong class="text-danger">*</strong></label>
+                                                <select multiple class="form-control"  name="id_tipo_empresa" formControlName="id_tipo_empresa" id="id_tipo_empresa">
+                                                  <option *ngFor="let id_tipo_empresa of listTiposEmpresas; let i=index" value="{{ id_tipo_empresa.id }}">{{ id_tipo_empresa.nombre }}</option>
+                                                </select>
+
+                                                <div *ngIf="formBrief.controls.id_tipo_empresa.errors && formBrief.controls.id_tipo_empresa.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.id_tipo_empresa.errors.required">El tipo de empresa es requerida</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.rubro.errors && formBrief.controls.rubro.pristine && isSubmitBrief }">
+                                                <label for="rubro">Rubro <strong class="text-danger">*</strong></label>
+                                                <input type="text" class="form-control" name="rubro" formControlName="rubro" id="rubro"  maxlength="80">
+
+                                                <div *ngIf="formBrief.controls.rubro.errors && formBrief.controls.rubro.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.rubro.errors.required">El rubro es requerido</strong>
+                                                    <strong class="help-block" *ngIf="formBrief.controls.rubro.errors.maxlength">El rubro debe contener menos de 80 caracteres</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.id_tipo_venta.errors && formBrief.controls.id_tipo_venta.pristine && isSubmitBrief }">
+                                                <label for="id_tipo_venta">Tipo de venta <strong class="text-danger">*</strong></label>
+                                                <select multiple class="form-control" name="id_tipo_venta" formControlName="id_tipo_venta">
+                                                  <option *ngFor="let id_tipo_venta of listTiposVenta" value="{{id_tipo_venta.id}}">{{id_tipo_venta.nombre}}</option>
+                                                </select>
+
+                                                <div *ngIf="formBrief.controls.id_tipo_venta.errors && formBrief.controls.id_tipo_venta.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.id_tipo_venta.errors.required">El tipo de venta es requerido</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.modelo_negocio.errors && formBrief.controls.modelo_negocio.pristine && isSubmitBrief }">
+                                                <label for="modelo_negocio">Modelo de negocio <strong class="text-danger">*</strong></label>
+                                                <textarea class="form-control" rows="8" formControlName="modelo_negocio"></textarea>
+
+                                                <div *ngIf="formBrief.controls.modelo_negocio.errors && formBrief.controls.modelo_negocio.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.modelo_negocio.errors.required">El modelo de negocio es requerido</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.calidad_modelo_negocio.errors && formBrief.controls.calidad_modelo_negocio.pristine && isSubmitBrief }">
+                                                <label for="calidad_modelo_negocio">Calidad de modelo de negocio <strong class="text-danger">*</strong></label>
+                                                <select class="form-control" name="calidad_modelo_negocio" formControlName="calidad_modelo_negocio" id="calidad_modelo_negocio">
+                                                    <option value="">Ninguna...</option>
+                                                    <option value="Alta">Alta</option>
+                                                    <option value="Media">Media</option>
+                                                    <option value="Baja">Baja</option>
+                                                </select>
+
+                                                <div *ngIf="formBrief.controls.calidad_modelo_negocio.errors && formBrief.controls.calidad_modelo_negocio.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.calidad_modelo_negocio.errors.required">La calidad de modelo de negocio es requerido</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.acciones_realiza_internet.errors && formBrief.controls.acciones_realiza_internet.pristine && isSubmitBrief }">
+                                                <label for="acciones_realiza_internet">Acciones que realiza actualmente en internet <strong class="text-danger">*</strong></label>
+                                                <textarea class="form-control" rows="8" formControlName="acciones_realiza_internet"></textarea>
+
+                                                <div *ngIf="formBrief.controls.acciones_realiza_internet.errors && formBrief.controls.acciones_realiza_internet.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.acciones_realiza_internet.errors.required">Las acciones que realiza actualmente en internet son requeridas</strong>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.upselibilidad.errors && formBrief.controls.upselibilidad.pristine && isSubmitBrief }">
+                                                <label for="upselibilidad">Upselibilidad <strong class="text-danger">*</strong></label>
+                                                <select class="form-control" name="upselibilidad" formControlName="upselibilidad" id="upselibilidad">
+                                                    <option value="">Ninguna...</option>
+                                                    <option value="Alta">Alta</option>
+                                                    <option value="Media">Media</option>
+                                                    <option value="Baja">Baja</option>
+                                                </select>
+
+                                                <div *ngIf="formBrief.controls.upselibilidad.errors && formBrief.controls.upselibilidad.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.upselibilidad.errors.required">La upselibilidad es requerida</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.comentario_upselibilidad.errors && formBrief.controls.comentario_upselibilidad.pristine && isSubmitBrief }">
+                                                <label for="comentario_upselibilidad">Comentarios de upselibilidad <strong class="text-danger">*</strong></label>
+                                                <textarea class="form-control" rows="8" formControlName="comentario_upselibilidad"></textarea>
+
+                                                <div *ngIf="formBrief.controls.comentario_upselibilidad.errors && formBrief.controls.comentario_upselibilidad.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.comentario_upselibilidad.errors.required">Los Comentarios de upselibilidad son requeridos</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.educabilidad.errors && formBrief.controls.educabilidad.pristine && isSubmitBrief }">
+                                                <label for="educabilidad">Educabilidad <strong class="text-danger">*</strong></label>
+                                                <select class="form-control" name="educabilidad" formControlName="educabilidad" id="educabilidad">
+                                                  <option value="">Ninguna...</option>
+                                                  <option value="Alta">Alta</option>
+                                                  <option value="Media">Media</option>
+                                                  <option value="Baja">Baja</option>
+                                                </select>
+
+                                                <div *ngIf="formBrief.controls.educabilidad.errors && formBrief.controls.educabilidad.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.educabilidad.errors.required">La educabilidad es requerida</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.comentario_educabilidad.errors && formBrief.controls.comentario_educabilidad.pristine && isSubmitBrief }">
+                                                <label for="comentario_educabilidad">Comentarios de educabilidad <strong class="text-danger">*</strong></label>
+                                                <textarea class="form-control" rows="8" formControlName="comentario_educabilidad"></textarea>
+
+                                                <div *ngIf="formBrief.controls.comentario_educabilidad.errors && formBrief.controls.comentario_educabilidad.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.comentario_educabilidad.errors.required">Los comentarios de educabilidad son requeridos</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.id_canal_adquisicion.errors && formBrief.controls.id_canal_adquisicion.pristine && isSubmitBrief }">
+                                                <label for="id_canal_adquisicion">Canal de adquisición <strong class="text-danger">*</strong></label>
+                                                <select multiple class="form-control" name="id_canal_adquisicion" formControlName="id_canal_adquisicion">
+                                                  <option *ngFor="let id_canal_adquisicion of listCanalesAdquicision" value="{{id_canal_adquisicion.id}}">{{id_canal_adquisicion.nombre}}</option>
+                                                </select>
+
+                                                <div *ngIf="formBrief.controls.id_canal_adquisicion.errors && formBrief.controls.id_canal_adquisicion.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.id_canal_adquisicion.errors.required">El canal de adquisición es requerido</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.comentario_adquisicion.errors && formBrief.controls.comentario_adquisicion.pristine && isSubmitBrief }">
+                                                <label for="comentario_adquisicion">Comentarios de adquisición <strong class="text-danger">*</strong></label>
+                                                <textarea class="form-control" rows="8" formControlName="comentario_adquisicion"></textarea>
+
+                                                <div *ngIf="formBrief.controls.comentario_adquisicion.errors && formBrief.controls.comentario_adquisicion.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.comentario_adquisicion.errors.required">Los comentarios de adquisición son requeridos</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.conocimiento_internet.errors && formBrief.controls.conocimiento_internet.pristine && isSubmitBrief }">
+                                                <label for="conocimiento_internet">Nivel de conocimiento de internet <strong class="text-danger">*</strong></label>
+                                                <select class="form-control" name="conocimiento_internet" formControlName="conocimiento_internet" id="conocimiento_internet">
+                                                  <option value="">Ninguna...</option>
+                                                  <option value="Alta">Alta</option>
+                                                  <option value="Media">Media</option>
+                                                  <option value="Baja">Baja</option>
+                                                </select>
+
+                                                <div *ngIf="formBrief.controls.conocimiento_internet.errors && formBrief.controls.conocimiento_internet.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.conocimiento_internet.errors.required">El nivel de conocimiento de internet es requerido</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.capacidad_financiera_cliente.errors && formBrief.controls.capacidad_financiera_cliente.pristine && isSubmitBrief }">
+                                                <label for="capacidad_financiera_cliente">Capacidad financiera del cliente <strong class="text-danger">*</strong></label>
+                                                <select class="form-control" name="capacidad_financiera_cliente" formControlName="capacidad_financiera_cliente" id="capacidad_financiera_cliente">
+                                                    <option value="">Ninguna...</option>
+                                                    <option value="Alta">Alta</option>
+                                                    <option value="Media">Media</option>
+                                                    <option value="Baja">Baja</option>
+                                                </select>
+
+                                                <div *ngIf="formBrief.controls.capacidad_financiera_cliente.errors && formBrief.controls.capacidad_financiera_cliente.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.capacidad_financiera_cliente.errors.required">La capacidad financiera del cliente es requerida</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.nivel_esperado_hinchapelotes.errors && formBrief.controls.nivel_esperado_hinchapelotes.pristine && isSubmitBrief }">
+                                                <label for="nivel_esperado_hinchapelotes">Nivel esperado de hinchapelotes <strong class="text-danger">*</strong></label>
+                                                <select class="form-control" name="nivel_esperado_hinchapelotes" formControlName="nivel_esperado_hinchapelotes" id="nivel_esperado_hinchapelotes">
+                                                  <option value="">Ninguna...</option>
+                                                  <option value="Alta">Alta</option>
+                                                  <option value="Media">Media</option>
+                                                  <option value="Baja">Baja</option>
+                                                </select>
+
+                                                <div *ngIf="formBrief.controls.nivel_esperado_hinchapelotes.errors && formBrief.controls.nivel_esperado_hinchapelotes.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.nivel_esperado_hinchapelotes.errors.required">El nivel esperado de hinchapelotes del cliente es requerido</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.puntaje_cliente.errors && formBrief.controls.puntaje_cliente.pristine && isSubmitBrief }">
+                                                <label for="puntaje_cliente">Puntaje general del cliente (inicial) <strong class="text-danger">*</strong></label>
+                                                <select class="form-control" name="puntaje_cliente" formControlName="puntaje_cliente" id="puntaje_cliente" maxlength="2">
+                                                  <option value="">Ninguno...</option>
+                                                  <option value="1">1</option>
+                                                  <option value="2">2</option>
+                                                  <option value="3">3</option>
+                                                  <option value="4">4</option>
+                                                  <option value="5">5</option>
+                                                  <option value="6">6</option>
+                                                  <option value="7">7</option>
+                                                  <option value="8">8</option>
+                                                  <option value="9">9</option>
+                                                  <option value="10">10</option>
+                                                </select>
+
+                                                <div *ngIf="formBrief.controls.puntaje_cliente.errors && formBrief.controls.puntaje_cliente.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.puntaje_cliente.errors.required">El puntaje general del cliente es requerido</strong>
+                                                    <strong class="help-block" *ngIf="formBrief.controls.puntaje_cliente.errors.pattern">El puntaje general del cliente debe estar comprendido entre 1 y 10</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.competidores_cliente.errors && formBrief.controls.competidores_cliente.pristine && isSubmitBrief }">
+                                                <label for="competidores_cliente">Cuales son los competidores que mira el cliente? <strong class="text-danger">*</strong></label>
+                                                <textarea class="form-control" rows="8" formControlName="competidores_cliente"></textarea>
+
+                                                <div *ngIf="formBrief.controls.competidores_cliente.errors && formBrief.controls.competidores_cliente.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.competidores_cliente.errors.required">Los competidores que mira el cliente son requeridos</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.personalidad.errors && formBrief.controls.personalidad.pristine && isSubmitBrief }">
+                                                <label for="personalidad">Personalidad <strong class="text-danger">*</strong></label>
+                                                <textarea class="form-control" rows="8" formControlName="personalidad"></textarea>
+
+                                                <div *ngIf="formBrief.controls.personalidad.errors && formBrief.controls.personalidad.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.personalidad.errors.required">La personalidad del cliente es requerida</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.porque_llego.errors && formBrief.controls.porque_llego.pristine && isSubmitBrief }">
+                                                <label for="personalidad">¿Por qué llegó a nosotros? <strong class="text-danger">*</strong></label>
+                                                <textarea class="form-control" rows="8" formControlName="porque_llego"></textarea>
+
+                                                <div *ngIf="formBrief.controls.porque_llego.errors && formBrief.controls.porque_llego.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.porque_llego.errors.required">Por qué llego a nosotros es requerido</strong>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group" [ngClass]="{ 'has-error': formBrief.controls.servicio_buscado.errors && formBrief.controls.servicio_buscado.pristine && isSubmitBrief }">
+                                                <label for="personalidad">¿Qué servicio está buscando? <strong class="text-danger">*</strong></label>
+                                                <textarea class="form-control" rows="8" formControlName="servicio_buscado"></textarea>
+
+                                                <div *ngIf="formBrief.controls.servicio_buscado.errors && formBrief.controls.servicio_buscado.pristine && isSubmitBrief">
+                                                    <strong class="help-block" *ngIf="formBrief.controls.servicio_buscado.errors.required">Qué servicio está buscando es requerido</strong>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-12">
+                                          <div *ngIf="formBrief.invalid && isSubmitBrief" class="alert alert-danger alert-dismissable">
+                                              <strong>Alerta!</strong> Faltan datos por completar.
+                                          </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <hr>
+                                        </div>
+
+                                        <div class="col-md-12" style="text-align:right">
+                                          <button (click)="borradorBrief()" [disabled]="loader" class="btn yellow sbold">
+                                              <i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar en borrador
+                                              <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                                          </button>
+                                          <button (click)="createCliente()" [disabled]="loader" class="btn blue sbold">
+                                              <i class="fa fa-users" aria-hidden="true"></i> Crear cliente
+                                              <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                                          </button>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- FINAL DEL CONTENIDO -->
+
+    </div>
+
+    <!-- FOOTER -->
+
+    <page-footer>
+    </page-footer>
+
+    <!-- FINAL DE FOOTER -->
+
+</div>
+
+<div class="quick-nav-overlay"></div>
+
+<!-- MODAL NUEVO CONTACTO -->
+<div bsModal #modalCreateContacto="bs-modal" id="nuevo-contacto" class="modal fade" tabindex="-1" role="basic" aria-hidden="true" [config]="{backdrop: 'static', keyboard: false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <form class="form-horizontal" novalidate [formGroup]="formCreateContacto" id="fmrCreateContacto">
+
+                <div class="modal-header">
+
+                    <h4 class="modal-title pull-left">Nuevo contacto</h4>
+
+                    <div class="pull-right">
+                      <button type="button" class="btn dark btn-outline" data-dismiss="modal" (click)="hideModalCreateContacto()">Cerrar</button>
+                      <button (click)="createContacto()" class="btn blue sbold">
+                          Guardar contacto
+                      </button>
+                    </div>
+
+                </div>
+
+                <div class="modal-body">
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formCreateContacto.controls.nombre_contacto.errors && formCreateContacto.controls.nombre_contacto.pristine && isSubmitContacto }">
+                      <label for="nombre_contacto" class="control-label col-md-3">
+                          Nombre <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <input type="text" name="nombre_contacto" id="nombre_contacto" formControlName="nombre_contacto" class="form-control">
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formCreateContacto.controls.nombre_contacto.errors && formCreateContacto.controls.nombre_contacto.pristine && isSubmitContacto">
+                          <strong class="help-block" *ngIf="formCreateContacto.controls.nombre_contacto.errors.required">El nombre del contacto es requerido</strong>
+                          <strong class="help-block" *ngIf="formCreateContacto.controls.nombre_contacto.errors.maxlength">El nombre del contacto no debe poseer mas de 50 caracteres</strong>
+                          <strong class="help-block" *ngIf="formCreateContacto.controls.nombre_contacto.errors.sinEspacios">El nombre del contacto no debe poseer espacios en blanco al inicio del texto</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="apellido_contacto" class="control-label col-md-3">
+                          Apellido
+                      </label>
+                      <div class="col-md-8">
+                          <input type="text" name="apellido_contacto" id="apellido_contacto" formControlName="apellido_contacto" class="form-control">
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="religion_judia" class="control-label col-md-3">
+                          ¿Religión judía? <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <select name="religion_judia" id="religion_judia" formControlName="religion_judia" class="form-control">
+                            <option value="0">No</option>
+                            <option value="1">Si</option>
+                          </select>
+                      </div>
+                  </div>
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formCreateContacto.controls.medio_contacto.errors && formCreateContacto.controls.medio_contacto.pristine && isSubmitContacto }">
+                      <label for="medio_contacto" class="control-label col-md-3">
+                          ¿Por qué medio es mejor contactarlo? <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <textarea name="medio_contacto" id="medio_contacto" formControlName="medio_contacto" class="form-control" rows="4"></textarea>
+                      </div>
+
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formCreateContacto.controls.medio_contacto.errors && formCreateContacto.controls.medio_contacto.pristine && isSubmitContacto">
+                          <strong class="help-block" *ngIf="formCreateContacto.controls.medio_contacto.errors.required">Los comentarios son requeridos</strong>
+                          <strong class="help-block" *ngIf="formCreateContacto.controls.medio_contacto.errors.sinEspacios">Los comentarios no deben poseer espacios en blanco al inicio del texto</strong>
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="comentarios_contactos" class="control-label col-md-3">
+                          Comentarios
+                      </label>
+                      <div class="col-md-8">
+                          <textarea name="comentarios_contactos" id="comentarios_contactos" formControlName="comentarios_contactos" class="form-control" rows="4"></textarea>
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="es_principal" class="control-label col-md-3">
+                          ¿Es el contacto principal? <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <select name="es_principal" id="es_principal" formControlName="es_principal" class="form-control">
+                            <option value="0">No</option>
+                            <option value="1">Si</option>
+                          </select>
+                      </div>
+                  </div>
+
+                  <hr>
+
+                  <div class="portlet box blue">
+                      <div class="portlet-title">
+                        <div class="caption">
+                            Roles <strong class="text-danger">*</strong>
+                        </div>
+                      </div>
+                      <div class="portlet-body">
+
+                        <form  novalidate [formGroup]="formCreateRolContacto" id="formCreateRolContacto">
+
+                          <div class="form-group" [ngClass]="{ 'has-error': formCreateRolContacto.controls.rol_contacto.errors && formCreateRolContacto.controls.rol_contacto.pristine && isSubmitRolContacto }">
+                              <div class="col-md-10">
+                                  <select name="rol_contacto" id="rol_contacto" formControlName="rol_contacto" class="form-control" (change)="capturarRolContacto($event)">
+                                    <option value="">Ninguno...</option>
+                                    <option *ngFor="let rol of listRolesContacto" value="{{ rol.id }}">{{ rol.nombre }}</option>
+                                  </select>
+                              </div>
+                              <div class="col-md-2">
+                                <button (click)="addRolesModalCreateContacto()" class="btn blue sbold" type="button" name="button" style="border:1px solid #fff"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                              </div>
+                              <div class="col-md-12" *ngIf="formCreateRolContacto.controls.rol_contacto.errors && formCreateRolContacto.controls.rol_contacto.pristine && isSubmitRolContacto">
+                                  <strong class="help-block" *ngIf="formCreateRolContacto.controls.rol_contacto.errors.required">El rol del contacto es requerido</strong>
+                              </div>
+                          </div>
+
+                        </form>
+
+                        <div class="table-responsive">
+                          <table class="table table-striped table-bordered table-hover" >
+                            <thead>
+                              <tr>
+                                <th>Roles</th>
+                                <th>Acciones</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let rol of modelModalContacto?.roles; let i=index">
+                                <td><span class="label label-sm label-success"><strong>{{ rol.nombre_rol }}</strong></span></td>
+                                <td>
+                                  <button (click)="deleteRolesModalCreateContacto(i)" class="btn btn-danger sbold btn-sm" type="button" name="button">
+                                      <i class="fa fa-trash" aria-hidden="true"></i>
+                                  </button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+
+                      </div>
+                  </div>
+
+                  <hr>
+
+                  <div class="row">
+
+                    <div class="col-md-6">
+
+                      <div class="portlet box blue">
+                          <div class="portlet-title">
+                            <div class="caption">
+                                Emails <strong class="text-danger">*</strong>
+                            </div>
+                          </div>
+                          <div class="portlet-body">
+
+                            <form novalidate [formGroup]="formCreateEmailContacto" id="formCreateEmailContacto">
+
+                              <div class="form-group" [ngClass]="{ 'has-error': formCreateEmailContacto.controls.email_contacto.errors && formCreateEmailContacto.controls.email_contacto.pristine && isSubmitEmailContacto }">
+                                  <div class="col-md-10">
+                                    <input type="text" class="form-control" name="email_contacto" formControlName="email_contacto" id="email_contacto">
+                                  </div>
+                                  <div class="col-md-2">
+                                    <button (click)="addEmailModalCreateContacto()" class="btn blue sbold" type="button" name="button" style="border:1px solid #fff"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                  </div>
+                                  <div class="col-md-12" *ngIf="formCreateEmailContacto.controls.email_contacto.errors && formCreateEmailContacto.controls.email_contacto.pristine && isSubmitEmailContacto">
+                                      <strong class="help-block" *ngIf="formCreateEmailContacto.controls.email_contacto.errors.required">La descripción del email es requerida</strong>
+                                      <strong class="help-block" *ngIf="formCreateEmailContacto.controls.email_contacto.errors.pattern">El formato de email es incorrecto. Ej: nombre@mail.com</strong>
+                                  </div>
+                              </div>
+
+                            </form>
+
+                            <div class="table-responsive">
+                              <table class="table table-striped table-bordered table-hover" >
+                                <thead>
+                                  <tr>
+                                    <th>Email</th>
+                                    <th>Acciones</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let email of modelModalContacto?.emails; let i=index">
+                                    <td>{{ email.email }}</td>
+                                    <td>
+                                      <button (click)="deleteEmailModalCreateContacto(i)" class="btn btn-danger sbold btn-sm" type="button" name="button">
+                                          <i class="fa fa-trash" aria-hidden="true"></i>
+                                      </button>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+
+                          </div>
+                      </div>
+
+                  </div>
+
+                  <div class="col-md-6">
+
+                    <div class="portlet box blue">
+                        <div class="portlet-title">
+                          <div class="caption">
+                              Teléfonos <strong class="text-danger">*</strong>
+                          </div>
+                        </div>
+                        <div class="portlet-body">
+
+                          <form novalidate [formGroup]="formCreateTelefonoContacto" id="formCreateTelefonoContacto">
+                            <div class="form-group" [ngClass]="{ 'has-error': formCreateTelefonoContacto.controls.tipo_telefono.errors && formCreateTelefonoContacto.controls.tipo_telefono.pristine && isSubmitTelefonoContacto }">
+                                <label for="tipo_telefono" class="control-label col-md-3">
+                                  Tipo <strong class="text-danger">*</strong>
+                                </label>
+                                <div class="col-md-8">
+                                  <select class="form-control" name="tipo_telefono" formControlName="tipo_telefono" formControlName="tipo_telefono" id="tipo_telefono" (change)="capturarTipoTelefono($event)">
+                                    <option value="">Ninguno...</option>
+                                    <option *ngFor="let tipo_telefono of listTiposTelefonos" value="{{ tipo_telefono.id }}">{{ tipo_telefono.nombre }}</option>
+                                  </select>
+                                </div>
+
+                                <div class="col-md-offset-3 col-md-8" *ngIf="formCreateTelefonoContacto.controls.tipo_telefono.errors && formCreateTelefonoContacto.controls.tipo_telefono.pristine && isSubmitTelefonoContacto">
+                                    <strong class="help-block" *ngIf="formCreateTelefonoContacto.controls.tipo_telefono.errors.required">El tipo de teléfono es requerido</strong>
+                                </div>
+                            </div>
+
+                            <div class="form-group" [ngClass]="{ 'has-error': formCreateTelefonoContacto.controls.telefono_contacto.errors && formCreateTelefonoContacto.controls.telefono_contacto.pristine && isSubmitTelefonoContacto }">
+                                <label for="telefono_contacto" class="control-label col-md-3">
+                                  Número <strong class="text-danger">*</strong>
+                                </label>
+                                <div class="col-md-7">
+                                  <input type="text" class="form-control" [textMask]="{mask: onlyNumberMask}" name="telefono_contacto" formControlName="telefono_contacto" formControlName="telefono_contacto" id="telefono_contacto">
+                                </div>
+                                <div class="col-md-2">
+                                  <button (click)="addTelefonoModalCreateContacto()" class="btn blue sbold" type="button" name="button" style="border:1px solid #fff"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="col-md-offset-3 col-md-8" *ngIf="formCreateTelefonoContacto.controls.telefono_contacto.errors && formCreateTelefonoContacto.controls.telefono_contacto.pristine && isSubmitTelefonoContacto">
+                                    <strong class="help-block" *ngIf="formCreateTelefonoContacto.controls.telefono_contacto.errors.required">El teléfono es requerido</strong>
+                                </div>
+                            </div>
+                          </form>
+
+                          <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                              <tr>
+                                <th>Tipo teléfono</th>
+                                <th>Teléfono</th>
+                                <th>Acciones</th>
+                              </tr>
+                            </thead>
+
+                            <tbody>
+                              <tr *ngFor="let telefonos of modelModalContacto?.telefonos; let i=index">
+                                <td>{{ telefonos.nombre_tipo_telefono }}</td>
+                                <td>{{ telefonos.telefono }}</td>
+                                <td>
+                                  <button (click)="deleteTelefonoModalCreateContacto(i)" class="btn btn-danger sbold btn-sm" type="button" name="button">
+                                      <i class="fa fa-trash" aria-hidden="true"></i>
+                                  </button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+
+                        </div>
+                    </div>
+
+                  </div>
+
+                  </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal" (click)="hideModalCreateContacto()">Cerrar</button>
+                    <button (click)="createContacto()" class="btn blue sbold">
+                        Guardar contacto
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL EDITAR CONTACTO -->
+<div bsModal #modalEditContacto="bs-modal" id="editar-contacto" class="modal fade" tabindex="-1" role="basic" aria-hidden="true" [config]="{backdrop: 'static', keyboard: false}">
+    <div class="modal-dialog modal-lg">
+        <div *ngIf="formEditContacto && formEditEmailContacto && formEditTelefonoContacto" class="modal-content">
+
+          <form class="form-horizontal" novalidate [formGroup]="formEditContacto" id="formEditContacto">
+
+              <div class="modal-header">
+
+                  <h4 class="modal-title pull-left">Editar contacto</h4>
+
+                  <div class="pull-right">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal" (click)="hideModalEditContacto()">Cerrar</button>
+                    <button (click)="editContacto()" class="btn blue sbold">
+                        Editar contacto
+                    </button>
+                  </div>
+
+              </div>
+
+              <div class="modal-body">
+
+                <div class="form-group" [ngClass]="{ 'has-error': formEditContacto.controls.nombre_contacto.errors && formEditContacto.controls.nombre_contacto.pristine && isSubmitContacto }">
+                    <label for="nombre_contacto" class="control-label col-md-3">
+                        Nombre <strong class="text-danger">*</strong>
+                    </label>
+                    <div class="col-md-8">
+                        <input type="text" name="nombre_contacto" id="nombre_contacto" formControlName="nombre_contacto" class="form-control">
+                    </div>
+                    <div class="col-md-offset-3 col-md-8" *ngIf="formEditContacto.controls.nombre_contacto.errors && formEditContacto.controls.nombre_contacto.pristine && isSubmitContacto">
+                        <strong class="help-block" *ngIf="formEditContacto.controls.nombre_contacto.errors.required">El nombre del contacto es requerido</strong>
+                        <strong class="help-block" *ngIf="formEditContacto.controls.nombre_contacto.errors.maxlength">El nombre del contacto no debe poseer mas de 50 caracteres</strong>
+                        <strong class="help-block" *ngIf="formEditContacto.controls.nombre_contacto.errors.sinEspacios">El nombre del contacto no debe poseer espacios en blanco al inicio del texto</strong>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="apellido_contacto" class="control-label col-md-3">
+                        Apellido
+                    </label>
+                    <div class="col-md-8">
+                        <input type="text" name="apellido_contacto" id="apellido_contacto" formControlName="apellido_contacto" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="religion_judia" class="control-label col-md-3">
+                        ¿Religión judía? <strong class="text-danger">*</strong>
+                    </label>
+                    <div class="col-md-8">
+                        <select name="religion_judia" id="religion_judia" formControlName="religion_judia" class="form-control">
+                          <option value="0">No</option>
+                          <option value="1">Si</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group" [ngClass]="{ 'has-error': formEditContacto.controls.medio_contacto.errors && formEditContacto.controls.medio_contacto.pristine && isSubmitContacto }">
+                    <label for="medio_contacto" class="control-label col-md-3">
+                        ¿Por qué medio es mejor contactarlo? <strong class="text-danger">*</strong>
+                    </label>
+                    <div class="col-md-8">
+                        <textarea name="medio_contacto" id="medio_contacto" formControlName="medio_contacto" class="form-control" rows="4"></textarea>
+                    </div>
+
+                    <div class="col-md-offset-3 col-md-8" *ngIf="formEditContacto.controls.medio_contacto.errors && formEditContacto.controls.medio_contacto.pristine && isSubmitContacto">
+                        <strong class="help-block" *ngIf="formEditContacto.controls.medio_contacto.errors.required">Los comentarios son requeridos</strong>
+                        <strong class="help-block" *ngIf="formEditContacto.controls.medio_contacto.errors.sinEspacios">Los comentarios no deben poseer espacios en blanco al inicio del texto</strong>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="comentarios_contactos" class="control-label col-md-3">
+                        Comentarios
+                    </label>
+                    <div class="col-md-8">
+                        <textarea name="comentarios_contactos" id="comentarios_contactos" formControlName="comentarios_contactos" class="form-control" rows="4"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="es_principal" class="control-label col-md-3">
+                        ¿Es el contacto principal? <strong class="text-danger">*</strong>
+                    </label>
+                    <div class="col-md-8">
+                        <select name="es_principal" id="es_principal" formControlName="es_principal" class="form-control">
+                          <option value="0">No</option>
+                          <option value="1">Si</option>
+                        </select>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="portlet box blue">
+                    <div class="portlet-title">
+                      <div class="caption">
+                          Roles <strong class="text-danger">*</strong>
+                      </div>
+                    </div>
+                    <div class="portlet-body">
+
+                      <form  novalidate [formGroup]="formEditRolContacto" id="formEditRolContacto">
+
+                        <div class="form-group" [ngClass]="{ 'has-error': formEditRolContacto.controls.rol_contacto.errors && formEditRolContacto.controls.rol_contacto.pristine && isSubmitRolContacto }">
+                            <div class="col-md-10">
+                                <select name="rol_contacto" id="rol_contacto" formControlName="rol_contacto" class="form-control" (change)="capturarRolContacto($event)">
+                                  <option value="">Ninguno...</option>
+                                  <option *ngFor="let rol of listRolesContacto" value="{{ rol.id }}">{{ rol.nombre }}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                              <button (click)="addRolesModalEditContacto()" class="btn blue sbold" type="button" name="button" style="border:1px solid #fff"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                            </div>
+                            <div class="col-md-12" *ngIf="formEditRolContacto.controls.rol_contacto.errors && formEditRolContacto.controls.rol_contacto.pristine && isSubmitRolContacto">
+                                <strong class="help-block" *ngIf="formEditRolContacto.controls.rol_contacto.errors.required">El rol del contacto es requerido</strong>
+                            </div>
+                        </div>
+
+                      </form>
+
+                      <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover" >
+                          <thead>
+                            <tr>
+                              <th>Roles</th>
+                              <th>Acciones</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let rol of modelContacto[indexModalEdicionContacto]?.roles; let i=index">
+                              <td><span class="label label-sm label-success"><strong>{{ rol.nombre_rol }}</strong></span></td>
+                              <td>
+                                <button (click)="deleteRolesModalEditContacto(i)" class="btn btn-danger sbold btn-sm" type="button" name="button">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="row">
+
+                  <div class="col-md-6">
+
+                    <div class="portlet box blue">
+                        <div class="portlet-title">
+                          <div class="caption">
+                              Emails <strong class="text-danger">*</strong>
+                          </div>
+                        </div>
+                        <div class="portlet-body">
+
+                          <form novalidate [formGroup]="formEditEmailContacto" id="formEditEmailContacto">
+                            <div class="form-group" [ngClass]="{ 'has-error': formEditEmailContacto.controls.email_contacto.errors && formEditEmailContacto.controls.email_contacto.pristine && isSubmitEmailContacto }">
+                                <div class="col-md-10">
+                                  <input type="text" class="form-control" name="email_contacto" formControlName="email_contacto" id="email_contacto">
+                                </div>
+                                <div class="col-md-2">
+                                  <button (click)="addEmailModalEditContacto()" class="btn blue sbold" type="button" name="button" style="border:1px solid #fff"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="col-md-12" *ngIf="formEditEmailContacto.controls.email_contacto.errors && formEditEmailContacto.controls.email_contacto.pristine && isSubmitEmailContacto">
+                                    <strong class="help-block" *ngIf="formEditEmailContacto.controls.email_contacto.errors.required">La descripción del email es requerida</strong>
+                                    <strong class="help-block" *ngIf="formEditEmailContacto.controls.email_contacto.errors.pattern">El formato de email es incorrecto. Ej: nombre@mail.com</strong>
+                                </div>
+                            </div>
+
+                          </form>
+
+                          <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover" >
+                              <thead>
+                                <tr>
+                                  <th>Email</th>
+                                  <th>Acciones</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let email of modelContacto[indexModalEdicionContacto]?.emails; let i=index">
+                                  <td>{{ email.email }}</td>
+                                  <td>
+                                    <button (click)="deleteEmailModalEditContacto(i)" class="btn btn-danger sbold btn-sm" type="button" name="button">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                  <div class="portlet box blue">
+                      <div class="portlet-title">
+                        <div class="caption">
+                            Teléfonos <strong class="text-danger">*</strong>
+                        </div>
+                      </div>
+                      <div class="portlet-body">
+
+                        <form novalidate [formGroup]="formEditTelefonoContacto" id="formEditTelefonoContacto">
+                          <div class="form-group" [ngClass]="{ 'has-error': formEditTelefonoContacto.controls.tipo_telefono.errors && formEditTelefonoContacto.controls.tipo_telefono.pristine && isSubmitTelefonoContacto }">
+                              <label for="tipo_telefono" class="control-label col-md-3">
+                                Tipo <strong class="text-danger">*</strong>
+                              </label>
+                              <div class="col-md-8">
+                                <select class="form-control" name="tipo_telefono" formControlName="tipo_telefono" formControlName="tipo_telefono" id="tipo_telefono" (change)="capturarTipoTelefono($event)">
+                                  <option value="">Ninguno...</option>
+                                  <option *ngFor="let tipo_telefono of listTiposTelefonos" value="{{ tipo_telefono.id }}">{{ tipo_telefono.nombre }}</option>
+                                </select>
+                              </div>
+
+                              <div class="col-md-offset-3 col-md-8" *ngIf="formEditTelefonoContacto.controls.tipo_telefono.errors && formEditTelefonoContacto.controls.tipo_telefono.pristine && isSubmitTelefonoContacto">
+                                  <strong class="help-block" *ngIf="formEditTelefonoContacto.controls.tipo_telefono.errors.required">El tipo de teléfono es requerido</strong>
+                              </div>
+                          </div>
+
+                          <div class="form-group" [ngClass]="{ 'has-error': formEditTelefonoContacto.controls.telefono_contacto.errors && formEditTelefonoContacto.controls.telefono_contacto.pristine && isSubmitTelefonoContacto }">
+                              <label for="telefono_contacto" class="control-label col-md-3">
+                                Teléfono <strong class="text-danger">*</strong>
+                              </label>
+                              <div class="col-md-7">
+                                <input type="text" class="form-control" [textMask]="{mask: onlyNumberMask}" name="telefono_contacto" formControlName="telefono_contacto" formControlName="telefono_contacto" id="telefono_contacto">
+                              </div>
+                              <div class="col-md-2">
+                                <button (click)="addTelefonoModalEditContacto()" class="btn blue sbold" type="button" name="button" style="border:1px solid #fff"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                              </div>
+                              <div class="col-md-offset-3 col-md-8" *ngIf="formEditTelefonoContacto.controls.telefono_contacto.errors && formEditTelefonoContacto.controls.telefono_contacto.pristine && isSubmitTelefonoContacto">
+                                  <strong class="help-block" *ngIf="formEditTelefonoContacto.controls.telefono_contacto.errors.required">El teléfono es requerido</strong>
+                              </div>
+                          </div>
+                        </form>
+
+                        <table class="table table-striped table-bordered table-hover">
+                          <thead>
+                            <tr>
+                              <th>Tipo</th>
+                              <th>Teléfono</th>
+                              <th>Acciones</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let telefono of modelContacto[indexModalEdicionContacto]?.telefonos; let i=index">
+                              <td>{{ telefono.nombre_tipo_telefono }}</td>
+                              <td>{{ telefono.telefono }}</td>
+                              <td>
+                                <button (click)="deleteTelefonoModalEditContacto(i)" class="btn btn-danger sbold btn-sm" type="button" name="button">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                      </div>
+                  </div>
+
+                </div>
+
+                </div>
+
+              </div>
+
+              <div class="modal-footer">
+                  <button type="button" class="btn dark btn-outline" data-dismiss="modal" (click)="hideModalEditContacto()">Cerrar</button>
+                  <button (click)="editContacto()" class="btn blue sbold">
+                      Editar contacto
+                  </button>
+              </div>
+
+          </form>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL NUEVO SERVICIO -->
+
+<div bsModal #modalCreateServicio="bs-modal" id="nuevo-servicio" class="modal fade" tabindex="-1" role="basic" aria-hidden="true" [config]="{backdrop: 'static', keyboard: false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <form class="form-horizontal" novalidate [formGroup]="formCreateServicio" id="formCreateServicio">
+
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Nuevo servicio</h4>
+
+                </div>
+
+                <div class="modal-body">
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formCreateServicio.controls.id_servicio.errors && formCreateServicio.controls.id_servicio.pristine && isSubmitServicio }">
+                      <label for="id_servicio" class="control-label col-md-3">
+                          Servicio <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <select name="id_servicio" id="id_servicio" formControlName="id_servicio" class="form-control" (change)="capturarServicioContratadoCreate($event, formCreateServicio.value.id_servicio)">
+                            <option value="">Ninguno...</option>
+                            <option *ngFor="let serviciosContratado of listServiciosContratados" value="{{ serviciosContratado.id }}">{{ serviciosContratado.nombre }}</option>
+                          </select>
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formCreateServicio.controls.id_servicio.errors && formCreateServicio.controls.id_servicio.pristine && isSubmitServicio">
+                          <strong class="help-block" *ngIf="formCreateServicio.controls.id_servicio.errors.required">El servicio es requerido</strong>
+                      </div>
+                  </div>
+
+                  <div *ngIf="servicioRecurrente" class="form-group" [ngClass]="{ 'has-error': formCreateServicio.controls.cantidad_mensual.errors && formCreateServicio.controls.cantidad_mensual.pristine && isSubmitServicio }">
+                      <label for="cantidad_mensual" class="control-label col-md-3">
+                          Cantidad mensual <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <input class="form-control" [textMask]="{mask: onlyNumberMask}" type="text" name="cantidad_mensual" formControlName="cantidad_mensual" id="cantidad_mensual" maxlength="3">
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formCreateServicio.controls.cantidad_mensual.errors && formCreateServicio.controls.cantidad_mensual.pristine && isSubmitServicio">
+                          <strong class="help-block" *ngIf="formCreateServicio.controls.cantidad_mensual.errors.required">La cantidad mensual es requerida</strong>
+                      </div>
+                  </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal" (click)="hideModalCreateServicio()">Cerrar</button>
+                    <button (click)="createServicio()" class="btn green sbold">
+                        Guardar servicio
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL EDITAR SERVICIO -->
+
+<div bsModal #modalEditServicio="bs-modal" id="editar-servicio" class="modal fade" tabindex="-1" role="basic" aria-hidden="true" [config]="{backdrop: 'static', keyboard: false}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <form *ngIf="formEditServicio" class="form-horizontal" novalidate [formGroup]="formEditServicio" id="formEditServicio">
+
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Editar servicio</h4>
+
+                </div>
+
+                <div class="modal-body">
+
+                  <div class="form-group" [ngClass]="{ 'has-error': formEditServicio.controls.id_servicio.errors && formEditServicio.controls.id_servicio.pristine && isSubmitServicio }">
+                      <label for="id_servicio" class="control-label col-md-3">
+                          Servicio <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <select name="id_servicio" id="id_servicio" formControlName="id_servicio" class="form-control" (change)="capturarServicioContratadoEdit($event, formEditServicio.value.id_servicio)">
+                            <option value="">Ninguno...</option>
+                            <option *ngFor="let serviciosContratado of listServiciosContratados" value="{{ serviciosContratado.id }}">{{ serviciosContratado.nombre }}</option>
+                          </select>
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEditServicio.controls.id_servicio.errors && formEditServicio.controls.id_servicio.pristine && isSubmitServicio">
+                          <strong class="help-block" *ngIf="formEditServicio.controls.id_servicio.errors.required">El servicio es requerido</strong>
+                      </div>
+                  </div>
+
+                  <div *ngIf="servicioRecurrenteEdit" class="form-group" [ngClass]="{ 'has-error': formEditServicio.controls.cantidad_mensual.errors && formEditServicio.controls.cantidad_mensual.pristine && isSubmitServicio }">
+                      <label for="cantidad_mensual" class="control-label col-md-3">
+                          Cantidad mensual <strong class="text-danger">*</strong>
+                      </label>
+                      <div class="col-md-8">
+                          <input class="form-control" [textMask]="{mask: onlyNumberMask}" type="text" name="cantidad_mensual" formControlName="cantidad_mensual" id="cantidad_mensual" maxlength="3">
+                      </div>
+                      <div class="col-md-offset-3 col-md-8" *ngIf="formEditServicio.controls.cantidad_mensual.errors && formEditServicio.controls.cantidad_mensual.pristine && isSubmitServicio">
+                          <strong class="help-block" *ngIf="formEditServicio.controls.cantidad_mensual.errors.required">La cantidad mensual es requerida</strong>
+                      </div>
+                  </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal" (click)="hideModalEditServicio()">Cerrar</button>
+                    <button (click)="editServicio()" class="btn green sbold">
+                        Editar servicio
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL ELIMINAR CONTACTO -->
+<div class="modal fade" id="eliminar-contacto" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h4 class="modal-title">Eliminar Contacto</h4>
+
+            </div>
+
+            <div class="modal-body" *ngIf="deleteDataContacto">
+                <h2>Desea eliminar el contacto <strong>{{ deleteDataContacto.nombre }} {{ deleteDataContacto.apellido }}</strong>?</h2>
+            </div>
+
+            <div class="modal-footer">
+                <form>
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cerrar</button>
+                    <button class="btn btn-danger sbold" [disabled]="loader" (click)="deleteContactoBrief()">
+                        Eliminar contacto
+                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                    </button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- MODAL ELIMINAR SERVICIO -->
+<div class="modal fade" id="eliminar-servicio" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h4 class="modal-title">Eliminar Servicio contratado</h4>
+
+            </div>
+
+            <div class="modal-body" *ngIf="deleteDataServicio">
+                <h2>Desea eliminar el servicio contratado <strong>{{ deleteDataServicio.nombre_servicio }}</strong>?</h2>
+            </div>
+
+            <div class="modal-footer">
+                <form>
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cerrar</button>
+                    <button class="btn btn-danger sbold" [disabled]="loader" (click)="deleteServicioBrief()">
+                        Eliminar servicio contratado
+                        <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                    </button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

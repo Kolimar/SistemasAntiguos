@@ -1,0 +1,10 @@
+TUve un problema con la adaptación. Como se usan dependencias combinadas se necesita importar varias cosas para produccion que no estan.
+Para que esto funcione hacer:
+- npm install
+- despues copiar el package.json del original y reemplazar este
+- - npm install de nuevo
+y volver a poner el contenido de este json como estaba al comienzo.
+
+Con esto haciendo ng build funciona.
+
+

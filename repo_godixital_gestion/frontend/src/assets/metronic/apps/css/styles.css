@@ -1,0 +1,104 @@
+html, body{
+    overflow-x: hidden;
+}
+textarea {
+    resize: none;
+}
+.gif-loader{
+  width: 20px;
+  height: auto;
+  position: relative;
+  margin-left: 8px;
+}
+.gif-loader-list{
+  width: 60px;
+  padding-top: 10%;
+  padding-bottom: 10%;
+  height: auto;
+  position: relative;
+}
+.onoffswitch {
+    position: relative; width: 76px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #FFFFFF; border-radius: 0px;
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 31px; padding: 0; line-height: 31px;
+    font-size: 16px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "Si";
+    padding-left: 11px;
+    background-color: #27A4B0; color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+    content: "No";
+    padding-right: 11px;
+    background-color: #ED6B75; color: #FFFFFF;
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block; width: 21px; margin: 5px;
+    background: #FFFFFF;
+    position: absolute; top: 0; bottom: 0;
+    right: 41px;
+    border: 2px solid #FFFFFF; border-radius: 0px;
+    transition: all 0.3s ease-in 0s;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px;
+}
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    #000;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #000;
+   opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #000;
+   opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color:    #000;
+}
+
+/* TABLA PANEL DE CLIENTES */
+.font-tabla-pequeña{
+  font-size: 1.2rem;
+}
+
+/***** COLOR VIOLETA ******/
+.violeta{
+  background: #CCCCFF;
+}
+.verde{
+  color: #00c700;
+}
+.bordo{
+  color: #96305A;
+}
+.naranja{
+  color: #ff9900;
+}
+.naranja-obscuro{
+  color: #bf9000;
+}
+.rojo{
+  color: #ff0000;
+}

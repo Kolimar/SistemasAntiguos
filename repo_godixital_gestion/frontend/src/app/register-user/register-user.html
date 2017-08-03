@@ -1,0 +1,110 @@
+<div class="login">
+    <div class="content">
+
+        <h3 class="form-title font-green">Registro de usuarios</h3>
+
+        <form #fUser="ngForm" novalidate [formGroup]="formUser">
+
+            <div class="form-group" [ngClass]="{ 'has-error': formUser.controls.nombres.errors && formUser.controls.nombres.pristine && fUser.submitted }">
+                <label class="control-label" for="nombres">Nombres:</label>
+                <input type="text" class="form-control" name="nombres" id="nombres" formControlName="nombres" placeholder="Nombres"/>
+                <div *ngIf="formUser.controls.nombres.errors && formUser.controls.nombres.pristine && fUser.submitted">
+                    <strong class="help-block" *ngIf="formUser.controls.nombres.errors.required && formUser.controls.nombres.pristine && fUser.submitted">Los nombres son requeridos</strong>
+                    <strong class="help-block" *ngIf="formUser.controls.nombres.errors.sinEspacios && formUser.controls.nombres.pristine && fUser.submitted">Los nombres no debe poseer espacios en blanco al inicio del texto</strong>
+                </div>
+            </div>
+
+            <div class="form-group" [ngClass]="{ 'has-error': formUser.controls.apellidos.errors && formUser.controls.apellidos.pristine && fUser.submitted }">
+                <label class="control-label" for="apellidos">Apellidos:</label>
+                <input type="text" class="form-control" name="apellidos" id="apellidos" formControlName="apellidos" placeholder="Apellidos"/>
+                <div *ngIf="formUser.controls.apellidos.errors && formUser.controls.apellidos.pristine && fUser.submitted">
+                    <strong class="help-block" *ngIf="formUser.controls.apellidos.errors.required && formUser.controls.apellidos.pristine && fUser.submitted">Los apellidos son requeridos</strong>
+                    <strong class="help-block" *ngIf="formUser.controls.apellidos.errors.sinEspacios && formUser.controls.apellidos.pristine && fUser.submitted">Los apellidos no debe poseer espacios en blanco al inicio del texto</strong>
+                </div>
+            </div>
+
+            <div class="form-group" [ngClass]="{ 'has-error': formUser.controls.id_puesto.errors && formUser.controls.id_puesto.pristine && fUser.submitted }">
+                <label class="control-label" for="id_puesto">Puesto:</label>
+                <select class="form-control" name="id_puesto" id="id_puesto" formControlName="id_puesto">
+                    <option value="" selected>Seleccione un puesto...</option>
+                    <option *ngFor="let puesto of puestos" value="{{ puesto.id }}"> {{ puesto.nombre }} </option>
+                </select>
+                <div *ngIf="formUser.controls.id_puesto.errors && formUser.controls.id_puesto.pristine && fUser.submitted">
+                    <strong class="help-block" *ngIf="formUser.controls.id_puesto.errors.required && formUser.controls.id_puesto.pristine && fUser.submitted">El puesto es requerido</strong>
+                </div>
+            </div>
+
+            <div class="form-group" [ngClass]="{ 'has-error': formUser.controls.telefono_laboral.errors && formUser.controls.telefono_laboral.pristine && fUser.submitted }">
+                <label class="control-label" for="telefono_laboral">Teléfono laboral:</label>
+                <input type="text" class="form-control" name="telefono_laboral" id="telefono_laboral" formControlName="telefono_laboral" placeholder="Teléfono laboral"/>
+                <div *ngIf="formUser.controls.telefono_laboral.errors && formUser.controls.telefono_laboral.pristine && fUser.submitted">
+                    <strong class="help-block" *ngIf="formUser.controls.telefono_laboral.errors.required && formUser.controls.telefono_laboral.pristine && fUser.submitted">El teléfono laboral es requerido</strong>
+                    <strong class="help-block" *ngIf="formUser.controls.telefono_laboral.errors.sinEspacios && formUser.controls.telefono_laboral.pristine && fUser.submitted">El teléfono laboral no debe poseer espacios en blanco al inicio del texto</strong>
+                </div>
+            </div>
+
+            <div class="form-group" [ngClass]="{ 'has-error': formUser.controls.celular_laboral.errors && formUser.controls.celular_laboral.pristine && fUser.submitted }">
+                <label class="control-label" for="celular_laboral">Celular laboral:</label>
+                <input type="text" class="form-control" name="celular_laboral" id="celular_laboral" formControlName="celular_laboral" placeholder="Celular laboral"/>
+                <div *ngIf="formUser.controls.celular_laboral.errors && formUser.controls.celular_laboral.pristine && fUser.submitted">
+                    <strong class="help-block" *ngIf="formUser.controls.celular_laboral.errors.required && formUser.controls.celular_laboral.pristine && fUser.submitted">El celular laboral es requerido</strong>
+                    <strong class="help-block" *ngIf="formUser.controls.celular_laboral.errors.sinEspacios && formUser.controls.celular_laboral.pristine && fUser.submitted">El celular laboral no debe poseer espacios en blanco al inicio del texto</strong>
+                </div>
+            </div>
+
+            <div class="form-group" [ngClass]="{ 'has-error': formUser.controls.email_laboral.errors && formUser.controls.email_laboral.pristine && fUser.submitted }">
+                <label class="control-label" for="email_laboral">Correo electrónico laboral:</label>
+                <input type="text" class="form-control" name="email_laboral" id="email_laboral" formControlName="email_laboral" placeholder="Correo electrónico laboral">
+                <div *ngIf="formUser.controls.email_laboral.errors && formUser.controls.email_laboral.pristine && fUser.submitted">
+                    <strong class="help-block" *ngIf="formUser.controls.email_laboral.errors.required && formUser.controls.email_laboral.pristine && fUser.submitted">El correo electrónico laboral es requerido</strong>
+                    <strong class="help-block" *ngIf="formUser.controls.email_laboral.errors.pattern && formUser.controls.email_laboral.pristine && fUser.submitted">Formato de correo electrónico laboral inválido (ej: name@mail.com)</strong>
+                </div>
+            </div>
+
+            <div class="form-group" [ngClass]="{ 'has-error': formUser.controls.telefono_personal.errors && formUser.controls.telefono_personal.pristine && fUser.submitted }">
+                <label class="control-label" for="telefono_personal">Teléfono personal:</label>
+                <input type="text" class="form-control" name="telefono_personal" id="telefono_personal" formControlName="telefono_personal" placeholder="Teléfono personal" required />
+                <div *ngIf="formUser.controls.telefono_personal.errors && formUser.controls.telefono_personal.pristine && fUser.submitted">
+                    <strong class="help-block" *ngIf="formUser.controls.telefono_personal.errors.required && formUser.controls.telefono_personal.pristine && fUser.submitted">El teléfono personal es requerido</strong>
+                    <strong class="help-block" *ngIf="formUser.controls.telefono_personal.errors.sinEspacios && formUser.controls.telefono_personal.pristine && fUser.submitted">El teléfono personal no debe poseer espacios en blanco al inicio del texto</strong>
+                </div>
+            </div>
+
+            <div class="form-group" [ngClass]="{ 'has-error': formUser.controls.celular_personal.errors && formUser.controls.celular_personal.pristine && fUser.submitted }">
+                <label class="control-label" for="celular_personal">Celular personal:</label>
+                <input type="text" class="form-control" name="celular_personal" id="celular_personal" formControlName="celular_personal" placeholder="Celular personal" required />
+                <div *ngIf="formUser.controls.celular_personal.errors && formUser.controls.celular_personal.pristine && fUser.submitted">
+                    <strong class="help-block" *ngIf="formUser.controls.celular_personal.errors.required && formUser.controls.celular_personal.pristine && fUser.submitted">El celular personal es requerido</strong>
+                    <strong class="help-block" *ngIf="formUser.controls.celular_personal.errors.sinEspacios && formUser.controls.celular_personal.pristine && fUser.submitted">El celular personal no debe poseer espacios en blanco al inicio del texto</strong>
+                </div>
+            </div>
+
+            <div class="form-group" [ngClass]="{ 'has-error': formUser.controls.email_personal.errors && formUser.controls.email_personal.pristine && fUser.submitted }">
+                <label class="control-label" for="email_personal">Correo electrónico personal:</label>
+                <input type="text" class="form-control" name="email_personal" id="email_personal" formControlName="email_personal" placeholder="Correo electrónico personal">
+                <div *ngIf="formUser.controls.email_personal.errors && formUser.controls.email_personal.pristine && fUser.submitted">
+                    <strong class="help-block" *ngIf="formUser.controls.email_personal.errors.required && formUser.controls.email_personal.pristine && fUser.submitted">El correo electrónico personal es requerido</strong>
+                    <strong class="help-block" *ngIf="formUser.controls.email_personal.errors.pattern && formUser.controls.email_personal.pristine && fUser.submitted">Formato de correo electrónico personal inválido (ej: name@mail.com)</strong>
+                </div>
+            </div>
+
+            <div class="form-group" [ngClass]="{ 'has-error': formUser.controls.password.errors && formUser.controls.password.pristine && fUser.submitted }">
+                <label class="control-label" for="password">Contraseña:</label>
+                <input type="password" class="form-control" name="password" id="password"  formControlName="password" placeholder="Contraseña">
+                <div *ngIf="formUser.controls.password.errors && formUser.controls.password.pristine && fUser.submitted">
+                    <strong class="help-block" *ngIf="formUser.controls.password.errors.required && formUser.controls.password.pristine && fUser.submitted">La contraseña es requerida</strong>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <a [routerLink]="['/login']" class="btn green btn-outline">Atrás</a>
+                <button id="register-submit-btn" [disabled]="loader" class="btn green pull-right" (click)="register()">
+                    <strong>Regístrate</strong>
+                    <img *ngIf="loader" src="assets/img/loader.gif" class="gif-loader">
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>

@@ -1,0 +1,273 @@
+<div class="container-fluid">
+                <div class="animated fadeIn">
+				<div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong>Edicion de </strong>dispositivo IOT
+                                </div>
+<form [formGroup]="formEditardispositivo" (ngSubmit)="editDispositivo($event, formEditardispositivo.value)">
+    <div class="card-block">
+    	<div class="row">
+			<div class="col-md-6">
+                    <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Nombre <span class="text-danger">*</span></label>
+                                    <div class="col-md-9">
+                                        <input formControlName="nombre" type="nombre" name="nombre" class="form-control" placeholder="Nombre del dispositivo">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Nro de Serie <span class="text-danger">*</span></label>
+                                    <div class="col-md-9">
+                                        <input formControlName="nro_serie" type="nro_serie" name="nro_serie" class="form-control" placeholder="Nro de Serie">
+                                    </div>
+                                </div>                                        
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Ubicaci&oacute;n</label>
+                                    <div class="col-md-9">
+                                        <input formControlName="ubicacion" type="ubicacion" name="ubicacion" class="form-control" placeholder="Ubicaci&oacute;n">
+                                    </div>
+                                </div>     
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="select">Usuario asociado <span class="text-danger">*</span></label>
+                                    <div class="col-md-9">
+                                        <select formControlName="id_cliente" type="text" name="id_cliente" class="form-control">
+                                            <option value=''>Seleccione...</option>
+                                            <option *ngFor="let item of users" value={{item.identificador}} >{{item.nombre + ' | '+item.nombre_empresa}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                 <hr/>
+            <div class="row">
+
+	        
+               <div class="form-group col-sm-6">
+                <div class="form-group col-sm-12">
+                    <h4>Variable 1 (var1)</h4>
+
+                </div>    
+                 </div>                                   
+	            <div class="form-group col-sm-6">
+		            <label for="var1_status">Habilitada: </label>         
+		            <label class="switch switch-text switch-success">
+		            <input  formControlName="var1_status" type="habilitado" name="var1_status" type="checkbox" class="switch-input" checked>
+		            <span class="switch-label" data-on="Si" data-off="No"></span>
+		            <span class="switch-handle"></span>
+		            </label>
+		          </div>
+            </div>
+
+            <div class="row">
+			<div class="form-group col-sm-10">
+                    <input  style="margin-bottom: 15px;" formControlName="var1_nombre" type="text" name="var1_nombre" class="form-control" placeholder="Leyenda de la variable 1">
+                    </div>
+			</div> 
+
+            <div class="row">
+                <div class="form-group col-sm-3">
+                    <label for="Size">Limite Minimo</label>
+                    <input formControlName="var1_minimo" type="number" id="text-input" name="text-input" class="form-control" placeholder="Limite m&iacute;nimo">
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="Tipo">Limite M&aacute;ximo</label>
+                    <input formControlName="var1_maximo" type="text" id="text-input" name="text-input" class="form-control" placeholder="Limite m&aacute;ximo">
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="Estado">Rango m&iacute;nimo</label>
+                    <input formControlName="var1_rango_min" type="text" id="text-input" name="text-input" class="form-control" placeholder="M&iacute;nimo aceptable">
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="Estado">Rango  m&aacute;ximo</label>
+                    <input formControlName="var1_rango_max" type="text" id="text-input" name="text-input" class="form-control" placeholder="M&aacute;ximo aceptable">
+                </div>
+           </div>
+            <hr/>
+                         <div class="row">
+
+	        
+               <div class="form-group col-sm-6">
+                <div class="form-group col-sm-12">
+                    <h4>Variable 2 (var2)</h4>
+
+                </div>    
+                 </div>                                   
+	            <div class="form-group col-sm-6">
+		            <label for="var2_status">Habilitada: </label>         
+		            <label class="switch switch-text switch-success">
+		            <input  formControlName="var2_status" type="habilitado" name="var2_status" type="checkbox" class="switch-input" checked>
+		            <span class="switch-label" data-on="Si" data-off="No"></span>
+		            <span class="switch-handle"></span>
+		            </label>
+		          </div>
+            </div>
+
+            <div class="row">
+			<div class="form-group col-sm-10">
+                    <input  style="margin-bottom: 15px;" formControlName="var2_nombre" type="text" name="var2_nombre" class="form-control" placeholder="Leyenda de la variable 2">
+                    </div>
+			</div> 
+            <div class="row">
+                <div class="form-group col-sm-3">
+                    <label for="Size">Limite Minimo</label>
+                    <input formControlName="var2_minimo" type="text" id="text-input" name="text-input" class="form-control" placeholder="Limite m&iacute;nimo">
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="Tipo">Limite M&aacute;ximo</label>
+                    <input formControlName="var2_maximo" type="text" id="text-input" name="text-input" class="form-control" placeholder="Limite m&aacute;ximo">
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="Estado">Rango m&iacute;nimo</label>
+                    <input formControlName="var2_rango_min" type="text" id="text-input" name="text-input" class="form-control" placeholder="M&iacute;nimo aceptable">
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="Estado">Rango  m&aacute;ximo</label>
+                    <input formControlName="var2_rango_max" type="text" id="text-input" name="text-input" class="form-control" placeholder="M&aacute;ximo aceptable">
+                </div>
+           </div>              
+           <hr/>
+
+            </div>
+           <div class="col-md-6">
+            
+           <div class="row">
+
+	        
+               <div class="form-group col-sm-6">
+                <div class="form-group col-sm-12">
+                    <h4>Variable 3 (var3)</h4>
+
+                </div>    
+                 </div>                                   
+	            <div class="form-group col-sm-6">
+		            <label for="var3_status">Habilitada</label>         
+		            <label class="switch switch-text switch-success">
+		            <input  formControlName="var3_status" type="habilitado" name="var3_status" type="checkbox" class="switch-input" checked>
+		            <span class="switch-label" data-on="Si" data-off="No"></span>
+		            <span class="switch-handle"></span>
+		            </label>
+		          </div>
+            </div>
+
+            <div class="row">
+			<div class="form-group col-sm-10">
+                    <input  style="margin-bottom: 15px;" formControlName="var3_nombre" type="text" name="var3_nombre" class="form-control" placeholder="Leyenda de la variable 3">
+                    </div>
+			</div> 
+            <div class="row">
+                <div class="form-group col-sm-3">
+                    <label for="Size">Limite Minimo</label>
+                    <input formControlName="var3_minimo" type="text" id="text-input" name="text-input" class="form-control" placeholder="Limite m&iacute;nimo">
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="Tipo">Limite M&aacute;ximo</label>
+                    <input formControlName="var3_maximo" type="text" id="text-input" name="text-input" class="form-control" placeholder="Limite m&aacute;ximo">
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="Estado">Rango m&iacute;nimo</label>
+                    <input formControlName="var3_rango_min" type="text" id="text-input" name="text-input" class="form-control" placeholder="M&iacute;nimo aceptable">
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="Estado">Rango  m&aacute;ximo</label>
+                    <input formControlName="var3_rango_max" type="text" id="text-input" name="text-input" class="form-control" placeholder="M&aacute;ximo aceptable">
+                </div>
+           </div>
+             <hr/>
+           <div class="row">
+
+	        
+               <div class="form-group col-sm-6">
+                <div class="form-group col-sm-12">
+                    <h4>Variable 4 (var4)</h4>
+
+                </div>    
+                 </div>                                   
+	            <div class="form-group col-sm-6">
+		            <label for="var4_status">Habilitada</label>         
+		            <label class="switch switch-text switch-success">
+		            <input  formControlName="var4_status" type="habilitado" name="var4_status" type="checkbox" class="switch-input" checked>
+		            <span class="switch-label" data-on="Si" data-off="No"></span>
+		            <span class="switch-handle"></span>
+		            </label>
+		          </div>
+            </div>
+
+            <div class="row">
+			<div class="form-group col-sm-10">
+                    <input  style="margin-bottom: 15px;" formControlName="var4_nombre" type="text" name="var4_nombre" class="form-control" placeholder="Leyenda de la variable 4">
+                    </div>
+			</div> 
+            <div class="row">
+                <div class="form-group col-sm-3">
+                    <label for="Size">Limite Minimo</label>
+                    <input formControlName="var4_minimo" type="text" id="text-input" name="text-input" class="form-control" placeholder="Limite m&iacute;nimo">
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="Tipo">Limite M&aacute;ximo</label>
+                    <input formControlName="var4_maximo" type="text" id="text-input" name="text-input" class="form-control" placeholder="Limite m&aacute;ximo">
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="Estado">Rango m&iacute;nimo</label>
+                    <input formControlName="var4_rango_min" type="text" id="text-input" name="text-input" class="form-control" placeholder="M&iacute;nimo aceptable">
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="Estado">Rango  m&aacute;ximo</label>
+                    <input formControlName="var4_rango_max" type="text" id="text-input" name="text-input" class="form-control" placeholder="M&aacute;ximo aceptable">
+                </div>
+           </div>                               
+
+            <hr/>
+              <div class="row">
+
+	        
+               <div class="form-group col-sm-6">
+                <div class="form-group col-sm-12">
+                    <h4>Variable 5 (var5)</h4>
+
+                </div>    
+                 </div>                                   
+	            <div class="form-group col-sm-6">
+		            <label for="var5_status">Habilitada</label>         
+		            <label class="switch switch-text switch-success">
+		            <input  formControlName="var5_status" type="habilitado" name="var5_status" type="checkbox" class="switch-input" checked>
+		            <span class="switch-label" data-on="Si" data-off="No"></span>
+		            <span class="switch-handle"></span>
+		            </label>
+		          </div>
+			</div>
+            <div class="row">
+			<div class="form-group col-sm-10">
+                    <input  style="margin-bottom: 15px;" formControlName="var5_nombre" type="text" name="var5_nombre" class="form-control" placeholder="Leyenda de la variable 5">
+                    </div>
+			</div> 
+            <div class="row">
+                <div class="form-group col-sm-3">
+                    <label for="Size">Limite Minimo</label>
+                    <input formControlName="var5_minimo" type="text" id="text-input" name="text-input" class="form-control" placeholder="Limite m&iacute;nimo">
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="Tipo">Limite M&aacute;ximo</label>
+                    <input formControlName="var5_maximo" type="text" id="text-input" name="text-input" class="form-control" placeholder="Limite m&aacute;ximo">
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="Estado">Rango m&iacute;nimo</label>
+                    <input formControlName="var5_rango_min" type="text" id="text-input" name="text-input" class="form-control" placeholder="M&iacute;nimo aceptable">
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="Estado">Rango m&aacute;ximo</label>
+                    <input formControlName="var5_rango_max" type="text" id="text-input" name="text-input" class="form-control" placeholder="M&aacute;ximo aceptable">
+                </div>
+           </div>
+
+	</div>
+	 </div>
+    </div>
+    <div class="card-footer text-right">
+         <button (click)="cambioScreen('lista')"  type="reset" class="btn btn-sm btn-danger pointer"><i class="fa fa-ban"></i> Cancelar</button>
+        <button [disabled]="!formEditardispositivo.valid" type="submit" class="btn btn-sm btn-primary pointer"><i class="fa fa-dot-circle-o"></i> Guardar</button>
+    </div>
+						</form>
+                            </div>
+                        </div>
+                    </div>
+              </div>
+            </div>
